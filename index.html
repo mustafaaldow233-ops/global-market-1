@@ -31,6 +31,28 @@
   </style>
 </head>
 <body>
+  <script>
+let area = document.getElementById("user-area");
+let user = localStorage.getItem("gm_user");
+let logged = localStorage.getItem("gm_logged_in");
+
+if(user && logged === "true"){
+    user = JSON.parse(user);
+    area.innerHTML = `
+        <span>مرحباً، ${user.name}</span>
+        <button onclick="logout()" style="padding:6px 10px; background:#e62e2e; color:#fff; border:none; border-radius:8px; margin-right:10px;">خروج</button>
+    `;
+} else {
+    area.innerHTML = `
+        <a href="pages/login.html" style="color:var(--primary); font-weight:bold;">تسجيل دخول</a>
+    `;
+}
+
+function logout(){
+    localStorage.removeItem("gm_logged_in");
+    window.location.reload();
+}
+  </script>
 
   <header class="header container">
     <div style="display:flex;align-items:center;gap:12px">
