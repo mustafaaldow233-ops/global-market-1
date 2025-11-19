@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حجوزات السيارات</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+        }
+
+        header {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 24px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin: 15px;
+            background: #333;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 18px;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .price {
+            color: green;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="index.html" class="back-btn">⬅ الرجوع</a>
+
+    <header>🚗 حجوزات السيارات</header>
+
+    <div class="container">
+
+        <div class="card">
+            <img src="car1.jpg" alt="سيارة">
+            <h3>تويوتا كورولا</h3>
+            <p>الموقع: الخرطوم</p>
+            <p class="price">$35 / اليوم</p>
+            <button class="btn">احجز الآن</button>
+        </div>
+
+        <div class="card">
+            <img src="car2.jpg" alt="سيارة">
+            <h3>هيونداي النترا</h3>
+            <p>الموقع: الرياض</p>
+            <p class="price">$45 / اليوم</p>
+            <button class="btn">احجز الآن</button>
+        </div>
+
+        <div class="card">
+            <img src="car3.jpg" alt="سيارة">
+            <h3>كيا سبورتاج</h3>
+            <p>الموقع: دبي</p>
+            <p class="price">$60 / اليوم</p>
+            <button class="btn">احجز الآن</button>
+        </div>
+
+    </div>
+
+</body>
+</html>
