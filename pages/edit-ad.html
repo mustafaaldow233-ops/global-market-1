@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعديل الإعلان</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        .box {
+            max-width: 900px;
+            margin: 25px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 14px;
+        }
+
+        button {
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .image-preview {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            max-height: 250px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>تعديل الإعلان</h2>
+
+        <img id="preview" class="image-preview" src="" alt="">
+
+        <input type="file" id="imgInput">
+
+        <input type="text" id="title" placeholder="عنوان الإعلان">
+        <input type="text" id="country" placeholder="البلد">
+        <input type="text" id="category" placeholder="القسم">
+
+        <textarea id="details" rows="5" placeholder="تفاصيل الإعلان"></textarea>
+
+        <button onclick="saveChanges()">💾 حفظ التعديلات</button>
+
+    </div>
+
+    <script>
+        let ads = JSON.parse(localStorage.getItem("gm_ads") || "[]");
+        let editingID = Number(localStorage.getItem("gm_editing_id"));
+
+        let ad = ads.find(a => a.id === editingID);
+
+        if (!ad) {
+            alert("الإعلان غير موجود!");
+            window.location.href = "my-ads.html";
+        }
+
+        // تعبئة البيانات عند فتح الصفحة
+        document.getElementById("title").value = ad.title;
+        document.getElementById("country").value = ad.country;
+        document.getElementById("category").value = ad.category;
+        document.getElementById("details").value = ad.details;
+        document.getElementById("preview").src = ad.img;
+
+        // عند رفع صورة جديدة — تحديث المعاينة
+        document.getElementById("imgInput").addEventListener("change", function () {
+            let file = this.files[0];
+            if (!file) return;
+
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("preview").src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // حفظ التعديلات
+        function saveChanges() {
+
+            ad.title = document.getElementById("title").value;
+            ad.country = document.getElementById("country").value;
+            ad.category = document.getElementById("category").value;
+            ad.details = document.getElementById("details").value;
+            ad.img = document.getElementById("preview").src;
+
+            // حفظ في التخزين
+            localStorage.setItem("gm_ads", JSON.stringify(ads));
+
+            alert("✔ تم حفظ التعديلات بنجاح");
+            window.location.href = "my-ads.html";
+        }
+    </script>
+
+</body>
+
+</html>
