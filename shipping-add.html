@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة شركة نقل</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>إضافة شركة نقل</h1>
+        <a href="shipping.html" class="back-btn">رجوع</a>
+    </header>
+
+    <main class="form-container">
+        <form id="shippingForm">
+            
+            <label>اسم الشركة</label>
+            <input type="text" id="name" placeholder="اسم شركة النقل" required>
+
+            <label>رقم الهاتف</label>
+            <input type="tel" id="phone" placeholder="مثال: 249912345678+" required>
+
+            <label>الولاية</label>
+            <input type="text" id="state" placeholder="مثال: الخرطوم / الجزيرة" required>
+
+            <label>نوع الخدمة</label>
+            <select id="service" required>
+                <option value="local">نقل محلي</option>
+                <option value="international">نقل دولي</option>
+                <option value="cargo">شحن بضائع</option>
+                <option value="fast">شحن سريع</option>
+                <option value="passenger">نقل ركاب</option>
+            </select>
+
+            <label>الوصف</label>
+            <textarea id="description" placeholder="نبذة قصيرة عن الشركة" rows="4"></textarea>
+
+            <button type="submit" class="btn">حفظ الشركة</button>
+        </form>
+
+        <p id="message" class="message"></p>
+    </main>
+
+<script>
+document.getElementById("shippingForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let data = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        state: document.getElementById("state").value,
+        service: document.getElementById("service").value,
+        description: document.getElementById("description").value
+    };
+
+    // حفظ في LocalStorage
+    let companies = JSON.parse(localStorage.getItem("shipping_companies")) || [];
+    companies.push(data);
+    localStorage.setItem("shipping_companies", JSON.stringify(companies));
+
+    document.getElementById("message").innerText = "✔ تمت إضافة الشركة بنجاح";
+    
+    // تفريغ الفورم
+    document.getElementById("shippingForm").reset();
+});
+</script>
+
+</body>
+</html>
