@@ -1,1 +1,43 @@
-body{font-family:sans-serif;direction:rtl;}
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f8f8f8;
+    text-align: center;
+    direction: rtl;
+}
+
+.header {
+    background: #111;
+    padding: 15px;
+    color: #fff;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.header nav a {
+    color: #4fa3ff;
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.hero {
+    padding: 60px 20px;
+}
+
+.hero h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.footer {
+    background: #111;
+    color: white;
+    padding: 15px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
