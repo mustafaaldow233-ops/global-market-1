@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب تجاري</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        .merchant-box{
+            max-width:550px;
+            margin:35px auto;
+            background:#fff;
+            padding:25px;
+            border-radius:14px;
+            box-shadow:0 6px 20px rgba(0,0,0,0.1);
+        }
+        .merchant-box h2{
+            text-align:center;
+            margin-bottom:20px;
+            color:var(--primary);
+        }
+        .merchant-box input, 
+        .merchant-box select, 
+        .merchant-box textarea{
+            width:100%;
+            padding:12px;
+            margin-bottom:14px;
+            border-radius:10px;
+            border:1px solid #ddd;
+            font-size:15px;
+        }
+        textarea{height:100px}
+        .btn{
+            width:100%;
+            padding:12px;
+            background:var(--primary);
+            color:#fff;
+            border:none;
+            border-radius:10px;
+            cursor:pointer;
+            font-weight:bold;
+            font-size:17px;
+        }
+        .done-box{
+            display:none;
+            background:#e5ffe5;
+            padding:15px;
+            text-align:center;
+            border-radius:10px;
+            color:#0a8a0a;
+            font-weight:bold;
+            margin-top:10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="merchant-box">
+    <h2>إنشاء حساب تجاري</h2>
+
+    <input id="cname" placeholder="اسم الشركة / التاجر">
+    <input id="owner" placeholder="اسم المالك">
+    <input id="phone" placeholder="رقم الهاتف">
+    <input id="email" placeholder="البريد الإلكتروني">
+    
+    <select id="category">
+        <option value="">اختر نوع النشاط</option>
+        <option>فنادق</option>
+        <option>سيارات</option>
+        <option>طيران</option>
+        <option>مواد تموينية</option>
+        <option>سياحة وسفر</option>
+        <option>شركات نقل دولي</option>
+        <option>شركات نقل داخلي</option>
+        <option>نقل بضائع</option>
+        <option>نقل ركاب</option>
+        <option>نقل سريع</option>
+    </select>
+
+    <textarea id="desc" placeholder="وصف مختصر عن الشركة"></textarea>
+
+    <button class="btn" onclick="saveMerchant()">إنشاء الحساب</button>
+
+    <div class="done-box" id="success">تم إنشاء الحساب التجاري بنجاح ✔</div>
+</div>
+
+<script>
+function saveMerchant(){
+    let data = {
+        cname: document.getElementById("cname").value.trim(),
+        owner: document.getElementById("owner").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        category: document.getElementById("category").value.trim(),
+        desc: document.getElementById("desc").value.trim(),
+    };
+
+    // check required fields
+    if(!data.cname || !data.owner || !data.phone || !data.email || !data.category){
+        alert("الرجاء تعبئة جميع الحقول المطلوبة");
+        return;
+    }
+
+    // save merchant in local storage
+    let merchants = JSON.parse(localStorage.getItem("gm_merchants") || "[]");
+    merchants.push(data);
+    localStorage.setItem("gm_merchants", JSON.stringify(merchants));
+    
+    document.getElementById("success").style.display = "block";
+
+    setTimeout(()=>{
+        window.location.href = "merchant-dashboard.html";
+    }, 1400);
+}
+</script>
+
+</body>
+  </html>
