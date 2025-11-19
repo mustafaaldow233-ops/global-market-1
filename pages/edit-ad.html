@@ -8,13 +8,20 @@
     <link rel="stylesheet" href="../styles.css">
 
     <style>
-        .box {
-            max-width: 900px;
-            margin: 25px auto;
+        .edit-box {
+            max-width: 700px;
+            margin: 30px auto;
             background: #fff;
             padding: 20px;
             border-radius: 14px;
             box-shadow: var(--shadow);
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 12px;
+            display: block;
+            color: var(--primary);
         }
 
         input,
@@ -22,100 +29,117 @@
         textarea {
             width: 100%;
             padding: 10px;
+            border: 1px solid #ccc;
             border-radius: 10px;
-            border: 1px solid #ddd;
-            margin-bottom: 14px;
+            margin-top: 5px;
         }
 
-        button {
-            padding: 12px;
+        textarea {
+            height: 130px;
+        }
+
+        .save-btn {
             width: 100%;
-            border: none;
-            border-radius: 12px;
+            margin-top: 20px;
+            padding: 12px;
             background: var(--primary);
             color: #fff;
-            font-size: 17px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
         }
 
-        .image-preview {
-            width: 100%;
+        .img-preview {
+            width: 120px;
+            height: 90px;
             border-radius: 10px;
-            margin-bottom: 14px;
-            max-height: 250px;
             object-fit: cover;
+            margin-top: 10px;
+            border: 1px solid #ddd;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="box">
+    <div class="edit-box">
+        <h2 style="text-align:center;color:var(--primary)">تعديل الإعلان</h2>
 
-        <h2>تعديل الإعلان</h2>
+        <label>عنوان الإعلان</label>
+        <input type="text" id="title">
 
-        <img id="preview" class="image-preview" src="" alt="">
+        <label>الدولة</label>
+        <select id="country"></select>
 
-        <input type="file" id="imgInput">
+        <label>القسم</label>
+        <select id="category"></select>
 
-        <input type="text" id="title" placeholder="عنوان الإعلان">
-        <input type="text" id="country" placeholder="البلد">
-        <input type="text" id="category" placeholder="القسم">
+        <label>التفاصيل</label>
+        <textarea id="details"></textarea>
 
-        <textarea id="details" rows="5" placeholder="تفاصيل الإعلان"></textarea>
+        <label>الصورة</label>
+        <input type="file" id="imgInput" accept="image/*">
+        <img id="preview" class="img-preview">
 
-        <button onclick="saveChanges()">💾 حفظ التعديلات</button>
-
+        <button class="save-btn" onclick="saveEdit()">حفظ التعديلات</button>
     </div>
 
     <script>
+        let editId = localStorage.getItem("edit_id");
         let ads = JSON.parse(localStorage.getItem("gm_ads") || "[]");
-        let editingID = Number(localStorage.getItem("gm_editing_id"));
-
-        let ad = ads.find(a => a.id === editingID);
+        let ad = ads.find(a => a.id == editId);
 
         if (!ad) {
             alert("الإعلان غير موجود!");
             window.location.href = "my-ads.html";
         }
 
-        // تعبئة البيانات عند فتح الصفحة
         document.getElementById("title").value = ad.title;
-        document.getElementById("country").value = ad.country;
-        document.getElementById("category").value = ad.category;
         document.getElementById("details").value = ad.details;
+
         document.getElementById("preview").src = ad.img;
 
-        // عند رفع صورة جديدة — تحديث المعاينة
-        document.getElementById("imgInput").addEventListener("change", function () {
-            let file = this.files[0];
-            if (!file) return;
+        const countries = JSON.parse(localStorage.getItem("gm_countries") || "[]");
+        const categories = JSON.parse(localStorage.getItem("gm_categories") || "[]");
 
+        const cSel = document.getElementById("country");
+        const catSel = document.getElementById("category");
+
+        countries.forEach(c => cSel.innerHTML += `<option>${c}</option>`);
+        categories.forEach(c => catSel.innerHTML += `<option>${c}</option>`);
+
+        cSel.value = ad.country;
+        catSel.value = ad.category;
+
+        document.getElementById("imgInput").onchange = function (e) {
+            let f = e.target.files[0];
             let reader = new FileReader();
-            reader.onload = function (e) {
-                document.getElementById("preview").src = e.target.result;
+            reader.onload = () => {
+                document.getElementById("preview").src = reader.result;
+                ad.img = reader.result;
             };
-            reader.readAsDataURL(file);
-        });
+            reader.readAsDataURL(f);
+        };
 
-        // حفظ التعديلات
-        function saveChanges() {
-
+        function saveEdit() {
             ad.title = document.getElementById("title").value;
-            ad.country = document.getElementById("country").value;
-            ad.category = document.getElementById("category").value;
             ad.details = document.getElementById("details").value;
-            ad.img = document.getElementById("preview").src;
+            ad.country = cSel.value;
+            ad.category = catSel.value;
+            ad.date = new Date().toLocaleDateString();
 
-            // حفظ في التخزين
+            let index = ads.findIndex(x => x.id == ad.id);
+            ads[index] = ad;
+
             localStorage.setItem("gm_ads", JSON.stringify(ads));
 
-            alert("✔ تم حفظ التعديلات بنجاح");
+            alert("تم حفظ التعديلات ✔️");
             window.location.href = "my-ads.html";
         }
     </script>
 
 </body>
 
-</html>
+    </html>
