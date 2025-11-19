@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,173 +8,153 @@
     <link rel="stylesheet" href="../styles.css">
 
     <style>
-        .box{
-            max-width:900px;
-            margin:25px auto;
-            background:#fff;
-            padding:20px;
-            border-radius:14px;
-            box-shadow:var(--shadow);
+        .container-box {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 10px;
         }
-        .top{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            margin-bottom:25px;
+
+        .ad-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            margin-bottom: 18px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
         }
-        .top h2{
-            margin:0;
-            color:var(--primary);
+
+        .ad-card img {
+            width: 140px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 12px;
         }
-        .add-btn{
-            padding:10px 14px;
-            background:var(--primary);
-            color:#fff;
-            border:none;
-            border-radius:10px;
-            font-weight:bold;
-            cursor:pointer;
+
+        .ad-info {
+            flex: 1;
         }
-        .ad{
-            display:flex;
-            gap:12px;
-            background:#fafafa;
-            padding:12px;
-            border-radius:10px;
-            margin-bottom:12px;
+
+        .ad-info h3 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--primary);
         }
-        .ad img{
-            width:120px;
-            height:90px;
-            border-radius:10px;
-            object-fit:cover;
+
+        .meta {
+            color: #777;
+            font-size: 13px;
+            margin: 5px 0;
         }
-        .info{
-            flex:1;
+
+        .btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
         }
-        .btns{
-            display:flex;
-            flex-direction:column;
-            gap:8px;
+
+        .edit-btn,
+        .delete-btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
         }
-        .btn-sm{
-            padding:7px;
-            border-radius:8px;
-            font-size:14px;
-            cursor:pointer;
-            border:none;
+
+        .edit-btn {
+            background: #0a84ff;
+            color: #fff;
         }
-        .edit{background:#007bff;color:#fff}
-        .delete{background:#d9534f;color:#fff}
-        .limit-box{
-            background:#ffe6e6;
-            padding:10px;
-            border-radius:10px;
-            text-align:center;
-            margin-bottom:12px;
-            color:#b30000;
-            font-weight:bold;
+
+        .delete-btn {
+            background: #e62e2e;
+            color: #fff;
+        }
+
+        .empty-box {
+            margin-top: 40px;
+            padding: 25px;
+            border-radius: 14px;
+            background: #fff;
+            text-align: center;
+            color: #999;
+            box-shadow: var(--shadow);
         }
     </style>
-
 </head>
 
 <body>
 
-<div class="box">
+    <div class="container-box">
 
-    <div class="top">
-        <h2>إعلاناتي</h2>
-        <button class="add-btn" onclick="addNew()">➕ إضافة إعلان جديد</button>
+        <h2 style="color:var(--primary);text-align:center">إعلاناتي</h2>
+
+        <div id="adsContainer"></div>
+
     </div>
 
-    <div id="limitBox" class="limit-box" style="display:none;"></div>
+    <script>
+        function loadMyAds() {
+            let user = localStorage.getItem("gm_user");
+            let ads = JSON.parse(localStorage.getItem("gm_ads") || "[]");
 
-    <div id="adsContainer"></div>
+            // فقط إعلانات المستخدم
+            let myAds = ads.filter(a => a.user === user);
 
-</div>
+            const container = document.getElementById("adsContainer");
+            container.innerHTML = "";
 
+            if (myAds.length === 0) {
+                container.innerHTML = `
+                <div class="empty-box">
+                    لا توجد إعلانات لك حتى الآن.
+                </div>`;
+                return;
+            }
 
-<script>
+            myAds.forEach(ad => {
+                container.innerHTML += `
+                <div class="ad-card">
+                    <img src="${ad.img}" alt="">
+                    <div class="ad-info">
+                        <h3>${ad.title}</h3>
+                        <div class="meta">
+                            ${ad.country} • ${ad.category} • ${ad.date}
+                        </div>
+                        <p>${ad.details.substring(0, 80)}...</p>
 
-// 🔴 — نظام الحد اليومي (4 إعلانات كل 24 ساعة)
-function checkDailyLimit() {
-    let limitData = JSON.parse(localStorage.getItem("gm_daily_limit") || "{}");
-    let today = new Date().toISOString().split("T")[0];
-
-    // reset daily counter
-    if (limitData.date !== today) {
-        limitData = { date: today, count: 0 };
-        localStorage.setItem("gm_daily_limit", JSON.stringify(limitData));
-    }
-
-    // show limit message
-    if (limitData.count >= 4) {
-        document.getElementById("limitBox").style.display = "block";
-        document.getElementById("limitBox").innerText =
-            "❌ وصلت الحد اليومي: مسموح فقط 4 منشورات كل 24 ساعة";
-        return false;
-    }
-
-    return true;
-}
-
-// فتح صفحة إضافة إعلان
-function addNew() {
-    if (!checkDailyLimit()) return;
-    window.location.href = "new-ad.html";
-}
-
-// تحميل الإعلانات
-function loadAds() {
-    let ads = JSON.parse(localStorage.getItem("gm_ads") || "[]");
-    let container = document.getElementById("adsContainer");
-    container.innerHTML = "";
-
-    if (ads.length === 0) {
-        container.innerHTML = `<p class="empty-box">لا توجد إعلانات بعد.</p>`;
-        return;
-    }
-
-    ads.forEach(ad => {
-        container.innerHTML += `
-            <div class="ad">
-                <img src="${ad.img}">
-                <div class="info">
-                    <h3>${ad.title}</h3>
-                    <p>${ad.country} — ${ad.category}</p>
+                        <div class="btns">
+                            <button class="edit-btn" onclick="editAd(${ad.id})">تعديل</button>
+                            <button class="delete-btn" onclick="deleteAd(${ad.id})">حذف</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="btns">
-                    <button class="btn-sm edit" onclick="editAd(${ad.id})">تعديل</button>
-                    <button class="btn-sm delete" onclick="deleteAd(${ad.id})">حذف</button>
-                </div>
-            </div>
-        `;
-    });
-}
+                `;
+            });
+        }
 
-// حذف إعلان
-function deleteAd(id) {
-    if (!confirm("هل تريد حذف هذا الإعلان؟")) return;
+        function editAd(id) {
+            localStorage.setItem("edit_id", id);
+            window.location.href = "edit-ad.html";
+        }
 
-    let ads = JSON.parse(localStorage.getItem("gm_ads") || "[]");
-    ads = ads.filter(a => a.id !== id);
-    localStorage.setItem("gm_ads", JSON.stringify(ads));
+        function deleteAd(id) {
+            if (!confirm("هل تريد حذف الإعلان؟")) return;
 
-    loadAds();
-}
+            let ads = JSON.parse(localStorage.getItem("gm_ads") || "[]");
+            let newAds = ads.filter(a => a.id !== id);
 
-// تعديل إعلان
-function editAd(id) {
-    localStorage.setItem("gm_editing_id", id);
-    window.location.href = "edit-ad.html";
-}
+            localStorage.setItem("gm_ads", JSON.stringify(newAds));
 
-// عند فتح الصفحة
-loadAds();
-checkDailyLimit();
+            loadMyAds();
+        }
 
-</script>
+        loadMyAds();
+    </script>
 
 </body>
-</html>
+
+    </html>
