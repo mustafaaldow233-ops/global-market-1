@@ -3,27 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Market</title>
+    <title>السوق العالمي 🌍</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+            font-family: "Tahoma", sans-serif;
+        }
+
+        header {
+            background: #0f1123;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .search-box {
+            margin: 20px auto;
+            width: 90%;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            font-size: 18px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .item {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            font-size: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: 0.2s;
+        }
+
+        .item:hover {
+            transform: scale(1.03);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+            font-size: 15px;
+        }
+    </style>
 </head>
+
 <body>
-    <header class="header">
-        <h1>Global Market</h1>
-        <nav>
-            <a href="electronics.html">الكترونيات</a>
-            <a href="fashion.html">أزياء</a>
-            <a href="cars.html">سيارات</a>
-            <a href="realestate.html">عقارات</a>
-        </nav>
+
+    <header>
+        السوق العالمي 🌍
     </header>
 
-    <section class="hero">
-        <h2>أهلاً بك في أكبر سوق عالمي</h2>
-        <p>تصفح أفضل المنتجات والعروض</p>
-    </section>
+    <div class="search-box">
+        <input type="text" placeholder="إبحث عن المنتجات أو الخدمات...">
+    </div>
 
-    <footer class="footer">
-        <p>© 2025 Global Market</p>
+    <div class="grid">
+
+        <a href="hotels.html" class="item">فنادق 🏨</a>
+        <a href="flights.html" class="item">طيران ✈️</a>
+
+        <a href="supplies.html" class="item">مواد تموينية 🛒</a>
+        <a href="cars.html" class="item">سيارات 🚗</a>
+
+        <a href="global-local.html" class="item">عالمي / محلي 🌍</a>
+        <a href="tourism.html" class="item">سياحة 🌴</a>
+
+    </div>
+
+    <footer>
+        © 2025 السوق العالمي - جميع الحقوق محفوظة
     </footer>
+
 </body>
-    </html>
+            </html>
