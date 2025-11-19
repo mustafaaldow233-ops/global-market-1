@@ -1,0 +1,94 @@
+/* scripts.js
+ - Simple frontend "API" loader from data/api_data.json
+ - Search/filter across title/description/country/category
+ - Basic i18n (ar/en) using translations object (embedded small)
+*/
+
+const DATA_URL = './data/api_data.json';
+
+let appData = { items: [], companies: [], countries: [] };
+let lang = localStorage.getItem('gm_lang') || 'ar';
+
+// load data (fake API)
+async function loadData(){
+  try{
+    const res = await fetch(DATA_URL);
+    appData = await res.json();
+    renderInitial();
+  }catch(e){
+    console.error('Failed to load data', e);
+    // fallback to empty
+    appData = { items:[], companies:[], countries:[]};
+    renderInitial();
+  }
+}
+
+// simple i18n strings (extendable)
+const I18N = {
+  ar: { search_placeholder: 'ابحث عن منتج أو خدمة أو شركة...', no_results: 'لا توجد نتائج', all_countries: 'محلي (جميع دول العالم)' },
+  en: { search_placeholder: 'Search product, service or company...', no_results: 'No results', all_countries: 'Local (all countries)' }
+};
+
+function t(k){ return I18N[lang][k] || k; }
+
+/* render header placeholders + set language */
+function renderInitial(){
+  // placeholder text
+  const search = document.querySelector('.search-input');
+  if(search) search.placeholder = t('search_placeholder');
+
+  // country select populate if present
+  const sel = document.querySelector('#country-select');
+  if(sel && appData.countries && appData.countries.length){
+    sel.innerHTML = `<option value="">${t('all_countries')}</option>` +
+      appData.countries.map(c=>`<option value="${c.code}">${c.name}</option>`).join('');
+  }
+
+  // initial empty search results (or featured)
+  renderResults(appData.items.slice(0,6));
+}
+
+/* render results (array of items/companies) */
+function renderResults(list){
+  const out = document.querySelector('#results');
+  if(!out) return;
+  if(!list || list.length===0){
+    out.innerHTML = `<div class="empty-box">${t('no_results')}</div>`;
+    return;
+  }
+  out.innerHTML = list.map(it=>`
+    <div class="result-item">
+      <h4>${it.title}</h4>
+      <div class="meta">${it.category} • ${it.country_name || it.country} • ${it.price ? it.price:''}</div>
+      <p>${it.description || ''}</p>
+      <a href="${it.url || '#'}" class="back-button">عرض</a>
+    </div>
+  `).join('');
+}
+
+/* perform search */
+function doSearch(){
+  const q = document.querySelector('.search-input').value.trim().toLowerCase();
+  const country = document.querySelector('#country-select')?.value || '';
+  const filtered = appData.items.filter(it=>{
+    const inCountry = country ? it.country === country : true;
+    const matches = !q || (it.title + ' ' + (it.description||'')).toLowerCase().includes(q);
+    return inCountry && matches;
+  });
+  renderResults(filtered);
+}
+
+/* language toggle */
+function switchLang(to){
+  lang = to;
+  localStorage.setItem('gm_lang', lang);
+  renderInitial();
+}
+
+/* attach events */
+document.addEventListener('DOMContentLoaded', ()=>{
+  loadData();
+  document.querySelector('.search-btn')?.addEventListener('click', doSearch);
+  document.querySelector('.search-input')?.addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
+  document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click', ()=>switchLang(b.dataset.lang)));
+});
