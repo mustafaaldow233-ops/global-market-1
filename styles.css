@@ -99,6 +99,19 @@ body{
 
 /* empty box */
 .empty-box{padding:30px;border-radius:12px;background:#fff;text-align:center;color:var(--muted);box-shadow:var(--shadow)}
+.ad-card {
+    background: #fff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.ad-img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+} 
 .nav
 .nav-links
 .nav-links li
