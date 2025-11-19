@@ -95,3 +95,62 @@ async function loadCountries() {
 }
 
 loadCountries();
+// -------------------------------
+//  نظام الإعلانات – تخزين محلي
+// -------------------------------
+
+// تحميل الإعلانات
+function loadAds() {
+    return JSON.parse(localStorage.getItem("ads")) || [];
+}
+
+// حفظ الإعلانات
+function saveAds(ads) {
+    localStorage.setItem("ads", JSON.stringify(ads));
+}
+
+// إضافة إعلان جديد
+function addAd(title, description, image) {
+    const ads = loadAds();
+    const newAd = {
+        id: Date.now(),
+        title,
+        description,
+        image,
+        date: new Date().toLocaleDateString()
+    };
+    ads.push(newAd);
+    saveAds(ads);
+}
+
+// تعديل إعلان
+function updateAd(id, title, description, image) {
+    const ads = loadAds();
+    const updated = ads.map(ad =>
+        ad.id === id ? { ...ad, title, description, image } : ad
+    );
+    saveAds(updated);
+}
+
+// حذف إعلان
+function deleteAd(id) {
+    const ads = loadAds().filter(ad => ad.id !== id);
+    saveAds(ads);
+}
+
+// عرض الإعلانات في أي صفحة تستخدم هذا الكود
+function displayAds(containerId) {
+    const ads = loadAds();
+    const container = document.getElementById(containerId);
+
+    if (!container) return;
+
+    container.innerHTML = ads.map(ad => `
+        <div class="ad-card">
+            <img src="${ad.image}" alt="" class="ad-img">
+            <h3>${ad.title}</h3>
+            <p>${ad.description}</p>
+            <small>${ad.date}</small>
+        </div>
+    `).join("");
+        }
