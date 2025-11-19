@@ -8,130 +8,171 @@
 
     <style>
         .box{
-            max-width:1000px;
-            margin:30px auto;
-            padding:10px;
-        }
-        h2{
-            text-align:center;
-            margin-bottom:25px;
-            color:var(--primary);
-        }
-        .ad-card{
+            max-width:900px;
+            margin:25px auto;
             background:#fff;
-            padding:18px;
-            margin-bottom:15px;
+            padding:20px;
             border-radius:14px;
             box-shadow:var(--shadow);
-            display:flex;
-            gap:15px;
         }
-        .ad-card img{
-            width:140px;
-            height:140px;
+        .top{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:25px;
+        }
+        .top h2{
+            margin:0;
+            color:var(--primary);
+        }
+        .add-btn{
+            padding:10px 14px;
+            background:var(--primary);
+            color:#fff;
+            border:none;
+            border-radius:10px;
+            font-weight:bold;
+            cursor:pointer;
+        }
+        .ad{
+            display:flex;
+            gap:12px;
+            background:#fafafa;
+            padding:12px;
+            border-radius:10px;
+            margin-bottom:12px;
+        }
+        .ad img{
+            width:120px;
+            height:90px;
+            border-radius:10px;
             object-fit:cover;
-            border-radius:12px;
-            background:#eee;
         }
         .info{
             flex:1;
         }
-        .info h3{
-            margin:0;
-            color:#111;
-            margin-bottom:8px;
-        }
-        .info p{
-            margin:5px 0;
-            color:#555;
-        }
-        .actions{
+        .btns{
             display:flex;
             flex-direction:column;
-            gap:10px;
+            gap:8px;
         }
-        button{
-            padding:8px 10px;
-            border:none;
-            border-radius:10px;
+        .btn-sm{
+            padding:7px;
+            border-radius:8px;
+            font-size:14px;
             cursor:pointer;
+            border:none;
+        }
+        .edit{background:#007bff;color:#fff}
+        .delete{background:#d9534f;color:#fff}
+        .limit-box{
+            background:#ffe6e6;
+            padding:10px;
+            border-radius:10px;
+            text-align:center;
+            margin-bottom:12px;
+            color:#b30000;
             font-weight:bold;
         }
-        .delete-btn{background:#e63946;color:#fff}
-        .edit-btn{background:#0077b6;color:#fff}
-        .back{
-            display:block;
-            text-align:center;
-            margin-top:20px;
-            color:#555;
-            text-decoration:none;
-        }
-        .empty{
-            text-align:center;
-            padding:40px;
-            background:#fff;
-            border-radius:14px;
-            box-shadow:var(--shadow);
-            color:#777;
-            margin-top:30px;
-        }
     </style>
+
 </head>
+
 <body>
 
 <div class="box">
-    <h2>إعلاناتي</h2>
+
+    <div class="top">
+        <h2>إعلاناتي</h2>
+        <button class="add-btn" onclick="addNew()">➕ إضافة إعلان جديد</button>
+    </div>
+
+    <div id="limitBox" class="limit-box" style="display:none;"></div>
 
     <div id="adsContainer"></div>
 
-    <a href="merchant-dashboard.html" class="back">رجوع إلى لوحة التحكم</a>
 </div>
 
+
 <script>
-function loadAds(){
+
+// 🔴 — نظام الحد اليومي (4 إعلانات كل 24 ساعة)
+function checkDailyLimit() {
+    let limitData = JSON.parse(localStorage.getItem("gm_daily_limit") || "{}");
+    let today = new Date().toISOString().split("T")[0];
+
+    // reset daily counter
+    if (limitData.date !== today) {
+        limitData = { date: today, count: 0 };
+        localStorage.setItem("gm_daily_limit", JSON.stringify(limitData));
+    }
+
+    // show limit message
+    if (limitData.count >= 4) {
+        document.getElementById("limitBox").style.display = "block";
+        document.getElementById("limitBox").innerText =
+            "❌ وصلت الحد اليومي: مسموح فقط 4 منشورات كل 24 ساعة";
+        return false;
+    }
+
+    return true;
+}
+
+// فتح صفحة إضافة إعلان
+function addNew() {
+    if (!checkDailyLimit()) return;
+    window.location.href = "new-ad.html";
+}
+
+// تحميل الإعلانات
+function loadAds() {
     let ads = JSON.parse(localStorage.getItem("gm_ads") || "[]");
     let container = document.getElementById("adsContainer");
+    container.innerHTML = "";
 
-    if(ads.length === 0){
-        container.innerHTML = `<div class="empty">لا توجد إعلانات بعد</div>`;
+    if (ads.length === 0) {
+        container.innerHTML = `<p class="empty-box">لا توجد إعلانات بعد.</p>`;
         return;
     }
 
-    container.innerHTML = "";
-
     ads.forEach(ad => {
-        let card = document.createElement("div");
-        card.className = "ad-card";
-
-        card.innerHTML = `
-            <img src="${ad.image || '../logo/logo.png'}" alt="">
-            <div class="info">
-                <h3>${ad.title}</h3>
-                <p><b>التصنيف:</b> ${ad.category}</p>
-                <p><b>الدولة:</b> ${ad.country}</p>
-                <p><b>الوصف:</b> ${ad.description}</p>
-                <p><b>الهاتف:</b> ${ad.phone}</p>
-                <p><b>التاريخ:</b> ${ad.date}</p>
-            </div>
-
-            <div class="actions">
-                <button class="delete-btn" onclick="deleteAd(${ad.id})">حذف</button>
+        container.innerHTML += `
+            <div class="ad">
+                <img src="${ad.img}">
+                <div class="info">
+                    <h3>${ad.title}</h3>
+                    <p>${ad.country} — ${ad.category}</p>
+                </div>
+                <div class="btns">
+                    <button class="btn-sm edit" onclick="editAd(${ad.id})">تعديل</button>
+                    <button class="btn-sm delete" onclick="deleteAd(${ad.id})">حذف</button>
+                </div>
             </div>
         `;
-
-        container.appendChild(card);
     });
 }
 
-function deleteAd(id){
-    let ads = JSON.parse(localStorage.getItem("gm_ads") || "[]");
-    let filtered = ads.filter(ad => ad.id !== id);
+// حذف إعلان
+function deleteAd(id) {
+    if (!confirm("هل تريد حذف هذا الإعلان؟")) return;
 
-    localStorage.setItem("gm_ads", JSON.stringify(filtered));
+    let ads = JSON.parse(localStorage.getItem("gm_ads") || "[]");
+    ads = ads.filter(a => a.id !== id);
+    localStorage.setItem("gm_ads", JSON.stringify(ads));
+
     loadAds();
 }
 
+// تعديل إعلان
+function editAd(id) {
+    localStorage.setItem("gm_editing_id", id);
+    window.location.href = "edit-ad.html";
+}
+
+// عند فتح الصفحة
 loadAds();
+checkDailyLimit();
+
 </script>
 
 </body>
