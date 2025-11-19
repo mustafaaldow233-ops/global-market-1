@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة إعلان جديد</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        .box{
+            max-width:850px;
+            margin:30px auto;
+            background:#fff;
+            padding:25px;
+            border-radius:14px;
+            box-shadow:var(--shadow);
+        }
+        h2{
+            text-align:center;
+            margin-bottom:25px;
+            color:var(--primary);
+        }
+        .form-group{
+            margin-bottom:18px;
+        }
+        .form-group label{
+            display:block;
+            margin-bottom:6px;
+            font-weight:bold;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea{
+            width:100%;
+            padding:12px;
+            border-radius:10px;
+            border:1px solid #ddd;
+            font-size:15px;
+        }
+        textarea{height:120px}
+        .btn{
+            width:100%;
+            padding:14px;
+            font-size:17px;
+            background:var(--primary);
+            border:none;
+            color:#fff;
+            font-weight:bold;
+            border-radius:12px;
+            cursor:pointer;
+        }
+        .back{
+            display:block;
+            margin-top:18px;
+            text-align:center;
+            text-decoration:none;
+            color:#444;
+        }
+        .img-preview{
+            width:100%;
+            height:200px;
+            border:1px dashed #bbb;
+            border-radius:12px;
+            object-fit:cover;
+            display:none;
+            margin-top:10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h2>إضافة إعلان جديد</h2>
+
+    <div class="form-group">
+        <label>صورة الإعلان</label>
+        <input type="file" accept="image/*" id="adImage">
+        <img id="preview" class="img-preview">
+    </div>
+
+    <div class="form-group">
+        <label>عنوان الإعلان</label>
+        <input type="text" id="title" placeholder="مثال: سيارة تويوتا 2020">
+    </div>
+
+    <div class="form-group">
+        <label>الوصف</label>
+        <textarea id="description" placeholder="أكتب تفاصيل الإعلان…"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>الدولة</label>
+        <select id="country"></select>
+    </div>
+
+    <div class="form-group">
+        <label>الفئة</label>
+        <select id="category">
+            <option value="cars">سيارات</option>
+            <option value="hotels">فنادق</option>
+            <option value="flights">طيران</option>
+            <option value="transport">نقل ومواصلات</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>رقم الهاتف</label>
+        <input type="text" id="phone" placeholder="مثال: +249912345678">
+    </div>
+
+    <button class="btn" onclick="saveAd()">حفظ الإعلان</button>
+
+    <a href="merchant-dashboard.html" class="back">⬅ الرجوع للوحة التاجر</a>
+
+</div>
+
+
+<script>
+// ----------------- معاينة الصورة -----------------
+document.getElementById("adImage").addEventListener("change", function(){
+    let file = this.files[0];
+    if(!file) return;
+
+    let reader = new FileReader();
+    reader.onload = function(e){
+        let img = document.getElementById("preview");
+        img.src = e.target.result;
+        img.style.display = "block";
+    }
+    reader.readAsDataURL(file);
+});
+
+// ----------------- تحميل الدول -----------------
+let allCountries = [
+    "السودان","السعودية","الإمارات","مصر","قطر","البحرين","الكويت",
+    "عمان","تركيا","أمريكا","بريطانيا","فرنسا","ألمانيا","إيطاليا",
+    "إسبانيا","الهند","باكستان","الصين","كوريا الجنوبية","اليابان",
+    "البرازيل","الأرجنتين","كندا","هولندا","بلجيكا","النمسا",
+    "سويسرا","السويد","النرويج","الدنمارك","إثيوبيا","تشاد","كينيا",
+    "جنوب أفريقيا","نيجيريا","المغرب","الجزائر","تونس","ليبيا",
+    "الأردن","لبنان","سوريا","العراق","فلسطين","اليمن","الصومال"
+];
+
+let countrySelect = document.getElementById("country");
+allCountries.forEach(c=>{
+    let opt = document.createElement("option");
+    opt.value = c;
+    opt.innerText = c;
+    countrySelect.appendChild(opt);
+});
+
+// ----------------- حفظ الإعلان -----------------
+function saveAd(){
+    let title = document.getElementById("title").value.trim();
+    let desc = document.getElementById("description").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let country = document.getElementById("country").value;
+    let category = document.getElementById("category").value;
+    let img = document.getElementById("preview").src;
+
+    if(!title || !desc || !phone || img === ""){
+        alert("الرجاء تعبئة جميع الحقول");
+        return;
+    }
+
+    let ad = {
+        id: Date.now(),
+        title,
+        desc,
+        phone,
+        country,
+        category,
+        img
+    };
+
+    let ads = JSON.parse(localStorage.getItem("gm_ads") || "[]");
+    ads.push(ad);
+    localStorage.setItem("gm_ads", JSON.stringify(ads));
+
+    alert("تم حفظ الإعلان بنجاح ✔");
+    window.location.href = "my-ads.html";
+}
+
+</script>
+
+</body>
+</html>
