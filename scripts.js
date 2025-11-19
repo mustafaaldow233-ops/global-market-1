@@ -154,3 +154,17 @@ function displayAds(containerId) {
         </div>
     `).join("");
         }
+<script>
+document.getElementById("postForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const title = document.getElementById("title").value;
+    const description = document.getElementById("description").value;
+    const image = document.getElementById("image").value;
+
+    addAd(title, description, image);
+
+    alert("تم نشر الإعلان!");
+    window.location.href = "items.html";
+});
+</script>
