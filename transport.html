@@ -3,111 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شركات النقل</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            direction: rtl;
-        }
-
-        header {
-            background-color: #444;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            font-size: 24px;
-        }
-
-        .back-btn {
-            display: inline-block;
-            margin: 15px;
-            background: #333;
-            color: white;
-            padding: 8px 15px;
-            text-decoration: none;
-            border-radius: 6px;
-        }
-
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 18px;
-            padding: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 0 8px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        .desc {
-            color: #333;
-            margin: 8px 0;
-            font-size: 15px;
-        }
-
-        .btn {
-            background: #007bff;
-            color: white;
-            padding: 8px 14px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background: #0056b3;
-        }
-    </style>
+    <title>شركات النقل - Global Market</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <a href="index.html" class="back-btn">⬅ الرجوع</a>
+    <!-- Header -->
+    <header>
+        <h1>قسم شركات النقل</h1>
+    </header>
 
-    <header>🚚 شركات النقل</header>
+    <!-- Transport Companies List -->
+    <section class="cards-container">
 
-    <div class="container">
+        <a href="transport1.html" class="card">
+            <img src="images/transport1.jpg" alt="Transport Company 1">
+            <h2>شركة النقل 1</h2>
+        </a>
 
-        <div class="card">
-            <img src="transport1.jpg" alt="شركة نقل">
-            <h3>شركة السلام للنقل</h3>
-            <p class="desc">نقل بضائع بين المدن</p>
-            <p class="desc">السودان – الخرطوم</p>
-            <button class="btn">تواصل الآن</button>
-        </div>
+        <a href="transport2.html" class="card">
+            <img src="images/transport2.jpg" alt="Transport Company 2">
+            <h2>شركة النقل 2</h2>
+        </a>
 
-        <div class="card">
-            <img src="transport2.jpg" alt="شركة نقل">
-            <h3>شركة الخليج للنقل</h3>
-            <p class="desc">شاحنات ونقل دولي</p>
-            <p class="desc">السعودية – الرياض</p>
-            <button class="btn">تواصل الآن</button>
-        </div>
+        <a href="transport3.html" class="card">
+            <img src="images/transport3.jpg" alt="Transport Company 3">
+            <h2>شركة النقل 3</h2>
+        </a>
 
-        <div class="card">
-            <img src="transport3.jpg" alt="شركة نقل">
-            <h3>شركة السرعة</h3>
-            <p class="desc">نقل بري سريع</p>
-            <p class="desc">الإمارات – دبي</p>
-            <button class="btn">تواصل الآن</button>
-        </div>
-
-    </div>
+    </section>
 
 </body>
-</html>
+            </html>
