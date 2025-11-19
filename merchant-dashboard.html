@@ -1,1 +1,12 @@
 <h1>لوحة تحكم التاجر</h1>
+<div id="dashboardAds"></div>
+
+<script>
+const ads = loadAds();
+document.getElementById("dashboardAds").innerHTML = ads.map(ad => `
+    <div class="ad-card">
+        <h3>${ad.title}</h3>
+        <button onclick="deleteAd(${ad.id}); location.reload();">حذف</button>
+    </div>
+`).join("");
+</script>
