@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شركات النقل الدولي - السوق العالمي</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>شركات النقل الدولي</h1>
+</header>
+
+<main>
+    <section class="category-list">
+        <p>هنا تظهر الشركات التي تقدم خدمات النقل الدولي بعد تسجيلهم وإضافة إعلاناتهم.</p>
+        <p>يمكن للتجار تسجيل حساب تجاري ونشر خدمات النقل الدولي.</p>
+
+        <div class="empty-box">لا توجد منشورات حالياً</div>
+    </section>
+</main>
+
+<footer>
+    <p>© 2025 السوق العالمي</p>
+</footer>
+
+</body>
+</html>
