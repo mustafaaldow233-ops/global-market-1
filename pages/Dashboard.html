@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة التحكم</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <img src="logo/logo.png" class="logo-img" alt="Logo">
+    <h1 class="site-title">لوحة التحكم</h1>
+    <div class="header-right">
+      <button id="logoutBtn" class="search-btn">تسجيل الخروج</button>
+    </div>
+  </header>  <div class="container">
+    <h2>إعلاناتك</h2><!-- زر إضافة إعلان -->
+<button id="addPostBtn" class="search-btn" style="margin: 15px 0;">إضافة إعلان جديد</button>
+
+<!-- قائمة الإعلانات -->
+<div id="postsList" class="search-results"></div>
+
+<!-- نافذة إضافة إعلان -->
+<div id="popup" style="display:none;background:#fff;padding:20px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.1);margin-top:20px;">
+  <h3>إضافة إعلان</h3>
+  <input id="postTitle" class="search-input" placeholder="عنوان الإعلان" />
+  <textarea id="postDesc" class="search-input" placeholder="وصف الإعلان" style="height:100px;margin-top:10px"></textarea>
+  <button id="savePost" class="search-btn" style="margin-top:10px;width:100%;">حفظ الإعلان</button>
+</div>
+
+  </div>  <script>
+    // التحقق من تسجيل الدخول
+    if(!localStorage.getItem("logged")){
+      location.href = "login.html";
+    }
+
+    const postsList = document.getElementById("postsList");
+    const popup = document.getElementById("popup");
+    const addBtn = document.getElementById("addPostBtn");
+    const saveBtn = document.getElementById("savePost");
+
+    let posts = JSON.parse(localStorage.getItem("myPosts") || "[]");
+
+    function renderPosts(){
+      postsList.innerHTML = "";
+      posts.forEach((p,i)=>{
+        postsList.innerHTML += `
+          <div class='result-item'>
+            <h4>${p.title}</h4>
+            <p class='meta'>${p.desc}</p>
+            <button onclick="editPost(${i})" class='search-btn'>تعديل</button>
+            <button onclick="deletePost(${i})" class='search-btn' style='background:#555'>حذف</button>
+          </div>
+        `;
+      });
+    }
+
+    renderPosts();
+
+    addBtn.onclick = ()=> popup.style.display = 'block';
+
+    saveBtn.onclick = ()=>{
+      const t = document.getElementById("postTitle").value.trim();
+      const d = document.getElementById("postDesc").value.trim();
+      if(!t || !d) return alert("أكمل الحقول");
+
+      posts.push({title:t,desc:d});
+      localStorage.setItem("myPosts",JSON.stringify(posts));
+      renderPosts();
+      popup.style.display = 'none';
+    }
+
+    function deletePost(i){
+      posts.splice(i,1);
+      localStorage.setItem("myPosts",JSON.stringify(posts));
+      renderPosts();
+    }
+
+    function editPost(i){
+      const newTitle = prompt("تعديل العنوان", posts[i].title);
+      const newDesc = prompt("تعديل الوصف", posts[i].desc);
+      if(newTitle && newDesc){
+        posts[i].title = newTitle;
+        posts[i].desc = newDesc;
+        localStorage.setItem("myPosts",JSON.stringify(posts));
+        renderPosts();
+      }
+    }
+
+    document.getElementById("logoutBtn").onclick = ()=>{
+      localStorage.removeItem("logged");
+      location.href = "login.html";
+    };
+  </script></body>
+</html>
