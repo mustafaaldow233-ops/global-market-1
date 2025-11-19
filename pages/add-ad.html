@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة إعلان جديد</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        .box {
+            max-width: 850px;
+            margin: 25px auto;
+            background: #fff;
+            padding: 22px;
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+        }
+
+        .box h2 {
+            margin-top: 0;
+            font-size: 22px;
+            color: var(--primary);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 15px;
+        }
+
+        textarea {
+            height: 120px;
+            resize: none;
+        }
+
+        .img-preview {
+            width: 100%;
+            height: 230px;
+            border-radius: 12px;
+            object-fit: cover;
+            display: none;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            width: 100%;
+            background: var(--primary);
+            color: #fff;
+            padding: 14px;
+            border: none;
+            font-size: 17px;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>إضافة إعلان جديد</h2>
+
+        <label>صورة الإعلان</label>
+        <input type="file" id="imgFile" accept="image/*">
+        <img id="preview" class="img-preview">
+
+        <label>عنوان الإعلان</label>
+        <input type="text" id="title" placeholder="مثال: شقة للإيجار">
+
+        <label>الدولة</label>
+        <select id="country">
+            <option value="">اختر الدولة</option>
+        </select>
+
+        <label>القسم</label>
+        <select id="category">
+            <option value="">اختر القسم</option>
+            <option>عقارات</option>
+            <option>سيارات</option>
+            <option>وظائف</option>
+            <option>الكترونيات</option>
+            <option>خدمات</option>
+            <option>أخرى</option>
+        </select>
+
+        <label>تفاصيل الإعلان</label>
+        <textarea id="details" placeholder="اكتب جميع المواصفات..."></textarea>
+
+        <button class="btn" onclick="saveAd()">نشر الإعلان</button>
+
+    </div>
+
+    <script>
+        // تحميل الدول
+        const countryList = [
+            "السودان", "السعودية", "مصر", "الإمارات", "قطر", "البحرين", "الأردن",
+            "العراق", "سوريا", "لبنان", "ليبيا", "تونس", "الجزائر", "المغرب",
+            "موريتانيا", "الصومال", "جيبوتي", "تركيا", "أمريكا", "بريطانيا",
+            "فرنسا", "الهند", "الصين", "اليابان", "كوريا", "ألمانيا", "إسبانيا",
+            "إيطاليا", "كندا", "أستراليا"
+        ];
+
+        const countrySelect = document.getElementById("country");
+        countryList.forEach(c => {
+            let op = document.createElement("option");
+            op.textContent = c;
+            countrySelect.appendChild(op);
+        });
+
+        // عرض معاينة الصورة
+        document.getElementById("imgFile").addEventListener("change", function () {
+            let file = this.files[0];
+            if (!file) return;
+
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                let prev = document.getElementById("preview");
+                prev.src = e.target.result;
+                prev.style.display = "block";
+            }
+            reader.readAsDataURL(file);
+        });
+
+        // حفظ الإعلان
+        function saveAd() {
+            let title = document.getElementById("title").value.trim();
+            let country = document.getElementById("country").value.trim();
+            let category = document.getElementById("category").value.trim();
+            let details = document.getElementById("details").value.trim();
+            let img = document.getElementById("preview").src;
+
+            if (!title || !country || !category || !details || img === "") {
+                alert("يجب ملء جميع البيانات!");
+                return;
+            }
+
+            let ads = JSON.parse(localStorage.getItem("gm_ads") || "[]");
+
+            let newAd = {
+                id: Date.now(),
+                title,
+                country,
+                category,
+                details,
+                img,
+                date: new Date().toLocaleDateString(),
+                user: localStorage.getItem("gm_user") || "غير مسجل"
+            };
+
+            ads.push(newAd);
+            localStorage.setItem("gm_ads", JSON.stringify(ads));
+
+            alert("تم نشر الإعلان بنجاح!");
+            window.location.href = "my-ads.html";
+        }
+    </script>
+
+</body>
+
+</html>
