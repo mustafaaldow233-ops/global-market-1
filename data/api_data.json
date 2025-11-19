@@ -1,0 +1,41 @@
+{
+  "countries":[
+    {"code":"SD","name":"السودان"},
+    {"code":"EG","name":"مصر"},
+    {"code":"SA","name":"السعودية"},
+    {"code":"AE","name":"الإمارات"},
+    {"code":"US","name":"United States"}
+  ],
+  "items":[
+    {
+      "id":"i1",
+      "title":"تويوتا كورولا 2018",
+      "description":"حالة ممتازة، صينية أصلية، تم الفحص",
+      "category":"سيارات",
+      "country":"SD",
+      "country_name":"السودان",
+      "price":"12000$",
+      "url":"pages/cars.html"
+    },
+    {
+      "id":"i2",
+      "title":"حجز فندق 3 نجوم - الخرطوم",
+      "description":"غرفة مزدوجة، فطور مشمول",
+      "category":"فنادق",
+      "country":"SD",
+      "country_name":"السودان",
+      "price":"50$ / الليلة",
+      "url":"pages/hotels.html"
+    }
+  ],
+  "companies":[
+    {
+      "id":"c1",
+      "name":"شركة السلام للنقل",
+      "phone":"+249912345678",
+      "service":"international",
+      "country":"SD",
+      "description":"نقل دولي وبري وبحري"
+    }
+  ]
+}
