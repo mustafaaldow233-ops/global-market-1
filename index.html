@@ -1,88 +1,29 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>السوق العالمي</title>
-    <link rel="stylesheet" href="styles.css" />
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-        }
-        header {
-            background: #1e1e2d;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-        }
-        .search-box {
-            margin: 20px;
-            text-align: center;
-        }
-        .search-box input {
-            width: 90%;
-            padding: 12px;
-            border: 1px solid #aaa;
-            border-radius: 10px;
-            font-size: 16px;
-        }
-        .sections {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            padding: 20px;
-        }
-        .section-card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-            font-size: 18px;
-            text-align: center;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .section-card:hover {
-            transform: scale(1.05);
-            background: #ececec;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 14px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Market</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
-    <header>
-        🌍 السوق العالمي
+    <header class="header">
+        <h1>Global Market</h1>
+        <nav>
+            <a href="electronics.html">الكترونيات</a>
+            <a href="fashion.html">أزياء</a>
+            <a href="cars.html">سيارات</a>
+            <a href="realestate.html">عقارات</a>
+        </nav>
     </header>
 
-    <div class="search-box">
-        <input type="text" placeholder="ابحث عن المنتجات أو الخدمات...">
-    </div>
+    <section class="hero">
+        <h2>أهلاً بك في أكبر سوق عالمي</h2>
+        <p>تصفح أفضل المنتجات والعروض</p>
+    </section>
 
-    <div class="sections">
-        <div class="section-card">✈️ طيران</div>
-        <div class="section-card">🏨 فنادق</div>
-        <div class="section-card">🚗 سيارات</div>
-        <div class="section-card">🛒 مواد تموينية</div>
-        <div class="section-card">🌴 سياحة</div>
-        <div class="section-card">🌍 عالمي / محلي</div>
-    </div>
-
-    <div class="footer">
-        © 2025 السوق العالمي - جميع الحقوق محفوظة
-    </div>
-
+    <footer class="footer">
+        <p>© 2025 Global Market</p>
+    </footer>
 </body>
-  </html>
+    </html>
