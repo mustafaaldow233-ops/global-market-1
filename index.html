@@ -1,3 +1,84 @@
+<header class="header">
+    <div class="logo">السوق العالمي</div>
+
+    <div class="country-select">
+        <select>
+            <option>عالمي</option>
+            <option>السودان</option>
+            <option>السعودية</option>
+            <option>الإمارات</option>
+            <option>مصر</option>
+        </select>
+    </div>
+
+    <div class="search-box">
+        <input type="text" placeholder="ابحث عن فنادق - سيارات - نقل - سياحة ...">
+        <button>بحث</button>
+    </div>
+
+    <div class="auth-buttons">
+        <button class="login">تسجيل دخول</button>
+        <button class="signup">إنشاء حساب</button>
+    </div>
+</header>
+
+<style>
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0a3d62;
+    padding: 12px 20px;
+    color: #fff;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.country-select select {
+    padding: 5px 10px;
+    border-radius: 6px;
+}
+
+.search-box {
+    display: flex;
+    flex: 1;
+    margin: 0 20px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 6px 0 0 6px;
+    border: none;
+}
+
+.search-box button {
+    padding: 8px 15px;
+    border: none;
+    background: #f1c40f;
+    border-radius: 0 6px 6px 0;
+    font-weight: bold;
+}
+
+.auth-buttons button {
+    margin-left: 8px;
+    padding: 7px 12px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+}
+
+.signup {
+    background: #f39c12;
+}
+
+.login {
+    background: #2ecc71;
+}
+</style>
 <section class="services">
     <div class="service-card">
         <img src="hotel.jpg" alt="فنادق">
@@ -19,7 +100,7 @@
 
     <div class="service-card">
         <img src="food.jpg" alt="مواد تموينية">
-        <h3>المواد التموينية</h3>
+        <h3>المواد التموينية</h3
         <p>جميع أنواع السلع التموينية الأساسية.</p>
     </div>
 
