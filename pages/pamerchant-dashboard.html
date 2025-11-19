@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التاجر</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        .dash-box{
+            max-width:750px;
+            margin:35px auto;
+            background:#fff;
+            padding:25px;
+            border-radius:16px;
+            box-shadow:0 6px 20px rgba(0,0,0,0.1);
+        }
+        h2{
+            text-align:center;
+            margin-bottom:25px;
+            color:var(--primary);
+        }
+        .info{
+            background:#f8f8f8;
+            padding:18px;
+            border-radius:12px;
+            margin-bottom:25px;
+            line-height:1.9;
+            font-size:16px;
+        }
+        .dash-btn{
+            display:block;
+            width:100%;
+            background:var(--primary);
+            color:#fff;
+            padding:14px;
+            text-align:center;
+            border-radius:12px;
+            margin-bottom:15px;
+            font-size:18px;
+            font-weight:bold;
+            cursor:pointer;
+        }
+        .logout{
+            background:#d92626 !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dash-box">
+    <h2>لوحة التاجر</h2>
+
+    <div class="info" id="mInfo">
+        تحميل البيانات...
+    </div>
+
+    <a href="upload-ad.html" class="dash-btn">رفع إعلان جديد</a>
+    <a href="merchant-edit.html" class="dash-btn">تعديل الحساب</a>
+    <button class="dash-btn logout" onclick="logout()">تسجيل خروج</button>
+</div>
+
+<script>
+function loadMerchant(){
+    let merchants = JSON.parse(localStorage.getItem("gm_merchants") || "[]");
+
+    // آخر تاجر سجّل دخول
+    let merchant = merchants[merchants.length - 1];
+
+    if(!merchant){
+        document.getElementById("mInfo").innerHTML = "لا يوجد بيانات تاجر";
+        return;
+    }
+
+    document.getElementById("mInfo").innerHTML = `
+        <strong>اسم الشركة:</strong> ${merchant.cname}<br>
+        <strong>المالك:</strong> ${merchant.owner}<br>
+        <strong>الهاتف:</strong> ${merchant.phone}<br>
+        <strong>البريد:</strong> ${merchant.email}<br>
+        <strong>النشاط:</strong> ${merchant.category}<br>
+        <strong>الوصف:</strong> ${merchant.desc}
+    `;
+}
+
+function logout(){
+    localStorage.removeItem("gm_merchant_logged");
+    window.location.href = "../index.html";
+}
+
+loadMerchant();
+</script>
+
+</body>
+  </html>
