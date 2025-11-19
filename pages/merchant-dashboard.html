@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التاجر</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        .box{
+            max-width:900px;
+            margin:30px auto;
+        }
+        h2{
+            text-align:center;
+            margin-bottom:20px;
+            color:var(--primary);
+        }
+        .card-menu{
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+            gap:16px;
+            margin-top:20px;
+        }
+        .menu-item{
+            background:#fff;
+            padding:20px;
+            text-align:center;
+            border-radius:14px;
+            box-shadow:var(--shadow);
+            font-size:18px;
+            font-weight:bold;
+            cursor:pointer;
+            text-decoration:none;
+            color:#111;
+            transition:0.2s;
+        }
+        .menu-item:hover{
+            background:#f0f0f0;
+        }
+        .logout-btn{
+            margin-top:30px;
+            display:block;
+            background:#e63946;
+            color:#fff;
+            padding:12px;
+            text-align:center;
+            border-radius:12px;
+            text-decoration:none;
+            font-weight:bold;
+        }
+        .welcome{
+            background:#fff;
+            padding:20px;
+            border-radius:14px;
+            box-shadow:var(--shadow);
+            margin-bottom:20px;
+            font-size:17px;
+            color:#444;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+
+    <h2>لوحة تحكم التاجر</h2>
+
+    <div class="welcome" id="welcomeBox">
+        مرحباً بك…
+    </div>
+
+    <div class="card-menu">
+        <a href="new-ad.html" class="menu-item">➕ إضافة إعلان جديد</a>
+        <a href="my-ads.html" class="menu-item">📦 إعلاناتي</a>
+        <a href="../index.html" class="menu-item">🏠 العودة للصفحة الرئيسية</a>
+    </div>
+
+    <a href="#" class="logout-btn" onclick="logout()">تسجيل خروج</a>
+</div>
+
+<script>
+// تحميل بيانات التاجر من LocalStorage
+function loadUser(){
+    let user = JSON.parse(localStorage.getItem("gm_user") || "null");
+
+    if(!user){
+        window.location.href = "login.html"; // رجع للّوجين لو ما في جلسة
+        return;
+    }
+
+    document.getElementById("welcomeBox").innerHTML =
+        "مرحباً <b>" + user.name + "</b> — سعيدين بعودتك!";
+}
+
+// تسجيل الخروج
+function logout(){
+    localStorage.removeItem("gm_user");
+    window.location.href = "login.html";
+}
+
+loadUser();
+</script>
+
+</body>
+</html>
