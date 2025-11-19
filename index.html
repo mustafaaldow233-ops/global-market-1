@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>السوق العالمي — Global Market</title>
+
+  <!-- رابط لملف الستايل (ضع styles.css في جذر المشروع) -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* تنسيق احتياطي خفيف لو ما رفعّت styles.css */
+    :root{--primary:#e62e2e}
+    body{margin:0;font-family:Tahoma,Arial,sans-serif;direction:rtl;background:#f7f7f8;color:#111}
+    .container{max-width:1100px;margin:18px auto;padding:0 14px}
+    .header{background:#fff;border-bottom:1px solid #eee;padding:14px;display:flex;align-items:center;gap:12px}
+    .logo-img{width:52px;height:52px;object-fit:contain;border-radius:8px}
+    .site-title{font-weight:700;color:var(--primary);font-size:20px}
+    .header-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+    .lang-btn{padding:8px 10px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer}
+    .box{background:#fff;padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(12,12,15,0.06)}
+    .search-row{display:flex;gap:10px;margin-top:12px}
+    .search-input{flex:1;padding:12px;border-radius:10px;border:1px solid #e6e6e6}
+    .search-btn{padding:12px 16px;border-radius:10px;border:none;background:var(--primary);color:#fff;cursor:pointer;font-weight:700}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:14px}
+    .card{background:#fff;border-radius:12px;padding:16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 18px rgba(12,12,15,0.05);text-decoration:none;color:inherit}
+    .card h3{margin:0;font-size:16px}
+    .footer{text-align:center;padding:18px;color:#777;margin-top:30px}
+    #results{margin-top:14px}
+  </style>
+</head>
+<body>
+
+  <header class="header container">
+    <div style="display:flex;align-items:center;gap:12px">
+      <img src="logo/logo.png" alt="Global Market" class="logo-img" onerror="this.style.display='none'">
+      <div>
+        <div class="site-title">السوق العالمي</div>
+        <div style="font-size:12px;color:#888">الوسيط بين التاجر والزبون</div>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="lang-switch">
+        <button class="lang-btn" data-lang="ar" onclick="switchLangFromBtn('ar')">عربي</button>
+        <button class="lang-btn" data-lang="en" onclick="switchLangFromBtn('en')">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="margin-top:18px">
+
+    <div class="box">
+
+      <h3>اختر الدولة</h3>
+
+      <!-- ======= استبدل أي select قديم بهذا (قائمة كاملة 195 دولة) ======= -->
+      <select id="country-select">
+        <option value="">محلي (جميع دول العالم)</option>
+        <option value="AF">Afghanistan - أفغانستان</option>
+        <option value="AL">Albania - ألبانيا</option>
+        <option value="DZ">Algeria - الجزائر</option>
+        <option value="AD">Andorra - أندورا</option>
+        <option value="AO">Angola - أنغولا</option>
+        <option value="AG">Antigua and Barbuda - أنتيغوا وباربودا</option>
+        <option value="AR">Argentina - الأرجنتين</option>
+        <option value="AM">Armenia - أرمينيا</option>
+        <option value="AU">Australia - أستراليا</option>
+        <option value="AT">Austria - النمسا</option>
+        <option value="AZ">Azerbaijan - أذربيجان</option>
+        <option value="BS">Bahamas - الباهاماس</option>
+        <option value="BH">Bahrain - البحرين</option>
+        <option value="BD">Bangladesh - بنغلاديش</option>
+        <option value="BB">Barbados - بربادوس</option>
+        <option value="BY">Belarus - بيلاروسيا</option>
+        <option value="BE">Belgium - بلجيكا</option>
+        <option value="BZ">Belize - بليز</option>
+        <option value="BJ">Benin - بنين</option>
+        <option value="BT">Bhutan - بوتان</option>
+        <option value="BO">Bolivia - بوليفيا</option>
+        <option value="BA">Bosnia and Herzegovina - البوسنة والهرسك</option>
+        <option value="BW">Botswana - بوتسوانا</option>
+        <option value="BR">Brazil - البرازيل</option>
+        <option value="BN">Brunei - بروناي</option>
+        <option value="BG">Bulgaria - بلغاريا</option>
+        <option value="BF">Burkina Faso - بوركينا فاسو</option>
+        <option value="BI">Burundi - بوروندي</option>
+        <option value="KH">Cambodia - كمبوديا</option>
+        <option value="CM">Cameroon - الكاميرون</option>
+        <option value="CA">Canada - كندا</option>
+        <option value="CV">Cape Verde - الرأس الأخضر</option>
+        <option value="CF">Central African Republic - إفريقيا الوسطى</option>
+        <option value="TD">Chad - تشاد</option>
+        <option value="CL">Chile - تشيلي</option>
+        <option value="CN">China - الصين</option>
+        <option value="CO">Colombia - كولومبيا</option>
+        <option value="KM">Comoros - جزر القمر</option>
+        <option value="CG">Congo - الكونغو (برازافيل)</option>
+        <option value="CD">DR Congo - الكونغو الديمقراطية</option>
+        <option value="CR">Costa Rica - كوستاريكا</option>
+        <option value="HR">Croatia - كرواتيا</option>
+        <option value="CU">Cuba - كوبا</option>
+        <option value="CY">Cyprus - قبرص</option>
+        <option value="CZ">Czechia - التشيك</option>
+        <option value="DK">Denmark - الدنمارك</option>
+        <option value="DJ">Djibouti - جيبوتي</option>
+        <option value="DM">Dominica - دومينيكا</option>
+        <option value="DO">Dominican Republic - الدومينيكان</option>
+        <option value="EC">Ecuador - الإكوادور</option>
+        <option value="EG">Egypt - مصر</option>
+        <option value="SV">El Salvador - السلفادور</option>
+        <option value="GQ">Equatorial Guinea - غينيا الاستوائية</option>
+        <option value="ER">Eritrea - إريتريا</option>
+        <option value="EE">Estonia - إستونيا</option>
+        <option value="ET">Ethiopia - إثيوبيا</option>
+        <option value="FJ">Fiji - فيجي</option>
+        <option value="FI">Finland - فنلندا</option>
+        <option value="FR">France - فرنسا</option>
+        <option value="GA">Gabon - الغابون</option>
+        <option value="GM">Gambia - غامبيا</option>
+        <option value="GE">Georgia - جورجيا</option>
+        <option value="DE">Germany - ألمانيا</option>
+        <option value="GH">Ghana - غانا</option>
+        <option value="GR">Greece - اليونان</option>
+        <option value="GD">Grenada - غرينادا</option>
+        <option value="GT">Guatemala - غواتيمالا</option>
+        <option value="GN">Guinea - غينيا</option>
+        <option value="GW">Guinea-Bissau - غينيا بيساو</option>
+        <option value="GY">Guyana - غيانا</option>
+        <option value="HT">Haiti - هايتي</option>
+        <option value="HN">Honduras - هندوراس</option>
+        <option value="HU">Hungary - المجر</option>
+        <option value="IS">Iceland - آيسلندا</option>
+        <option value="IN">India - الهند</option>
+        <option value="ID">Indonesia - إندونيسيا</option>
+        <option value="IR">Iran - إيران</option>
+        <option value="IQ">Iraq - العراق</option>
+        <option value="IE">Ireland - إيرلندا</option>
+        <option value="IL">Israel - إسرائيل</option>
+        <option value="IT">Italy - إيطاليا</option>
+        <option value="JM">Jamaica - جامايكا</option>
+        <option value="JP">Japan - اليابان</option>
+        <option value="JO">Jordan - الأردن</option>
+        <option value="KZ">Kazakhstan - كازاخستان</option>
+        <option value="KE">Kenya - كينيا</option>
+        <option value="KI">Kiribati - كيريباتي</option>
+        <option value="KW">Kuwait - الكويت</option>
+        <option value="KG">Kyrgyzstan - قيرغيزستان</option>
+        <option value="LA">Laos - لاوس</option>
+        <option value="LV">Latvia - لاتفيا</option>
+        <option value="LB">Lebanon - لبنان</option>
+        <option value="LS">Lesotho - ليسوتو</option>
+        <option value="LR">Liberia - ليبيريا</option>
+        <option value="LY">Libya - ليبيا</option>
+        <option value="LI">Liechtenstein - ليختنشتاين</option>
+        <option value="LT">Lithuania - ليتوانيا</option>
+        <option value="LU">Luxembourg - لوكسمبورغ</option>
+        <option value="MG">Madagascar - مدغشقر</option>
+        <option value="MW">Malawi - ملاوي</option>
+        <option value="MY">Malaysia - ماليзيا</option>
+        <option value="MV">Maldives - المالديف</option>
+        <option value="ML">Mali - مالي</option>
+        <option value="MT">Malta - مالطا</option>
+        <option value="MH">Marshall Islands - جزر مارشال</option>
+        <option value="MR">Mauritania - موريتانيا</option>
+        <option value="MU">Mauritius - موريشيوس</option>
+        <option value="MX">Mexico - المكسيك</option>
+        <option value="FM">Micronesia - ميكرونيسيا</option>
+        <option value="MD">Moldova - مولدوفا</option>
+        <option value="MC">Monaco - موناكو</option>
+        <option value="MN">Mongolia - منغوليا</option>
+        <option value="ME">Montenegro - الجبل الأسود</option>
+        <option value="MA">Morocco - المغرب</option>
+        <option value="MZ">Mozambique - موزمبيق</option>
+        <option value="MM">Myanmar - ميانمار</option>
+        <option value="NA">Namibia - ناميبيا</option>
+        <option value="NR">Nauru - ناورو</option>
+        <option value="NP">Nepal - نيبال</option>
+        <option value="NL">Netherlands - هولندا</option>
+        <option value="NZ">New Zealand - نيوزيلندا</option>
+        <option value="NI">Nicaragua - نيكاراغوا</option>
+        <option value="NE">Niger - النيجر</option>
+        <option value="NG">Nigeria - نيجيريا</option>
+        <option value="KP">North Korea - كوريا الشمالية</option>
+        <option value="NO">Norway - النرويج</option>
+        <option value="OM">Oman - عُمان</option>
+        <option value="PK">Pakistan - باكستان</option>
+        <option value="PW">Palau - بالاو</option>
+        <option value="PA">Panama - بنما</option>
+        <option value="PG">Papua New Guinea - بابوا غينيا الجديدة</option>
+        <option value="PY">Paraguay - باراغواي</option>
+        <option value="PE">Peru - البيرو</option>
+        <option value="PH">Philippines - الفلبين</option>
+        <option value="PL">Poland - بولندا</option>
+        <option value="PT">Portugal - البرتغال</option>
+        <option value="QA">Qatar - قطر</option>
+        <option value="RO">Romania - رومانيا</option>
+        <option value="RU">Russia - روسيا</option>
+        <option value="RW">Rwanda - رواندا</option>
+        <option value="KN">Saint Kitts and Nevis - سانت كيتس ونيفيس</option>
+        <option value="LC">Saint Lucia - سانت لوسيا</option>
+        <option value="VC">Saint Vincent and the Grenadines - سانت فنسنت والغرينادين</option>
+        <option value="WS">Samoa - ساموا</option>
+        <option value="SM">San Marino - سان مارينو</option>
+        <option value="ST">Sao Tome and Principe - ساو تومي وبرينسيبي</option>
+        <option value="SA">Saudi Arabia - السعودية</option>
+        <option value="SN">Senegal - السنغال</option>
+        <option value="RS">Serbia - صربيا</option>
+        <option value="SC">Seychelles - سيشل</option>
+        <option value="SL">Sierra Leone - سيراليون</option>
+        <option value="SG">Singapore - سنغافورة</option>
+        <option value="SK">Slovakia - سلوفاكيا</option>
+        <option value="SI">Slovenia - سلوفينيا</option>
+        <option value="SB">Solomon Islands - جزر سليمان</option>
+        <option value="SO">Somalia - الصومال</option>
+        <option value="ZA">South Africa - جنوب أفريقيا</option>
+        <option value="KR">South Korea - كوريا الجنوبية</option>
+        <option value="SS">South Sudan - جنوب السودان</option>
+        <option value="ES">Spain - إسبانيا</option>
+        <option value="LK">Sri Lanka - سريلانكا</option>
+        <option value="SD">Sudan - السودان</option>
+        <option value="SR">Suriname - سورينام</option>
+        <option value="SZ">Swaziland/Eswatini - سوازيلاند/إسواتيني</option>
+        <option value="SE">Sweden - السويد</option>
+        <option value="CH">Switzerland - سويسرا</option>
+        <option value="SY">Syria - سوريا</option>
+        <option value="TW">Taiwan - تايوان</option>
+        <option value="TJ">Tajikistan - طاجيكستان</option>
+        <option value="TZ">Tanzania - تنزانيا</option>
+        <option value="TH">Thailand - تايلاند</option>
+        <option value="TL">Timor-Leste - تيمور الشرقية</option>
+        <option value="TG">Togo - توغو</option>
+        <option value="TO">Tonga - تونغا</option>
+        <option value="TT">Trinidad and Tobago - ترينيداد وتوباغو</option>
+        <option value="TN">Tunisia - تونس</option>
+        <option value="TR">Turkey - تركيا</option>
+        <option value="TM">Turkmenistan - تركمانستان</option>
+        <option value="TV">Tuvalu - توفالو</option>
+        <option value="UG">Uganda - أوغندا</option>
+        <option value="UA">Ukraine - أوكرانيا</option>
+        <option value="AE">UAE - الإمارات</option>
+        <option value="GB">United Kingdom - بريطانيا</option>
+        <option value="US">United States - الولايات المتحدة</option>
+        <option value="UY">Uruguay - أوروغواي</option>
+        <option value="UZ">Uzbekistan - أوزبكستان</option>
+        <option value="VU">Vanuatu - فانواتو</option>
+        <option value="VA">Vatican City - الفاتيكان</option>
+        <option value="VE">Venezuela - فنزويلا</option>
+        <option value="VN">Vietnam - فيتنام</option>
+        <option value="YE">Yemen - اليمن</option>
+        <option value="ZM">Zambia - زامبيا</option>
+        <option value="ZW">Zimbabwe - زيمبابوي</option>
+      </select>
+
+      <!-- بحث -->
+      <div class="search-row">
+        <input type="text" class="search-input" placeholder="ابحث عن منتج أو خدمة أو شركة..." />
+        <button class="search-btn" onclick="doSearch()">بحث</button>
+      </div>
+
+      <!-- نتائج البحث -->
+      <div id="results"></div>
+    </div>
+
+    <!-- أقسام سريعة -->
+    <div style="margin-top:14px" class="grid">
+      <a class="card" href="pages/hotels.html"><h3>فنادق</h3><div>🏨</div></a>
+      <a class="card" href="pages/flights.html"><h3>طيران</h3><div>✈️</div></a>
+      <a class="card" href="pages/cars.html"><h3>سيارات</h3><div>🚗</div></a>
+      <a class="card" href="pages/items.html"><h3>مواد تموينية</h3><div>🛒</div></a>
+      <a class="card" href="pages/transport.html"><h3>شركات النقل</h3><div>🚚</div></a>
+      <a class="card" href="pages/markets.html"><h3>متاجر</h3><div>🛍️</div></a>
+    </div>
+
+  </main>
+
+  <footer class="footer">© 2025 السوق العالمي — جميع الحقوق محفوظة</footer>
+
+  <!-- رابط السكربت (ضع scripts.js و data/api_data.json كما شرحنا) -->
+  <script src="scripts.js"></script>
+
+  <!-- fallback صغير لو ما رفعّت scripts.js -->
+  <script>
+    function switchLangFromBtn(lang){
+      try{ localStorage.setItem('gm_lang', lang); location.reload(); }catch(e){}
+    }
+    function doSearch(){
+      const q = document.querySelector('.search-input').value.trim();
+      const out = document.getElementById('results');
+      if(!q){ out.innerHTML = '<div class="box empty-box">أدخل كلمة بحث</div>'; return; }
+      // مؤقت: رسالة ترحيبية — إذا رفعت scripts.js سيستبدلها بنتائج حقيقية
+      out.innerHTML = '<div class="box empty-box">ابحث: '+ q + ' — تأكد إنك رفعت ملف data/api_data.json وscripts.js لنتائج حقيقية.</div>';
+    }
+  </script>
+
+</body>
+</html>
