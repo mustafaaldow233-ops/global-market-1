@@ -65,23 +65,17 @@ function logout(){
 }
   </script>
 
-  <header class="header container">
-    <div style="display:flex;align-items:center;gap:12px">
-      <img src="logo/logo.png" alt="Global Market" class="logo-img" onerror="this.style.display='none'">
-      <div>
-        <div class="site-title">السوق العالمي</div>
-        <div style="font-size:12px;color:#888">الوسيط بين التاجر والزبون</div>
-      </div>
+  <div class="header">
+
+    <img src="logo/logo.png" class="logo-img">
+
+    <h1 class="site-title">Global Market</h1>
+
+    <div class="header-right" id="userArea">
+        <!-- هنا يظهر (تسجيل دخول) أو (اسم المستخدم + خروج) -->
     </div>
 
-    <div class="header-right">
-      <div id="user-area"></div>
-      <div class="lang-switch">
-        <button class="lang-btn" data-lang="ar" onclick="switchLangFromBtn('ar')">عربي</button>
-        <button class="lang-btn" data-lang="en" onclick="switchLangFromBtn('en')">EN</button>
-      </div>
-    </div>
-  </header>
+  </div>
   <nav class="nav">
     <li><a href="#" id="logoutBtn">تسجيل الخروج</a></li>
     <ul class="nav-links">
@@ -341,4 +335,34 @@ function logout(){
   </script>
 
 </body>
+    <script>
+    function updateUserArea(){
+        let loggedIn = localStorage.getItem("loggedIn");
+        let user = JSON.parse(localStorage.getItem("user"));
+        let userArea = document.getElementById("userArea");
+
+        if(loggedIn === "yes" && user){
+            userArea.innerHTML = `
+                <span>مرحباً، ${user.name}</span>
+                <button onclick="logout()" class="search-btn" style="background:#555;">
+                    تسجيل خروج
+                </button>
+            `;
+        } else {
+            userArea.innerHTML = `
+                <a href="pages/login.html" class="search-btn" style="text-decoration:none;">
+                    تسجيل الدخول
+                </a>
+            `;
+        }
+    }
+
+    function logout(){
+        localStorage.removeItem("loggedIn");
+        alert("تم تسجيل الخروج");
+        window.location.href = "index.html";
+    }
+
+    updateUserArea();
+    </script>
 </html>
