@@ -4,58 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول</title>
-    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            margin: 0;
+            color: #fff;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 380px;
+            margin: 80px auto;
+            background: #1e1e1e;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px #00000055;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #8ab4f8;
+        }
+
+        label {
+            font-size: 15px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: #fff;
+            margin-bottom: 15px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        input:focus {
+            border-color: #8ab4f8;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #8ab4f8;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            color: #000;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #6d9ef3;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .link a {
+            color: #8ab4f8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
 </head>
+
 <body>
 
-    <div class="container small-box">
+    <div class="container">
         <h2>تسجيل الدخول</h2>
 
-        <form id="loginForm">
+        <label>البريد الإلكتروني</label>
+        <input type="email" id="email">
 
-            <label>البريد الإلكتروني</label>
-            <input type="email" id="email" required>
+        <label>كلمة المرور</label>
+        <input type="password" id="password">
 
-            <label>كلمة المرور</label>
-            <input type="password" id="password" required>
+        <button onclick="login()">دخول</button>
 
-            <button type="submit" class="btn">دخول</button>
-
-        </form>
-
-        <p class="link">
-            ماعندك حساب؟ 
-            <a href="register.html">إنشاء حساب</a>
-        </p>
+        <div class="link">
+            <a href="register.html">ما عندك حساب؟ إنشاء حساب</a>
+        </div>
     </div>
 
-<script>
-document.getElementById("loginForm").addEventListener("submit", function(e){
-    e.preventDefault();
+    <script>
+        function login(){
+            let email = document.getElementById("email").value;
+            let pass = document.getElementById("password").value;
 
-    const email    = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+            let user = JSON.parse(localStorage.getItem("user"));
 
-    const user = JSON.parse(localStorage.getItem("user"));
+            if(!user){
+                alert("لا يوجد حساب مسجل!");
+                return;
+            }
 
-    if (!user) {
-        alert("لا يوجد حساب مسجل، أنشئ حساب أولاً");
-        return;
-    }
-
-    if (email === user.email && password === user.password) {
-
-        localStorage.setItem("loggedIn", "true");
-
-        alert("تم تسجيل الدخول بنجاح");
-
-        window.location.href = "index.html";
-
-    } else {
-        alert("البريد أو كلمة المرور غير صحيحة");
-    }
-});
-</script>
+            if(email === user.email && pass === user.password){
+                localStorage.setItem("loggedIn", "yes");
+                alert("تم تسجيل الدخول");
+                window.location.href = "../index.html";
+            } else {
+                alert("البريد أو كلمة المرور غير صحيحة");
+            }
+        }
+    </script>
 
 </body>
-</html>
+    </html>
