@@ -1,33 +1,54 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>تسجيل الدخول</title>
-  <link rel="stylesheet" href="../assets/css/main.css">
-  <style>
-    .form-box {max-width:400px;margin:40px auto;background:#fff;padding:20px;border-radius:12px;border:1px solid #ddd;}
-    input {width:100%;padding:12px;margin:10px 0;border:1px solid #ccc;border-radius:8px;}
-    button {width:100%;padding:12px;background:#0066ff;color:#fff;border:0;border-radius:10px;font-size:16px;cursor:pointer;}
-  </style>
+<meta charset="UTF-8" />
+<title>تسجيل الدخول</title>
+
+<style>
+body{background:#f5f5f5;}
+.box{max-width:420px;margin:40px auto;background:#fff;padding:25px;border-radius:12px;border:1px solid #ddd;box-shadow:0 6px 14px rgba(0,0,0,0.08);}
+h2{text-align:center;color:#0066ff;margin-bottom:20px;}
+.in{margin-bottom:15px;display:flex;flex-direction:column;}
+input{padding:10px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
+button{width:100%;padding:12px;border:none;background:#0066ff;color:#fff;font-size:18px;border-radius:8px;cursor:pointer;margin-top:10px;}
+.link{text-align:center;margin-top:15px;}
+a{color:#0066ff;}
+</style>
 </head>
+
 <body>
+<div class="box">
+<h2>تسجيل الدخول</h2>
 
-<div class="form-box">
-  <h2>تسجيل الدخول</h2>
-  <input type="text" placeholder="البريد أو الهاتف">
-  <input type="password" placeholder="كلمة السر">
-  <button onclick="login()">دخول</button>
+<div class="in">
+<label>البريد الإلكتروني</label>
+<input type="email" id="email">
+</div>
 
-  <p style="margin-top:10px;text-align:center;">
-    ماعندك حساب؟ <a href="register.html">إنشاء حساب</a>
-  </p>
+<div class="in">
+<label>كلمة المرور</label>
+<input type="password" id="pass">
+</div>
+
+<button onclick="login()">دخول</button>
+
+<div class="link">
+ما عندك حساب؟ <a href="signup.html">إنشاء حساب</a>
+</div>
 </div>
 
 <script>
-function login() {
-  alert("تم تسجيل الدخول ✔");
-  localStorage.setItem("logged", "1");
-  location.href = "../index.html";
+function login(){
+    let saved = JSON.parse(localStorage.getItem("user"));
+    if(!saved){ alert("لا يوجد حساب — سجل حساب أولاً"); return; }
+
+    if(email.value === saved.email && pass.value === saved.pass){
+        localStorage.setItem("logged", "1");
+        alert("تم تسجيل الدخول");
+        location.href = "posts.html";
+    } else {
+        alert("خطأ في البيانات");
+    }
 }
 </script>
 
