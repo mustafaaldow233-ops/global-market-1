@@ -1,89 +1,35 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل حساب</title>
-    <link rel="stylesheet" href="../styles.css">
-    <style>
-        .register-box{
-            max-width:450px;
-            margin:40px auto;
-            background:#fff;
-            padding:25px;
-            border-radius:14px;
-            box-shadow:0 6px 20px rgba(0,0,0,0.08);
-        }
-        .register-box h2{
-            text-align:center;
-            margin-bottom:20px;
-            color:var(--primary);
-        }
-        .register-box input{
-            width:100%;
-            padding:12px;
-            margin-bottom:14px;
-            border-radius:10px;
-            border:1px solid #ddd;
-            font-size:15px;
-        }
-        .reg-btn{
-            width:100%;
-            padding:12px;
-            background:var(--primary);
-            color:#fff;
-            border:none;
-            border-radius:10px;
-            font-size:17px;
-            cursor:pointer;
-            font-weight:bold;
-        }
-        .success-box{
-            background:#e6ffe6;
-            padding:12px;
-            border-radius:10px;
-            text-align:center;
-            margin-top:15px;
-            color:#0a8a0a;
-            display:none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>إنشاء حساب</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    .form-box {max-width:400px;margin:40px auto;background:#fff;padding:20px;border-radius:12px;border:1px solid #ddd;}
+    input {width:100%;padding:12px;margin:10px 0;border:1px solid #ccc;border-radius:8px;}
+    button {width:100%;padding:12px;background:#28a745;color:#fff;border:0;border-radius:10px;font-size:16px;cursor:pointer;}
+  </style>
 </head>
 <body>
 
-<div class="register-box">
-    <h2>تسجيل حساب جديد</h2>
+<div class="form-box">
+  <h2>إنشاء حساب</h2>
 
-    <input type="text" id="name" placeholder="الاسم الكامل">
-    <input type="email" id="email" placeholder="البريد الإلكتروني">
-    <input type="password" id="password" placeholder="كلمة المرور">
+  <input type="text" placeholder="الاسم كامل">
+  <input type="text" placeholder="البريد أو الهاتف">
+  <input type="password" placeholder="كلمة السر">
 
-    <button class="reg-btn" onclick="register()">تسجيل</button>
+  <button onclick="register()">إنشاء حساب</button>
 
-    <div id="success" class="success-box">تم إنشاء الحساب بنجاح ✔</div>
+  <p style="margin-top:10px;text-align:center;">
+    عندك حساب؟ <a href="login.html">تسجيل دخول</a>
+  </p>
 </div>
 
 <script>
-function register(){
-    let name = document.getElementById("name").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let pass = document.getElementById("password").value.trim();
-    let msg = document.getElementById("success");
-
-    if(name === "" || email === "" || pass === ""){
-        alert("الرجاء تعبئة جميع الحقول");
-        return;
-    }
-
-    // ▪ حفظ مؤقت في LocalStorage بما أن GitHub Pages لا يدعم Backend
-    let user = { name:name, email:email, password:pass };
-    localStorage.setItem("gm_user", JSON.stringify(user));
-
-    msg.style.display = "block";
-
-    setTimeout(()=>{
-        window.location.href = "../index.html";
-    }, 1500);
+function register() {
+  alert("تم إنشاء الحساب ✔");
+  location.href = "login.html";
 }
 </script>
 
