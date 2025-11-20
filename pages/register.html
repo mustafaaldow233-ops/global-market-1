@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إنشاء حساب</title>
+    <title>إنشاء حساب جديد</title>
 
     <style>
         body {
@@ -15,116 +15,88 @@
 
         .container {
             width: 90%;
-            max-width: 390px;
-            background: #1e1e1e;
+            max-width: 450px;
             margin: 60px auto;
+            background: #1e1e1e;
             padding: 25px;
             border-radius: 12px;
-            box-shadow: 0px 0px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
 
         h2 {
             text-align: center;
             margin-bottom: 25px;
-            color: #00ffc8;
-            font-size: 26px;
+            color: #8ab4f8;
         }
 
         label {
             display: block;
-            margin-bottom: 6px;
-            color: #ddd;
+            margin: 10px 0 5px;
+            color: #8ab4f8;
+            font-size: 15px;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            background: #333;
-            border: none;
+            padding: 10px;
+            border: 1px solid #8ab4f8;
             border-radius: 6px;
-            margin-bottom: 18px;
+            margin-bottom: 12px;
+            background: #121212;
             color: #fff;
             font-size: 16px;
-        }
-
-        input:focus {
-            outline: 2px solid #00ffc8;
         }
 
         button {
             width: 100%;
             padding: 12px;
-            background: #00ffc8;
+            background: #8ab4f8;
             border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: bold;
             color: #000;
+            font-weight: bold;
+            font-size: 17px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: .2s;
+            margin-top: 5px;
         }
 
         button:hover {
-            background: #00e6b4;
+            background: #a4c8ff;
         }
 
         .login-link {
             text-align: center;
-            margin-top: 18px;
-            color: #bbb;
+            margin-top: 15px;
+            font-size: 15px;
         }
 
         .login-link a {
-            color: #00ffc8;
+            color: #8ab4f8;
             text-decoration: none;
         }
     </style>
 </head>
 
 <body>
+
     <div class="container">
         <h2>إنشاء حساب جديد</h2>
 
-        <label>الاسم</label>
-        <input type="text" id="name" placeholder="أدخل اسمك">
+        <label>الاسم الكامل</label>
+        <input type="text" placeholder="ادخل اسمك الكامل">
 
         <label>البريد الإلكتروني</label>
-        <input type="email" id="email" placeholder="example@mail.com">
+        <input type="email" placeholder="example@email.com">
 
         <label>كلمة المرور</label>
-        <input type="password" id="password" placeholder="••••••">
+        <input type="password" placeholder="••••••••">
 
-        <button onclick="register()">إنشاء الحساب</button>
+        <button>إنشاء الحساب</button>
 
-        <p class="login-link">عندك حساب؟  
-            <a href="login.html">تسجيل الدخول</a>
-        </p>
+        <div class="login-link">
+            عندك حساب؟ <a href="login.html">تسجيل الدخول</a>
+        </div>
     </div>
 
-    <script>
-        function register(){
-            let name = document.getElementById("name").value;
-            let email = document.getElementById("email").value;
-            let pass = document.getElementById("password").value;
-
-            if(name === "" || email === "" || pass === ""){
-                alert("الرجاء ملء جميع الحقول");
-                return;
-            }
-
-            // تخزين البيانات في localStorage
-            let userData = {
-                name: name,
-                email: email,
-                pass: pass
-            };
-
-            localStorage.setItem("user", JSON.stringify(userData));
-            localStorage.setItem("loggedIn", "yes");
-
-            alert("تم إنشاء الحساب بنجاح");
-            window.location.href = "../index.html";
-        }
-    </script>
 </body>
 </html>
