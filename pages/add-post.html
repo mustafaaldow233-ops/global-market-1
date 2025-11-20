@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <title>إضافة منشور</title>
@@ -7,25 +7,25 @@
 </head>
 <body>
 
-<h2 class="page-title">إضافة منشور جديد</h2>
+<div class="container">
+    <h2>إضافة منشور جديد</h2>
 
-<div class="form-container">
-    <form id="addPostForm">
-
+    <form id="addPostForm" class="form-box">
+        
         <label>عنوان المنشور:</label>
-        <input type="text" id="postTitle" required>
-
-        <label>الوصف:</label>
-        <textarea id="postDescription" required></textarea>
+        <input type="text" id="title" required>
 
         <label>الصورة:</label>
-        <input type="file" id="postImage">
+        <input type="file" id="image" accept="image/*" required>
 
-        <button type="submit" class="btn">نشر</button>
+        <label>المحتوى:</label>
+        <textarea id="content" rows="6" required></textarea>
 
+        <button type="submit" class="submit-btn">نشر</button>
     </form>
+
 </div>
 
 <script src="../scripts/posts.js"></script>
 </body>
-</html>
+    </html>
