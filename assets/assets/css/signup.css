@@ -1,88 +1,77 @@
-/* خلفية الصفحة */
 body {
     margin: 0;
     padding: 0;
-    background: #f7f7f7;
-    font-family: "Cairo", sans-serif;
+    font-family: "Tahoma", sans-serif;
+    background: #0e0e0e;
+    color: #d6d6d6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-/* صندوق التسجيل */
 .container {
     width: 90%;
-    max-width: 400px;
-    background: #ffffff;
+    max-width: 360px;
+    background: #1a1a1a;
     padding: 25px;
-    margin: 80px auto;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-/* العنوان */
-h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 24px;
-    color: #222;
-}
-
-/* مجموعة الإدخال */
-.input-group {
-    margin-bottom: 18px;
-}
-
-.input-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 6px;
-    font-size: 15px;
-}
-
-.input-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #cccccc;
-    border-radius: 8px;
-    font-size: 15px;
-    transition: 0.2s;
-}
-
-.input-group input:focus {
-    border-color: #008cff;
-    box-shadow: 0 0 5px rgba(0,140,255,0.3);
-    outline: none;
-}
-
-/* زر التسجيل */
-.btn {
-    width: 100%;
-    padding: 12px;
-    background: #008cff;
-    color: white;
-    border: none;
     border-radius: 10px;
-    font-size: 17px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: 0.2s;
-}
-
-.btn:hover {
-    background: #0072d1;
-}
-
-/* رابط تسجيل الدخول */
-.login-link {
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
     text-align: center;
-    margin-top: 15px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #4fa3ff;
+}
+
+.input-group {
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
     font-size: 14px;
 }
 
+input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #4fa3ff;
+    background: #121212;
+    color: #fff;
+    font-size: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #4fa3ff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #1e7fe5;
+}
+
+.login-link {
+    margin-top: 15px;
+}
+
 .login-link a {
-    color: #007bff;
+    color: #4fa3ff;
     text-decoration: none;
-    font-weight: bold;
+    font-size: 14px;
 }
 
 .login-link a:hover {
     text-decoration: underline;
-        }
+}
