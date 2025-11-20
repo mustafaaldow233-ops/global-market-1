@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container small-box">
+        <h2>إنشاء حساب جديد</h2>
+
+        <form id="registerForm">
+
+            <label>الاسم الكامل</label>
+            <input type="text" id="fullname" required>
+
+            <label>البريد الإلكتروني</label>
+            <input type="email" id="email" required>
+
+            <label>كلمة المرور</label>
+            <input type="password" id="password" required>
+
+            <button type="submit" class="btn">إنشاء الحساب</button>
+
+        </form>
+
+        <p class="link">
+            عندك حساب؟  
+            <a href="login.html">تسجيل الدخول</a>
+        </p>
+    </div>
+
+<script>
+document.getElementById("registerForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const fullname = document.getElementById("fullname").value;
+    const email    = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const user = { fullname, email, password };
+
+    localStorage.setItem("user", JSON.stringify(user));
+
+    alert("تم إنشاء الحساب بنجاح");
+
+    window.location.href = "login.html";
+});
+</script>
+
+</body>
+</html>
