@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>إضافة منشور</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<h2 class="page-title">إضافة منشور جديد</h2>
+
+<div class="form-container">
+    <form id="addPostForm">
+
+        <label>عنوان المنشور:</label>
+        <input type="text" id="postTitle" required>
+
+        <label>الوصف:</label>
+        <textarea id="postDescription" required></textarea>
+
+        <label>الصورة:</label>
+        <input type="file" id="postImage">
+
+        <button type="submit" class="btn">نشر</button>
+
+    </form>
+</div>
+
+<script src="../scripts/posts.js"></script>
+</body>
+</html>
