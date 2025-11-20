@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>إنشاء حساب</title>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+
+    <style>
+        body{background:#f5f5f5;}
+        .box{
+            max-width:420px;
+            margin:40px auto;
+            background:#fff;
+            padding:25px;
+            border-radius:12px;
+            border:1px solid #ddd;
+            box-shadow:0 6px 14px rgba(0,0,0,0.08);
+        }
+        h2{text-align:center;color:#0066ff;margin-bottom:20px;}
+        .in{
+            margin-bottom:15px;
+            display:flex;
+            flex-direction:column;
+        }
+        input{
+            padding:10px;
+            border-radius:8px;
+            border:1px solid #ccc;
+            font-size:16px;
+        }
+        button{
+            width:100%;
+            padding:12px;
+            border:none;
+            background:#0066ff;
+            color:#fff;
+            font-size:18px;
+            border-radius:8px;
+            cursor:pointer;
+            margin-top:10px;
+        }
+        .link{
+            text-align:center;
+            margin-top:15px;
+        }
+        a{color:#0066ff;}
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>إنشاء حساب جديد</h2>
+
+    <div class="in">
+        <label>الاسم الكامل</label>
+        <input type="text" id="name">
+    </div>
+
+    <div class="in">
+        <label>البريد الإلكتروني</label>
+        <input type="email" id="email">
+    </div>
+
+    <div class="in">
+        <label>كلمة المرور</label>
+        <input type="password" id="pass">
+    </div>
+
+    <button onclick="signup()">إنشاء حساب</button>
+
+    <div class="link">
+        عندك حساب؟ <a href="login.html">سجّل دخول</a>
+    </div>
+</div>
+
+<script>
+function signup(){
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const pass = document.getElementById("pass").value.trim();
+
+    if(!name || !email || !pass){
+        alert("الرجاء ملء جميع الحقول");
+        return;
+    }
+
+    // حفظ البيانات في localStorage
+    localStorage.setItem("user", JSON.stringify({
+        name:name,
+        email:email,
+        pass:pass
+    }));
+
+    alert("تم إنشاء الحساب بنجاح");
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
