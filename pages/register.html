@@ -4,68 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إنشاء حساب</title>
-    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            margin: 0;
+            color: #fff;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 390px;
+            background: #1e1e1e;
+            margin: 60px auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #00ffc8;
+            font-size: 26px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #ddd;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #333;
+            border: none;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: 2px solid #00ffc8;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #00ffc8;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #000;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        button:hover {
+            background: #00e6b4;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 18px;
+            color: #bbb;
+        }
+
+        .login-link a {
+            color: #00ffc8;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
-
     <div class="container">
+        <h2>إنشاء حساب جديد</h2>
 
-        <h2 style="text-align:center;">إنشاء حساب جديد</h2>
+        <label>الاسم</label>
+        <input type="text" id="name" placeholder="أدخل اسمك">
 
-        <form id="registerForm" class="result-item" style="max-width:450px;margin:20px auto;">
-            
-            <label>الاسم الكامل</label>
-            <input type="text" id="name" required class="search-input" placeholder="ادخل اسمك">
+        <label>البريد الإلكتروني</label>
+        <input type="email" id="email" placeholder="example@mail.com">
 
-            <label>البريد الإلكتروني</label>
-            <input type="email" id="email" required class="search-input" placeholder="example@gmail.com">
+        <label>كلمة المرور</label>
+        <input type="password" id="password" placeholder="••••••">
 
-            <label>كلمة المرور</label>
-            <input type="password" id="password" required class="search-input" placeholder="••••••••">
+        <button onclick="register()">إنشاء الحساب</button>
 
-            <button type="submit" class="search-btn" style="width:100%;margin-top:10px;">
-                إنشاء حساب
-            </button>
-
-            <p style="text-align:center;margin-top:12px;">
-                لديك حساب؟ <a href="login.html" style="color:#e62e2e;">تسجيل الدخول</a>
-            </p>
-
-        </form>
-
+        <p class="login-link">عندك حساب؟  
+            <a href="login.html">تسجيل الدخول</a>
+        </p>
     </div>
 
     <script>
-        const registerForm = document.getElementById("registerForm");
+        function register(){
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let pass = document.getElementById("password").value;
 
-        registerForm.addEventListener("submit", function(e){
-            e.preventDefault();
-
-            let name = document.getElementById("name").value.trim();
-            let email = document.getElementById("email").value.trim();
-            let password = document.getElementById("password").value.trim();
-
-            if(name === "" || email === "" || password === ""){
+            if(name === "" || email === "" || pass === ""){
                 alert("الرجاء ملء جميع الحقول");
                 return;
             }
 
-            // حفظ البيانات داخل localStorage
-            let user = {
+            // تخزين البيانات في localStorage
+            let userData = {
                 name: name,
                 email: email,
-                password: password
+                pass: pass
             };
 
-            localStorage.setItem("user", JSON.stringify(user));
+            localStorage.setItem("user", JSON.stringify(userData));
+            localStorage.setItem("loggedIn", "yes");
 
-            alert("تم إنشاء الحساب بنجاح!");
-
-            // تحويل إلى صفحة تسجيل الدخول
-            window.location.href = "login.html";
-        });
+            alert("تم إنشاء الحساب بنجاح");
+            window.location.href = "../index.html";
+        }
     </script>
-
 </body>
-          </html>
+</html>
