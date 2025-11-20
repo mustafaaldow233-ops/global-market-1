@@ -46,6 +46,35 @@
     <a href="posts.html" class="cat">المنشورات</a>
     <a href="help.html" class="cat">المساعدة</a>
 </div>
+<script>
+    function updateUserArea(){
+        let loggedIn = localStorage.getItem("loggedIn");
+        let user = JSON.parse(localStorage.getItem("user"));
+        let userArea = document.getElementById("userArea");
 
+        if(loggedIn === "yes" && user){
+            userArea.innerHTML = `
+                <span>مرحباً، ${user.name}</span>
+                <button onclick="logout()" class="search-btn" style="background:#555;">
+                    تسجيل خروج
+                </button>
+            `;
+        } else {
+            userArea.innerHTML = `
+                <a href="pages/login.html" class="search-btn" style="text-decoration:none;">
+                    تسجيل الدخول
+                </a>
+            `;
+        }
+    }
+
+    function logout(){
+        localStorage.removeItem("loggedIn");
+        alert("تم تسجيل الخروج");
+        window.location.href = "index.html";
+    }
+
+    updateUserArea();
+</script>
 </body>
 </html>
