@@ -1,0 +1,115 @@
+/* الأساسيات */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+body {
+  background: #f5f5f5;
+  direction: rtl;
+}
+
+/* الهيدر */
+.header {
+  background: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+}
+
+.site-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-right: 10px;
+  color: #333;
+}
+
+.header-right {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.lang-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  background: #eee;
+  cursor: pointer;
+}
+
+/* مربع البحث */
+.search-row {
+  margin: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.search-btn {
+  padding: 12px 20px;
+  background: #0066ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* الشبكة */
+.grid {
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 15px;
+}
+
+.card {
+  background: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* الفوتر */
+.footer {
+  text-align: center;
+  padding: 12px;
+  margin-top: 25px;
+  color: #555;
+}
