@@ -1,96 +1,85 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول</title>
-    <link rel="stylesheet" href="../styles.css">
-</head>
 
+    <style>
+        body{
+            font-family: sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box{
+            background: #fff;
+            padding: 25px;
+            width: 320px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+        input{
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+        }
+        button{
+            width: 100%;
+            padding: 10px;
+            background: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        a{
+            text-decoration: none;
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
 <body>
 
-    <div class="container">
+<div class="box">
+    <h2>تسجيل الدخول</h2>
 
-        <h2 style="text-align:center;">تسجيل الدخول</h2>
+    <input type="email" id="email" placeholder="الإيميل">
+    <input type="password" id="password" placeholder="كلمة السر">
 
-        <form id="loginForm" class="result-item" style="max-width:450px;margin:20px auto;">
-            
-            <label>البريد الإلكتروني</label>
-            <input type="email" id="email" required class="search-input" placeholder="example@gmail.com">
+    <button onclick="login()">دخول</button>
 
-            <label>كلمة المرور</label>
-            <input type="password" id="password" required class="search-input" placeholder="••••••••">
+    <a href="signup.html">إنشاء حساب</a>
+</div>
 
-            <button type="submit" class="search-btn" style="width:100%;margin-top:10px;">
-                تسجيل الدخول
-            </button>
-
-            <p style="text-align:center;margin-top:12px;">
-                ماعندك حساب؟ <a href="register.html" style="color:#e62e2e;">إنشاء حساب</a>
-            </p>
-
-        </form>
-
-    </div>
-
-    <script>
-        const loginForm = document.getElementById("loginForm");
-
-        loginForm.addEventListener("submit", function(e){
-            e.preventDefault();
-
-            let email = document.getElementById("email").value.trim();
-            let password = document.getElementById("password").value.trim();
-
-            let savedUser = JSON.parse(localStorage.getItem("user"));
-
-            if(!savedUser){
-                alert("لا يوجد حساب مسجل! قم بإنشاء حساب أولاً.");
-                return;
-            }
-
-            if(email === savedUser.email && password === savedUser.password){
-                alert("تم تسجيل الدخول بنجاح!");
-
-                // حفظ الجلسة
-                localStorage.setItem("loggedIn", "yes");
-
-                // تحويل للصفحة الرئيسية
-                window.location.href = "../index.html";
-            } else {
-                alert("البريد الإلكتروني أو كلمة المرور غير صحيحة");
-            }
-        });
-    </script>
 <script>
-    function updateUserArea(){
-        let loggedIn = localStorage.getItem("loggedIn");
-        let user = JSON.parse(localStorage.getItem("user"));
-        let userArea = document.getElementById("userArea");
+function login(){
+    let email = document.getElementById("email").value;
+    let pass = document.getElementById("password").value;
 
-        if(loggedIn === "yes" && user){
-            userArea.innerHTML = `
-                <span>مرحباً، ${user.name}</span>
-                <button onclick="logout()" class="search-btn" style="background:#555;">
-                    تسجيل خروج
-                </button>
-            `;
-        } else {
-            userArea.innerHTML = `
-                <a href="pages/login.html" class="search-btn" style="text-decoration:none;">
-                    تسجيل الدخول
-                </a>
-            `;
-        }
+    if(email === "" || pass === ""){
+        alert("أدخل الإيميل وكلمة السر");
+        return;
     }
 
-    function logout(){
-        localStorage.removeItem("loggedIn");
-        alert("تم تسجيل الخروج");
-        window.location.href = "index.html";
-    }
+    // مجرد Login وهمي
+    let user = {
+        name: email.split("@")[0],
+        email: email
+    };
 
-    updateUserArea();
+    localStorage.setItem("loggedIn", "yes");
+    localStorage.setItem("user", JSON.stringify(user));
+
+    alert("تم تسجيل الدخول");
+    window.location.href = "../index.html";
+}
 </script>
+
 </body>
 </html>
