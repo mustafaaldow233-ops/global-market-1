@@ -1,76 +1,44 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>المنشورات</title>
-    <link rel="stylesheet" href="../assets/css/main.css">
+<meta charset="UTF-8"/>
+<title>كل الإعلانات</title>
 
-    <style>
-        body {background:#f5f5f5;}
-        .posts-box{
-            max-width:1000px;
-            margin:20px auto;
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-            gap:16px;
-        }
-        .post{
-            background:#fff;
-            padding:15px;
-            border-radius:12px;
-            border:1px solid #ddd;
-        }
-        .post img{
-            width:100%;
-            height:160px;
-            object-fit:cover;
-            border-radius:10px;
-        }
-        .post h3{margin:10px 0;font-size:20px;}
-        .btn{
-            display:block;
-            text-align:center;
-            padding:10px;
-            margin-top:10px;
-            background:#0066ff;
-            color:white;
-            text-decoration:none;
-            border-radius:10px;
-        }
-        .no-posts{
-            text-align:center;
-            padding:30px;
-            font-size:22px;
-            color:#444;
-        }
-    </style>
+<style>
+body{background:#f5f5f5;font-family:tahoma;}
+.top{padding:15px;background:#fff;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;}
+.card{background:#fff;padding:15px;margin:12px;border-radius:10px;border:1px solid #ddd;}
+.btn{padding:8px 14px;background:#0066ff;color:#fff;border-radius:8px;text-decoration:none;margin-right:10px;}
+</style>
 </head>
 
 <body>
 
-<h2 style="text-align:center;margin:20px;">المنشورات</h2>
+<div class="top">
+<h3>الإعلانات</h3>
+<a class="btn" href="add-post.html">+ إعلان جديد</a>
+</div>
 
-<div class="posts-box" id="postsList"></div>
+<div id="list"></div>
 
 <script>
-    // تحميل المنشورات من localStorage
-    const posts = JSON.parse(localStorage.getItem("posts")) || [];
-    const container = document.getElementById("postsList");
+function loadPosts(){
+    let posts = JSON.parse(localStorage.getItem("posts") || "[]");
+    let box = "";
 
-    if(posts.length === 0){
-        container.innerHTML = `<div class="no-posts">لا توجد منشورات حالياً</div>`;
-    } else {
-        posts.forEach((p, index)=>{
-            container.innerHTML += `
-                <div class="post">
-                    <img src="${p.image || '../assets/img/no-img.png'}">
-                    <h3>${p.title}</h3>
-                    <p>${p.price} جنيه</p>
-                    <a class="btn" href="view-post.html?post=${index}">عرض</a>
-                </div>
-            `;
-        });
-    }
+    posts.forEach((p,i)=>{
+        box += `
+        <div class="card">
+            <h3>${p.title}</h3>
+            <p>${p.text}</p>
+            <a class="btn" href="post.html?id=${i}">عرض</a>
+        </div>`;
+    });
+
+    document.getElementById("list").innerHTML = box || "<p style='text-align:center'>لا توجد إعلانات</p>";
+}
+
+loadPosts();
 </script>
 
 </body>
