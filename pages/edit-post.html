@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>تعديل منشور</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<h2 class="page-title">تعديل المنشور</h2>
+
+<div class="form-container">
+    <form id="editPostForm">
+
+        <label>عنوان المنشور:</label>
+        <input type="text" id="editTitle" required>
+
+        <label>الوصف:</label>
+        <textarea id="editDescription" required></textarea>
+
+        <label>تغيير الصورة (اختياري):</label>
+        <input type="file" id="editImage">
+
+        <button type="submit" class="btn">حفظ التعديلات</button>
+
+    </form>
+</div>
+
+<script src="../scripts/posts.js"></script>
+</body>
+</html>
