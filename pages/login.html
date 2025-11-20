@@ -1,56 +1,67 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<title>تسجيل الدخول</title>
-
-<style>
-body{background:#f5f5f5;}
-.box{max-width:420px;margin:40px auto;background:#fff;padding:25px;border-radius:12px;border:1px solid #ddd;box-shadow:0 6px 14px rgba(0,0,0,0.08);}
-h2{text-align:center;color:#0066ff;margin-bottom:20px;}
-.in{margin-bottom:15px;display:flex;flex-direction:column;}
-input{padding:10px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
-button{width:100%;padding:12px;border:none;background:#0066ff;color:#fff;font-size:18px;border-radius:8px;cursor:pointer;margin-top:10px;}
-.link{text-align:center;margin-top:15px;}
-a{color:#0066ff;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <link rel="stylesheet" href="../styles.css">
 </head>
 
 <body>
-<div class="box">
-<h2>تسجيل الدخول</h2>
 
-<div class="in">
-<label>البريد الإلكتروني</label>
-<input type="email" id="email">
-</div>
+    <div class="container">
 
-<div class="in">
-<label>كلمة المرور</label>
-<input type="password" id="pass">
-</div>
+        <h2 style="text-align:center;">تسجيل الدخول</h2>
 
-<button onclick="login()">دخول</button>
+        <form id="loginForm" class="result-item" style="max-width:450px;margin:20px auto;">
+            
+            <label>البريد الإلكتروني</label>
+            <input type="email" id="email" required class="search-input" placeholder="example@gmail.com">
 
-<div class="link">
-ما عندك حساب؟ <a href="signup.html">إنشاء حساب</a>
-</div>
-</div>
+            <label>كلمة المرور</label>
+            <input type="password" id="password" required class="search-input" placeholder="••••••••">
 
-<script>
-function login(){
-    let saved = JSON.parse(localStorage.getItem("user"));
-    if(!saved){ alert("لا يوجد حساب — سجل حساب أولاً"); return; }
+            <button type="submit" class="search-btn" style="width:100%;margin-top:10px;">
+                تسجيل الدخول
+            </button>
 
-    if(email.value === saved.email && pass.value === saved.pass){
-        localStorage.setItem("logged", "1");
-        alert("تم تسجيل الدخول");
-        location.href = "posts.html";
-    } else {
-        alert("خطأ في البيانات");
-    }
-}
-</script>
+            <p style="text-align:center;margin-top:12px;">
+                ماعندك حساب؟ <a href="register.html" style="color:#e62e2e;">إنشاء حساب</a>
+            </p>
+
+        </form>
+
+    </div>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+
+        loginForm.addEventListener("submit", function(e){
+            e.preventDefault();
+
+            let email = document.getElementById("email").value.trim();
+            let password = document.getElementById("password").value.trim();
+
+            let savedUser = JSON.parse(localStorage.getItem("user"));
+
+            if(!savedUser){
+                alert("لا يوجد حساب مسجل! قم بإنشاء حساب أولاً.");
+                return;
+            }
+
+            if(email === savedUser.email && password === savedUser.password){
+                alert("تم تسجيل الدخول بنجاح!");
+
+                // حفظ الجلسة
+                localStorage.setItem("loggedIn", "yes");
+
+                // تحويل للصفحة الرئيسية
+                window.location.href = "../index.html";
+            } else {
+                alert("البريد الإلكتروني أو كلمة المرور غير صحيحة");
+            }
+        });
+    </script>
 
 </body>
 </html>
