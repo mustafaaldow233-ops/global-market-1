@@ -1,45 +1,26 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-<meta charset="UTF-8"/>
-<title>كل الإعلانات</title>
-
-<style>
-body{background:#f5f5f5;font-family:tahoma;}
-.top{padding:15px;background:#fff;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;}
-.card{background:#fff;padding:15px;margin:12px;border-radius:10px;border:1px solid #ddd;}
-.btn{padding:8px 14px;background:#0066ff;color:#fff;border-radius:8px;text-decoration:none;margin-right:10px;}
-</style>
+    <meta charset="UTF-8">
+    <title>المنشورات</title>
+    <link rel="stylesheet" href="../styles.css">
 </head>
 
 <body>
 
-<div class="top">
-<h3>الإعلانات</h3>
-<a class="btn" href="add-post.html">+ إعلان جديد</a>
-</div>
+    <div class="container">
 
-<div id="list"></div>
+        <h2 class="page-title">جميع المنشورات</h2>
 
-<script>
-function loadPosts(){
-    let posts = JSON.parse(localStorage.getItem("posts") || "[]");
-    let box = "";
+        <a href="add-post.html" class="add-btn">➕ إضافة منشور</a>
 
-    posts.forEach((p,i)=>{
-        box += `
-        <div class="card">
-            <h3>${p.title}</h3>
-            <p>${p.text}</p>
-            <a class="btn" href="post.html?id=${i}">عرض</a>
-        </div>`;
-    });
+        <div id="postsList" class="posts-grid">
+            <!-- يتم تحميل المنشورات من posts.js -->
+        </div>
 
-    document.getElementById("list").innerHTML = box || "<p style='text-align:center'>لا توجد إعلانات</p>";
-}
+    </div>
 
-loadPosts();
-</script>
+    <script src="../scripts/posts.js"></script>
 
 </body>
 </html>
