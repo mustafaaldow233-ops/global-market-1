@@ -1,37 +1,71 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>إنشاء حساب</title>
-  <link rel="stylesheet" href="../assets/css/main.css">
-  <style>
-    .form-box {max-width:400px;margin:40px auto;background:#fff;padding:20px;border-radius:12px;border:1px solid #ddd;}
-    input {width:100%;padding:12px;margin:10px 0;border:1px solid #ccc;border-radius:8px;}
-    button {width:100%;padding:12px;background:#28a745;color:#fff;border:0;border-radius:10px;font-size:16px;cursor:pointer;}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب</title>
+    <link rel="stylesheet" href="../styles.css">
 </head>
+
 <body>
 
-<div class="form-box">
-  <h2>إنشاء حساب</h2>
+    <div class="container">
 
-  <input type="text" placeholder="الاسم كامل">
-  <input type="text" placeholder="البريد أو الهاتف">
-  <input type="password" placeholder="كلمة السر">
+        <h2 style="text-align:center;">إنشاء حساب جديد</h2>
 
-  <button onclick="register()">إنشاء حساب</button>
+        <form id="registerForm" class="result-item" style="max-width:450px;margin:20px auto;">
+            
+            <label>الاسم الكامل</label>
+            <input type="text" id="name" required class="search-input" placeholder="ادخل اسمك">
 
-  <p style="margin-top:10px;text-align:center;">
-    عندك حساب؟ <a href="login.html">تسجيل دخول</a>
-  </p>
-</div>
+            <label>البريد الإلكتروني</label>
+            <input type="email" id="email" required class="search-input" placeholder="example@gmail.com">
 
-<script>
-function register() {
-  alert("تم إنشاء الحساب ✔");
-  location.href = "login.html";
-}
-</script>
+            <label>كلمة المرور</label>
+            <input type="password" id="password" required class="search-input" placeholder="••••••••">
+
+            <button type="submit" class="search-btn" style="width:100%;margin-top:10px;">
+                إنشاء حساب
+            </button>
+
+            <p style="text-align:center;margin-top:12px;">
+                لديك حساب؟ <a href="login.html" style="color:#e62e2e;">تسجيل الدخول</a>
+            </p>
+
+        </form>
+
+    </div>
+
+    <script>
+        const registerForm = document.getElementById("registerForm");
+
+        registerForm.addEventListener("submit", function(e){
+            e.preventDefault();
+
+            let name = document.getElementById("name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let password = document.getElementById("password").value.trim();
+
+            if(name === "" || email === "" || password === ""){
+                alert("الرجاء ملء جميع الحقول");
+                return;
+            }
+
+            // حفظ البيانات داخل localStorage
+            let user = {
+                name: name,
+                email: email,
+                password: password
+            };
+
+            localStorage.setItem("user", JSON.stringify(user));
+
+            alert("تم إنشاء الحساب بنجاح!");
+
+            // تحويل إلى صفحة تسجيل الدخول
+            window.location.href = "login.html";
+        });
+    </script>
 
 </body>
-</html>
+          </html>
