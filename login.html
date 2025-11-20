@@ -1,124 +1,55 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #121212;
-            margin: 0;
-            color: #fff;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 380px;
-            margin: 80px auto;
-            background: #1e1e1e;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px #00000055;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #8ab4f8;
-        }
-
-        label {
-            font-size: 15px;
-            margin-bottom: 6px;
-            display: block;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 6px;
-            color: #fff;
-            margin-bottom: 15px;
-            outline: none;
-            font-size: 16px;
-        }
-
-        input:focus {
-            border-color: #8ab4f8;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #8ab4f8;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            color: #000;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background: #6d9ef3;
-        }
-
-        .link {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .link a {
-            color: #8ab4f8;
-            text-decoration: none;
-            font-size: 14px;
-        }
-    </style>
+    <link rel="stylesheet" href="login.css">
 </head>
-
 <body>
 
-    <div class="container">
-        <h2>تسجيل الدخول</h2>
+<div class="login-box">
+    <h2>تسجيل الدخول</h2>
 
-        <label>البريد الإلكتروني</label>
-        <input type="email" id="email">
-
-        <label>كلمة المرور</label>
-        <input type="password" id="password">
-
-        <button onclick="login()">دخول</button>
-
-        <div class="link">
-            <a href="register.html">ما عندك حساب؟ إنشاء حساب</a>
+    <form id="loginForm">
+        <div class="input-field">
+            <input type="text" id="email" required>
+            <label>البريد الإلكتروني</label>
         </div>
-    </div>
 
-    <script>
-        function login(){
-            let email = document.getElementById("email").value;
-            let pass = document.getElementById("password").value;
+        <div class="input-field">
+            <input type="password" id="password" required>
+            <label>كلمة المرور</label>
+        </div>
 
-            let user = JSON.parse(localStorage.getItem("user"));
+        <button type="submit" class="btn">دخول</button>
+    </form>
 
-            if(!user){
-                alert("لا يوجد حساب مسجل!");
-                return;
-            }
+    <p class="msg" id="msg"></p>
 
-            if(email === user.email && pass === user.password){
-                localStorage.setItem("loggedIn", "yes");
-                alert("تم تسجيل الدخول");
-                window.location.href = "../index.html";
-            } else {
-                alert("البريد أو كلمة المرور غير صحيحة");
-            }
+</div>
+
+<script>
+    // Login Validation (Fake)
+    document.getElementById("loginForm").addEventListener("submit", function(e){
+        e.preventDefault();
+
+        let email = document.getElementById("email").value;
+        let pass  = document.getElementById("password").value;
+        let msg   = document.getElementById("msg");
+
+        if(email === "test@gmail.com" && pass === "123456"){
+            msg.style.color = "green";
+            msg.innerHTML = "تم تسجيل الدخول بنجاح 👌";
+            setTimeout(() => {
+                window.location.href = "index.html"; // بعد الدخول
+            }, 1500);
+        } else {
+            msg.style.color = "red";
+            msg.innerHTML = "البريد أو كلمة المرور غير صحيحة ❌";
         }
-    </script>
+    });
+</script>
 
 </body>
-    </html>
+</html>
