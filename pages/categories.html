@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>الأقسام</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+
+    <style>
+        body{background:#f5f5f5;}
+        h2{text-align:center;margin:20px 0;color:#0066ff;}
+        .cats{
+            max-width:1000px;
+            margin:20px auto;
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:16px;
+        }
+        .cat{
+            background:#fff;
+            padding:20px;
+            border-radius:12px;
+            border:1px solid #ddd;
+            text-align:center;
+            font-size:19px;
+            text-decoration:none;
+            color:#222;
+            transition:0.25s;
+        }
+        .cat:hover{
+            background:#0066ff;
+            color:#fff;
+            transform:translateY(-3px);
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>الأقسام</h2>
+
+<div class="cats">
+    <a href="cars.html" class="cat">السيارات</a>
+    <a href="hotels.html" class="cat">الفنادق</a>
+    <a href="flights.html" class="cat">الطيران</a>
+    <a href="transport.html" class="cat">النقل</a>
+    <a href="posts.html" class="cat">المنشورات</a>
+    <a href="help.html" class="cat">المساعدة</a>
+</div>
+
+</body>
+</html>
