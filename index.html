@@ -1,3 +1,8 @@
+<script>
+if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "login.html";
+}
+</script>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -30,6 +35,13 @@
   </style>
 </head>
 <body>
+  <script>
+document.getElementById("logoutBtn").addEventListener("click", function () {
+    localStorage.removeItem("loggedIn");
+    alert("تم تسجيل الخروج");
+    window.location.href = "login.html";
+});
+  </script>
   <script>
 let area = document.getElementById("user-area");
 let user = localStorage.getItem("gm_user");
