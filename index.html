@@ -333,9 +333,7 @@ function logout(){
       out.innerHTML = '<div class="box empty-box">ابحث: '+ q + ' — تأكد إنك رفعت ملف data/api_data.json وscripts.js لنتائج حقيقية.</div>';
     }
   </script>
-
-</body>
-    <script>
+<script>
     function updateUserArea(){
         let loggedIn = localStorage.getItem("loggedIn");
         let user = JSON.parse(localStorage.getItem("user"));
@@ -364,5 +362,7 @@ function logout(){
     }
 
     updateUserArea();
-    </script>
+</script>
+</body>
+
 </html>
