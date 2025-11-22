@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>إنشاء حساب</title>
+</head>
+
+<body>
+
+    <h2>إنشاء حساب جديد</h2>
+
+    <input id="signupEmail" type="email" placeholder="البريد">
+    <br><br>
+
+    <input id="signupPassword" type="password" placeholder="كلمة المرور">
+    <br><br>
+
+    <button id="signupBtn">إنشاء حساب</button>
+
+    <p id="status"></p>
+
+    <script type="module">
+        import { auth } from "./firebase.js";
+        import { createUserWithEmailAndPassword } 
+        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const btn = document.getElementById("signupBtn");
+
+        btn.addEventListener("click", async () => {
+            const email = document.getElementById("signupEmail").value;
+            const pass = document.getElementById("signupPassword").value;
+
+            try {
+                await createUserWithEmailAndPassword(auth, email, pass);
+                alert("تم إنشاء الحساب بنجاح");
+                window.location.href = "login.html";
+            } catch (error) {
+                document.getElementById("status").textContent = error.message;
+            }
+        });
+    </script>
+
+</body>
+</html>
