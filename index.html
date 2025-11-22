@@ -1,370 +1,552 @@
-<script>
-if (localStorage.getItem("loggedIn") !== "true") {
-    window.location.href = "login.html";
-}
-</script>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <link rel="stylesheet" href="assets/css/styles.css">
-<script src="assets/js/main.js" defer></script>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>السوق العالمي — Global Market</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>السوق العالمي — الصفحة الرئيسية</title>
 
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* تنسيق احتياطي خفيف لو ما رفعّت styles.css */
-    :root{--primary:#e62e2e}
-    body{margin:0;font-family:Tahoma,Arial,sans-serif;direction:rtl;background:#f7f7f8;color:#111}
-    .container{max-width:1100px;margin:18px auto;padding:0 14px}
-    .header{background:#fff;border-bottom:1px solid #eee;padding:14px;display:flex;align-items:center;gap:12px}
-    .logo-img{width:52px;height:52px;object-fit:contain;border-radius:8px}
-    .site-title{font-weight:700;color:var(--primary);font-size:20px}
-    .header-right{margin-left:auto;display:flex;gap:8px;align-items:center}
-    .lang-btn{padding:8px 10px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer}
-    .box{background:#fff;padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(12,12,15,0.06)}
-    .search-row{display:flex;gap:10px;margin-top:12px}
-    .search-input{flex:1;padding:12px;border-radius:10px;border:1px solid #e6e6e6}
-    .search-btn{padding:12px 16px;border-radius:10px;border:none;background:var(--primary);color:#fff;cursor:pointer;font-weight:700}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:14px}
-    .card{background:#fff;border-radius:12px;padding:16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 18px rgba(12,12,15,0.05);text-decoration:none;color:inherit}
-    .card h3{margin:0;font-size:16px}
-    .footer{text-align:center;padding:18px;color:#777;margin-top:30px}
-    #results{margin-top:14px}
+    :root{
+      --bg: #0f1112;
+      --card: #0f1314;
+      --muted: #9aa4b2;
+      --accent: #0066ff;
+      --accent2: #ff2d55;
+      --text: #e9eef5;
+      --panel: #121212;
+      --white-card: #ffffff;
+    }
+    html,body{height:100%; margin:0; font-family:Inter, "Noto Naskh Arabic", Arial, sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;}
+    a{color:var(--accent); text-decoration:none}
+    .container{max-width:1100px; margin:18px auto; padding:0 16px;}
+    /* Header */
+    header{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px;}
+    .brand{display:flex; align-items:center; gap:12px;}
+    .logo{width:56px; height:56px; border-radius:10px; background:linear-gradient(135deg,var(--accent), #00bfff); display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; font-size:20px;}
+    .site-title{font-size:22px; font-weight:700;}
+    .top-controls{display:flex; gap:12px; align-items:center;}
+    .country-select, .search-wrap, .auth-wrap{background:var(--panel); padding:8px; border-radius:10px;}
+    select{background:transparent; border:none; color:var(--text); font-weight:600; direction:ltr; padding:4px 8px;}
+    .search-wrap{display:flex; align-items:center; gap:8px;}
+    .search-wrap input{background:transparent; border:none; color:var(--text); outline:none; width:220px; padding:6px}
+    .btn{background:var(--accent); color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;}
+    .btn.secondary{background:#222; color:var(--text); border:1px solid #2a2a2a;}
+    .auth-wrap button{padding:8px 10px; border-radius:8px; border:none; cursor:pointer; font-weight:600;}
+    /* layout */
+    .layout{display:flex; gap:18px;}
+    nav.aside{width:230px; background:transparent; padding:6px; border-radius:10px;}
+    nav.aside ul{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;}
+    nav.aside li{background:#0b0c0d; padding:12px 14px; border-radius:10px; cursor:pointer; color:#cfe6ff;}
+    nav.aside li.important{color:#ff56a1}
+    main{flex:1; min-height:60vh;}
+    .hero{background:linear-gradient(180deg,#0c0d0e, #101317); padding:18px; border-radius:12px; margin-bottom:14px; display:flex; gap:16px; align-items:center; justify-content:space-between;}
+    .hero h1{margin:0; font-size:28px;}
+    .hero .quick-actions{display:flex; gap:10px;}
+    .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px;}
+    .card{background:var(--card); padding:12px; border-radius:12px; min-height:120px; box-shadow:0 6px 18px rgba(0,0,0,0.5);}
+    .card h3{margin:0 0 6px 0; font-size:18px;}
+    .card p{margin:0; color:var(--muted); font-size:14px;}
+    /* footer */
+    footer{margin-top:28px; padding:20px; border-top:1px solid rgba(255,255,255,0.03); color:var(--muted); text-align:center;}
+    /* auth modal */
+    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:999;}
+    .modal{background:var(--panel); width:360px; max-width:95%; border-radius:12px; padding:18px; box-shadow:0 20px 40px rgba(0,0,0,0.6);}
+    .modal h2{margin:0 0 8px 0; font-size:20px; color:var(--text)}
+    .form-group{display:flex; flex-direction:column; gap:6px; margin-bottom:10px;}
+    .form-group label{font-size:14px; color:var(--muted);}
+    .form-group input{padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:var(--text);}
+    .row{display:flex; gap:8px;}
+    .small{font-size:13px; color:var(--muted)}
+    .user-info{display:flex; align-items:center; gap:8px; background:#0b0c0d; padding:8px 12px; border-radius:10px;}
+    /* responsive */
+    @media (max-width:900px){
+      header{flex-direction:column; align-items:flex-start; gap:12px;}
+      .layout{flex-direction:column;}
+      nav.aside{width:100%; display:flex; overflow:auto;}
+      nav.aside ul{flex-direction:row; gap:8px;}
+      nav.aside li{min-width:110px; text-align:center;}
+    }
   </style>
 </head>
 <body>
-  <script>
-document.getElementById("logoutBtn").addEventListener("click", function () {
-    localStorage.removeItem("loggedIn");
-    alert("تم تسجيل الخروج");
-    window.location.href = "login.html";
-});
-  </script>
-  <script>
-let area = document.getElementById("user-area");
-let user = localStorage.getItem("gm_user");
-let logged = localStorage.getItem("gm_logged_in");
 
-if(user && logged === "true"){
-    user = JSON.parse(user);
-    area.innerHTML = `
-        <span>مرحباً، ${user.name}</span>
-        <button onclick="logout()" style="padding:6px 10px; background:#e62e2e; color:#fff; border:none; border-radius:8px; margin-right:10px;">خروج</button>
-    `;
-} else {
-    area.innerHTML = `
-        <a href="pages/login.html" style="color:var(--primary); font-weight:bold;">تسجيل دخول</a>
-    `;
-}
-
-function logout(){
-    localStorage.removeItem("gm_logged_in");
-    window.location.reload();
-}
-  </script>
-
-  <div class="header">
-
-    <img src="logo/logo.png" class="logo-img">
-
-    <h1 class="site-title">Global Market</h1>
-
-    <div class="header-right" id="userArea">
-        <!-- هنا يظهر (تسجيل دخول) أو (اسم المستخدم + خروج) -->
-    </div>
-
-  </div>
-  <nav class="nav">
-    <li><a href="#" id="logoutBtn">تسجيل الخروج</a></li>
-    <ul class="nav-links">
-        <li><a href="index.html">الرئيسية</a></li>
-        <li><a href="pages/cars.html">السيارات</a></li>
-        <li><a href="pages/hotels.html">الفنادق</a></li>
-        <li><a href="pages/flights.html">الطيران</a></li>
-        <li><a href="pages/transport.html">النقل</a></li>
-        <li><a href="pages/market.html">السوق</a></li>
-        <li><a href="pages/login.html">تسجيل الدخول</a></li>
-    </ul>
-                                                         </nav>
-
-  <main class="container" style="margin-top:18px">
-
-    <div class="box">
-
-      <h3>اختر الدولة</h3>
-
-      <!-- ======= استبدل أي select قديم بهذا (قائمة كاملة 195 دولة) ======= -->
-      <select id="country-select">
-        <option value="">محلي (جميع دول العالم)</option>
-        <option value="AF">Afghanistan - أفغانستان</option>
-        <option value="AL">Albania - ألبانيا</option>
-        <option value="DZ">Algeria - الجزائر</option>
-        <option value="AD">Andorra - أندورا</option>
-        <option value="AO">Angola - أنغولا</option>
-        <option value="AG">Antigua and Barbuda - أنتيغوا وباربودا</option>
-        <option value="AR">Argentina - الأرجنتين</option>
-        <option value="AM">Armenia - أرمينيا</option>
-        <option value="AU">Australia - أستراليا</option>
-        <option value="AT">Austria - النمسا</option>
-        <option value="AZ">Azerbaijan - أذربيجان</option>
-        <option value="BS">Bahamas - الباهاماس</option>
-        <option value="BH">Bahrain - البحرين</option>
-        <option value="BD">Bangladesh - بنغلاديش</option>
-        <option value="BB">Barbados - بربادوس</option>
-        <option value="BY">Belarus - بيلاروسيا</option>
-        <option value="BE">Belgium - بلجيكا</option>
-        <option value="BZ">Belize - بليز</option>
-        <option value="BJ">Benin - بنين</option>
-        <option value="BT">Bhutan - بوتان</option>
-        <option value="BO">Bolivia - بوليفيا</option>
-        <option value="BA">Bosnia and Herzegovina - البوسنة والهرسك</option>
-        <option value="BW">Botswana - بوتسوانا</option>
-        <option value="BR">Brazil - البرازيل</option>
-        <option value="BN">Brunei - بروناي</option>
-        <option value="BG">Bulgaria - بلغاريا</option>
-        <option value="BF">Burkina Faso - بوركينا فاسو</option>
-        <option value="BI">Burundi - بوروندي</option>
-        <option value="KH">Cambodia - كمبوديا</option>
-        <option value="CM">Cameroon - الكاميرون</option>
-        <option value="CA">Canada - كندا</option>
-        <option value="CV">Cape Verde - الرأس الأخضر</option>
-        <option value="CF">Central African Republic - إفريقيا الوسطى</option>
-        <option value="TD">Chad - تشاد</option>
-        <option value="CL">Chile - تشيلي</option>
-        <option value="CN">China - الصين</option>
-        <option value="CO">Colombia - كولومبيا</option>
-        <option value="KM">Comoros - جزر القمر</option>
-        <option value="CG">Congo - الكونغو (برازافيل)</option>
-        <option value="CD">DR Congo - الكونغو الديمقراطية</option>
-        <option value="CR">Costa Rica - كوستاريكا</option>
-        <option value="HR">Croatia - كرواتيا</option>
-        <option value="CU">Cuba - كوبا</option>
-        <option value="CY">Cyprus - قبرص</option>
-        <option value="CZ">Czechia - التشيك</option>
-        <option value="DK">Denmark - الدنمارك</option>
-        <option value="DJ">Djibouti - جيبوتي</option>
-        <option value="DM">Dominica - دومينيكا</option>
-        <option value="DO">Dominican Republic - الدومينيكان</option>
-        <option value="EC">Ecuador - الإكوادور</option>
-        <option value="EG">Egypt - مصر</option>
-        <option value="SV">El Salvador - السلفادور</option>
-        <option value="GQ">Equatorial Guinea - غينيا الاستوائية</option>
-        <option value="ER">Eritrea - إريتريا</option>
-        <option value="EE">Estonia - إستونيا</option>
-        <option value="ET">Ethiopia - إثيوبيا</option>
-        <option value="FJ">Fiji - فيجي</option>
-        <option value="FI">Finland - فنلندا</option>
-        <option value="FR">France - فرنسا</option>
-        <option value="GA">Gabon - الغابون</option>
-        <option value="GM">Gambia - غامبيا</option>
-        <option value="GE">Georgia - جورجيا</option>
-        <option value="DE">Germany - ألمانيا</option>
-        <option value="GH">Ghana - غانا</option>
-        <option value="GR">Greece - اليونان</option>
-        <option value="GD">Grenada - غرينادا</option>
-        <option value="GT">Guatemala - غواتيمالا</option>
-        <option value="GN">Guinea - غينيا</option>
-        <option value="GW">Guinea-Bissau - غينيا بيساو</option>
-        <option value="GY">Guyana - غيانا</option>
-        <option value="HT">Haiti - هايتي</option>
-        <option value="HN">Honduras - هندوراس</option>
-        <option value="HU">Hungary - المجر</option>
-        <option value="IS">Iceland - آيسلندا</option>
-        <option value="IN">India - الهند</option>
-        <option value="ID">Indonesia - إندونيسيا</option>
-        <option value="IR">Iran - إيران</option>
-        <option value="IQ">Iraq - العراق</option>
-        <option value="IE">Ireland - إيرلندا</option>
-        <option value="IL">Israel - إسرائيل</option>
-        <option value="IT">Italy - إيطاليا</option>
-        <option value="JM">Jamaica - جامايكا</option>
-        <option value="JP">Japan - اليابان</option>
-        <option value="JO">Jordan - الأردن</option>
-        <option value="KZ">Kazakhstan - كازاخستان</option>
-        <option value="KE">Kenya - كينيا</option>
-        <option value="KI">Kiribati - كيريباتي</option>
-        <option value="KW">Kuwait - الكويت</option>
-        <option value="KG">Kyrgyzstan - قيرغيزستان</option>
-        <option value="LA">Laos - لاوس</option>
-        <option value="LV">Latvia - لاتفيا</option>
-        <option value="LB">Lebanon - لبنان</option>
-        <option value="LS">Lesotho - ليسوتو</option>
-        <option value="LR">Liberia - ليبيريا</option>
-        <option value="LY">Libya - ليبيا</option>
-        <option value="LI">Liechtenstein - ليختنشتاين</option>
-        <option value="LT">Lithuania - ليتوانيا</option>
-        <option value="LU">Luxembourg - لوكسمبورغ</option>
-        <option value="MG">Madagascar - مدغشقر</option>
-        <option value="MW">Malawi - ملاوي</option>
-        <option value="MY">Malaysia - ماليзيا</option>
-        <option value="MV">Maldives - المالديف</option>
-        <option value="ML">Mali - مالي</option>
-        <option value="MT">Malta - مالطا</option>
-        <option value="MH">Marshall Islands - جزر مارشال</option>
-        <option value="MR">Mauritania - موريتانيا</option>
-        <option value="MU">Mauritius - موريشيوس</option>
-        <option value="MX">Mexico - المكسيك</option>
-        <option value="FM">Micronesia - ميكرونيسيا</option>
-        <option value="MD">Moldova - مولدوفا</option>
-        <option value="MC">Monaco - موناكو</option>
-        <option value="MN">Mongolia - منغوليا</option>
-        <option value="ME">Montenegro - الجبل الأسود</option>
-        <option value="MA">Morocco - المغرب</option>
-        <option value="MZ">Mozambique - موزمبيق</option>
-        <option value="MM">Myanmar - ميانمار</option>
-        <option value="NA">Namibia - ناميبيا</option>
-        <option value="NR">Nauru - ناورو</option>
-        <option value="NP">Nepal - نيبال</option>
-        <option value="NL">Netherlands - هولندا</option>
-        <option value="NZ">New Zealand - نيوزيلندا</option>
-        <option value="NI">Nicaragua - نيكاراغوا</option>
-        <option value="NE">Niger - النيجر</option>
-        <option value="NG">Nigeria - نيجيريا</option>
-        <option value="KP">North Korea - كوريا الشمالية</option>
-        <option value="NO">Norway - النرويج</option>
-        <option value="OM">Oman - عُمان</option>
-        <option value="PK">Pakistan - باكستان</option>
-        <option value="PW">Palau - بالاو</option>
-        <option value="PA">Panama - بنما</option>
-        <option value="PG">Papua New Guinea - بابوا غينيا الجديدة</option>
-        <option value="PY">Paraguay - باراغواي</option>
-        <option value="PE">Peru - البيرو</option>
-        <option value="PH">Philippines - الفلبين</option>
-        <option value="PL">Poland - بولندا</option>
-        <option value="PT">Portugal - البرتغال</option>
-        <option value="QA">Qatar - قطر</option>
-        <option value="RO">Romania - رومانيا</option>
-        <option value="RU">Russia - روسيا</option>
-        <option value="RW">Rwanda - رواندا</option>
-        <option value="KN">Saint Kitts and Nevis - سانت كيتس ونيفيس</option>
-        <option value="LC">Saint Lucia - سانت لوسيا</option>
-        <option value="VC">Saint Vincent and the Grenadines - سانت فنسنت والغرينادين</option>
-        <option value="WS">Samoa - ساموا</option>
-        <option value="SM">San Marino - سان مارينو</option>
-        <option value="ST">Sao Tome and Principe - ساو تومي وبرينسيبي</option>
-        <option value="SA">Saudi Arabia - السعودية</option>
-        <option value="SN">Senegal - السنغال</option>
-        <option value="RS">Serbia - صربيا</option>
-        <option value="SC">Seychelles - سيشل</option>
-        <option value="SL">Sierra Leone - سيراليون</option>
-        <option value="SG">Singapore - سنغافورة</option>
-        <option value="SK">Slovakia - سلوفاكيا</option>
-        <option value="SI">Slovenia - سلوفينيا</option>
-        <option value="SB">Solomon Islands - جزر سليمان</option>
-        <option value="SO">Somalia - الصومال</option>
-        <option value="ZA">South Africa - جنوب أفريقيا</option>
-        <option value="KR">South Korea - كوريا الجنوبية</option>
-        <option value="SS">South Sudan - جنوب السودان</option>
-        <option value="ES">Spain - إسبانيا</option>
-        <option value="LK">Sri Lanka - سريلانكا</option>
-        <option value="SD">Sudan - السودان</option>
-        <option value="SR">Suriname - سورينام</option>
-        <option value="SZ">Swaziland/Eswatini - سوازيلاند/إسواتيني</option>
-        <option value="SE">Sweden - السويد</option>
-        <option value="CH">Switzerland - سويسرا</option>
-        <option value="SY">Syria - سوريا</option>
-        <option value="TW">Taiwan - تايوان</option>
-        <option value="TJ">Tajikistan - طاجيكستان</option>
-        <option value="TZ">Tanzania - تنزانيا</option>
-        <option value="TH">Thailand - تايلاند</option>
-        <option value="TL">Timor-Leste - تيمور الشرقية</option>
-        <option value="TG">Togo - توغو</option>
-        <option value="TO">Tonga - تونغا</option>
-        <option value="TT">Trinidad and Tobago - ترينيداد وتوباغو</option>
-        <option value="TN">Tunisia - تونس</option>
-        <option value="TR">Turkey - تركيا</option>
-        <option value="TM">Turkmenistan - تركمانستان</option>
-        <option value="TV">Tuvalu - توفالو</option>
-        <option value="UG">Uganda - أوغندا</option>
-        <option value="UA">Ukraine - أوكرانيا</option>
-        <option value="AE">UAE - الإمارات</option>
-        <option value="GB">United Kingdom - بريطانيا</option>
-        <option value="US">United States - الولايات المتحدة</option>
-        <option value="UY">Uruguay - أوروغواي</option>
-        <option value="UZ">Uzbekistan - أوزبكستان</option>
-        <option value="VU">Vanuatu - فانواتو</option>
-        <option value="VA">Vatican City - الفاتيكان</option>
-        <option value="VE">Venezuela - فنزويلا</option>
-        <option value="VN">Vietnam - فيتنام</option>
-        <option value="YE">Yemen - اليمن</option>
-        <option value="ZM">Zambia - زامبيا</option>
-        <option value="ZW">Zimbabwe - زيمبابوي</option>
-      </select>
-
-      <!-- بحث -->
-      <div class="search-row">
-        <input type="text" class="search-input" placeholder="ابحث عن منتج أو خدمة أو شركة..." />
-        <button class="search-btn" onclick="doSearch()">بحث</button>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">GM</div>
+        <div>
+          <div class="site-title">السوق العالمي</div>
+          <div class="small">أعلن، اشترِ، تواصل — في مكان واحد</div>
+        </div>
       </div>
 
-      <!-- نتائج البحث -->
-      <div id="results"></div>
+      <div class="top-controls">
+        <div class="country-select">
+          <select id="countrySelect">
+    <option value="">اختر الدولة</option>
+    <option value="Afghanistan">أفغانستان</option>
+    <option value="Albania">ألبانيا</option>
+    <option value="Algeria">الجزائر</option>
+    <option value="Andorra">أندورا</option>
+    <option value="Angola">أنغولا</option>
+    <option value="Argentina">الأرجنتين</option>
+    <option value="Armenia">أرمينيا</option>
+    <option value="Australia">أستراليا</option>
+    <option value="Austria">النمسا</option>
+    <option value="Azerbaijan">أذربيجان</option>
+    <option value="Bahamas">الباهامس</option>
+    <option value="Bahrain">البحرين</option>
+    <option value="Bangladesh">بنغلاديش</option>
+    <option value="Barbados">بربادوس</option>
+    <option value="Belarus">بيلاروسيا</option>
+    <option value="Belgium">بلجيكا</option>
+    <option value="Belize">بليز</option>
+    <option value="Benin">بنين</option>
+    <option value="Bhutan">بوتان</option>
+    <option value="Bolivia">بوليفيا</option>
+    <option value="Bosnia">البوسنة والهرسك</option>
+    <option value="Botswana">بوتسوانا</option>
+    <option value="Brazil">البرازيل</option>
+    <option value="Brunei">بروناي</option>
+    <option value="Bulgaria">بلغاريا</option>
+    <option value="Burkina Faso">بوركينا فاسو</option>
+    <option value="Burundi">بوروندي</option>
+    <option value="Cambodia">كمبوديا</option>
+    <option value="Cameroon">الكاميرون</option>
+    <option value="Canada">كندا</option>
+    <option value="Chad">تشاد</option>
+    <option value="Chile">تشيلي</option>
+    <option value="China">الصين</option>
+    <option value="Colombia">كولومبيا</option>
+    <option value="Comoros">جزر القمر</option>
+    <option value="Congo">الكونغو</option>
+    <option value="Costa Rica">كوستاريكا</option>
+    <option value="Croatia">كرواتيا</option>
+    <option value="Cuba">كوبا</option>
+    <option value="Cyprus">قبرص</option>
+    <option value="Czech Republic">التشيك</option>
+    <option value="Denmark">الدنمارك</option>
+    <option value="Djibouti">جيبوتي</option>
+    <option value="Dominican Republic">جمهورية الدومينيكان</option>
+    <option value="Ecuador">الإكوادور</option>
+    <option value="Egypt">مصر</option>
+    <option value="El Salvador">السلفادور</option>
+    <option value="Eritrea">إريتريا</option>
+    <option value="Estonia">إستونيا</option>
+    <option value="Ethiopia">إثيوبيا</option>
+    <option value="Fiji">فيجي</option>
+    <option value="Finland">فنلندا</option>
+    <option value="France">فرنسا</option>
+    <option value="Gabon">الغابون</option>
+    <option value="Gambia">غامبيا</option>
+    <option value="Georgia">جورجيا</option>
+    <option value="Germany">ألمانيا</option>
+    <option value="Ghana">غانا</option>
+    <option value="Greece">اليونان</option>
+    <option value="Guatemala">غواتيمالا</option>
+    <option value="Guinea">غينيا</option>
+    <option value="Haiti">هايتي</option>
+    <option value="Honduras">هندوراس</option>
+    <option value="Hungary">المجر</option>
+    <option value="Iceland">آيسلندا</option>
+    <option value="India">الهند</option>
+    <option value="Indonesia">إندونيسيا</option>
+    <option value="Iran">إيران</option>
+    <option value="Iraq">العراق</option>
+    <option value="Ireland">أيرلندا</option>
+    <option value="Israel">إسرائيل</option>
+    <option value="Italy">إيطاليا</option>
+    <option value="Ivory Coast">ساحل العاج</option>
+    <option value="Jamaica">جامايكا</option>
+    <option value="Japan">اليابان</option>
+    <option value="Jordan">الأردن</option>
+    <option value="Kazakhstan">كازاخستان</option>
+    <option value="Kenya">كينيا</option>
+    <option value="Kuwait">الكويت</option>
+    <option value="Kyrgyzstan">قرغيزستان</option>
+    <option value="Laos">لاوس</option>
+    <option value="Latvia">لاتفيا</option>
+    <option value="Lebanon">لبنان</option>
+    <option value="Liberia">ليبيريا</option>
+    <option value="Libya">ليبيا</option>
+    <option value="Lithuania">ليتوانيا</option>
+    <option value="Luxembourg">لوكسمبورغ</option>
+    <option value="Madagascar">مدغشقر</option>
+    <option value="Malawi">مالاوي</option>
+    <option value="Malaysia">ماليزيا</option>
+    <option value="Maldives">المالديف</option>
+    <option value="Mali">مالي</option>
+    <option value="Malta">مالطا</option>
+    <option value="Mauritania">موريتانيا</option>
+    <option value="Mauritius">موريشيوس</option>
+    <option value="Mexico">المكسيك</option>
+    <option value="Moldova">مولدوفا</option>
+    <option value="Mongolia">منغوليا</option>
+    <option value="Montenegro">الجبل الأسود</option>
+    <option value="Morocco">المغرب</option>
+    <option value="Mozambique">موزمبيق</option>
+    <option value="Myanmar">ميانمار</option>
+    <option value="Namibia">ناميبيا</option>
+    <option value="Nepal">نيبال</option>
+    <option value="Netherlands">هولندا</option>
+    <option value="New Zealand">نيوزيلندا</option>
+    <option value="Nicaragua">نيكاراغوا</option>
+    <option value="Niger">النيجر</option>
+    <option value="Nigeria">نيجيريا</option>
+    <option value="North Korea">كوريا الشمالية</option>
+    <option value="Norway">النرويج</option>
+    <option value="Oman">عمان</option>
+    <option value="Pakistan">باكستان</option>
+    <option value="Palestine">فلسطين</option>
+    <option value="Panama">بنما</option>
+    <option value="Paraguay">باراغواي</option>
+    <option value="Peru">بيرو</option>
+    <option value="Philippines">الفلبين</option>
+    <option value="Poland">بولندا</option>
+    <option value="Portugal">البرتغال</option>
+    <option value="Qatar">قطر</option>
+    <option value="Romania">رومانيا</option>
+    <option value="Russia">روسيا</option>
+    <option value="Rwanda">رواندا</option>
+    <option value="Saudi Arabia">السعودية</option>
+    <option value="Senegal">السنغال</option>
+    <option value="Serbia">صربيا</option>
+    <option value="Seychelles">سيشل</option>
+    <option value="Sierra Leone">سيراليون</option>
+    <option value="Singapore">سنغافورة</option>
+    <option value="Slovakia">سلوفاكيا</option>
+    <option value="Slovenia">سلوفينيا</option>
+    <option value="Somalia">الصومال</option>
+    <option value="South Africa">جنوب أفريقيا</option>
+    <option value="South Korea">كوريا الجنوبية</option>
+    <option value="South Sudan">جنوب السودان</option>
+    <option value="Spain">إسبانيا</option>
+    <option value="Sudan">السودان</option>
+    <option value="Sweden">السويد</option>
+    <option value="Switzerland">سويسرا</option>
+    <option value="Syria">سوريا</option>
+    <option value="Taiwan">تايوان</option>
+    <option value="Tajikistan">طاجيكستان</option>
+    <option value="Tanzania">تنزانيا</option>
+    <option value="Thailand">تايلاند</option>
+    <option value="Togo">توغو</option>
+    <option value="Tunisia">تونس</option>
+    <option value="Turkey">تركيا</option>
+    <option value="Uganda">أوغندا</option>
+    <option value="Ukraine">أوكرانيا</option>
+    <option value="United Arab Emirates">الإمارات</option>
+    <option value="United Kingdom">المملكة المتحدة</option>
+    <option value="United States">الولايات المتحدة</option>
+    <option value="Uruguay">الأوروغواي</option>
+    <option value="Uzbekistan">أوزبكستان</option>
+    <option value="Venezuela">فنزويلا</option>
+    <option value="Vietnam">فيتنام</option>
+    <option value="Yemen">اليمن</option>
+    <option value="Zambia">زامبيا</option>
+    <option value="Zimbabwe">زيمبابوي</option>
+    </select>
+        </div>
+
+        <div class="search-wrap" role="search" aria-label="بحث">
+          <input id="searchInput" placeholder="ابحث هنا..." />
+          <button class="btn" id="searchBtn">بحث</button>
+        </div>
+
+        <div class="auth-wrap" id="authWrap">
+          <div id="notLogged">
+            <button class="btn" onclick="openAuth('login')">تسجيل دخول</button>
+            <button class="btn secondary" onclick="openAuth('signup')">إنشاء حساب</button>
+          </div>
+          <div id="logged" style="display:none;">
+            <div class="user-info">
+              <div id="userEmail" style="font-weight:700"></div>
+              <button class="btn secondary" onclick="signOutUser()">خروج</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav class="aside" aria-label="الأقسام">
+        <ul>
+          <li class="important">🚗 سيارات</li>
+          <li>🏠 عقارات</li>
+          <li>📱 موبايلات</li>
+          <li>💻 إلكترونيات</li>
+          <li>👗 أزياء</li>
+          <li>💼 وظائف</li>
+          <li>🛠 خدمات</li>
+          <li>🧸 سوق عام</li>
+        </ul>
+      </nav>
+
+      <main>
+        <section class="hero">
+          <div>
+            <h1>اعرض إعلانك — أو تصفح آلاف الإعلانات</h1>
+            <p style="color:var(--muted); margin-top:8px;">اختر فئة، ابحث، وتواصل مباشرة مع البائع.</p>
+          </div>
+          <div class="quick-actions">
+            <button class="btn" id="openPostBtn">نشر إعلان</button>
+            <button class="btn secondary" onclick="triggerDemoLogin()">تجربة تسجيل وهمي</button>
+          </div>
+        </section>
+
+        <section>
+          <h2 style="margin:0 0 10px 0">إعلانات مميزة</h2>
+          <div class="grid" id="adsGrid">
+            <!-- sample cards -->
+            <div class="card">
+              <h3>تويوتا كورولا 2018</h3>
+              <p>حالة ممتازة — الخرطوم</p>
+            </div>
+            <div class="card">
+              <h3>شقة 3 غرف</h3>
+              <p>الخرطوم بحري — بوابة البحر</p>
+            </div>
+            <div class="card">
+              <h3>آيفون 13 مستعمل</h3>
+              <p>موبايلات — متوفر لون أسود</p>
+            </div>
+            <div class="card">
+              <h3>كمبيوتر مكتبي</h3>
+              <p>جديد — مواصفات قوية</p>
+            </div>
+          </div>
+        </section>
+
+        <section style="margin-top:16px;">
+          <h2 style="margin:0 0 10px 0">جميع الأقسام</h2>
+          <div class="grid" id="categoriesGrid">
+            <div class="card"><h3>سيارات</h3><p>أفضل العروض</p></div>
+            <div class="card"><h3>عقارات</h3><p>شقق، أراضي ومنازل</p></div>
+            <div class="card"><h3>موبايلات</h3><p>هواتف جديدة ومستعملة</p></div>
+            <div class="card"><h3>أزياء</h3><p>ملابس وموضة</p></div>
+            <div class="card"><h3>وظائف</h3><p>اعرض وظيفتك أو قدم</p></div>
+            <div class="card"><h3>خدمات</h3><p>مهن وخدمات</p></div>
+          </div>
+        </section>
+
+        <footer>
+          © 2025 السوق العالمي — جميع الحقوق محفوظة — تصميم و تطوير: مصطفى
+        </footer>
+
+      </main>
     </div>
+  </div>
 
-    <!-- أقسام سريعة -->
-    <div style="margin-top:14px" class="grid">
-      <a class="card" href="pages/hotels.html"><h3>فنادق</h3><div>🏨</div></a>
-      <a class="card" href="pages/flights.html"><h3>طيران</h3><div>✈️</div></a>
-      <a class="card" href="pages/cars.html"><h3>سيارات</h3><div>🚗</div></a>
-      <a class="card" href="pages/items.html"><h3>مواد تموينية</h3><div>🛒</div></a>
-      <a class="card" href="pages/transport.html"><h3>شركات النقل</h3><div>🚚</div></a>
-      <a class="card" href="pages/markets.html"><h3>متاجر</h3><div>🛍️</div></a>
+  <!-- Auth modal -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal" role="dialog" aria-modal="true">
+      <button style="float:left;background:transparent;border:none;color:var(--muted);font-size:16px;" onclick="closeModal()">✕</button>
+      <h2 id="modalTitle">تسجيل دخول</h2>
+
+      <form id="authForm">
+        <div class="form-group">
+          <label id="labelName" style="display:none">الاسم كامل</label>
+          <input id="nameInput" type="text" placeholder="الاسم الكامل" style="display:none" />
+        </div>
+
+        <div class="form-group">
+          <label>البريد الإلكتروني</label>
+          <input id="emailInput" type="email" placeholder="example@mail.com" required />
+        </div>
+
+        <div class="form-group">
+          <label>كلمة المرور</label>
+          <input id="passInput" type="password" placeholder="كلمة المرور" required />
+        </div>
+
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button type="submit" class="btn" id="submitBtn">دخول</button>
+          <button type="button" class="btn secondary" onclick="switchAuth()">إنشاء حساب</button>
+        </div>
+
+        <p class="small" style="margin-top:10px;">أو سجل سريعاً عبر:</p>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button type="button" class="btn secondary" onclick="signInWithGoogle()">Google</button>
+        </div>
+
+        <p class="small" id="authMsg" style="margin-top:10px;color:#f66;"></p>
+      </form>
     </div>
+  </div>
 
-  </main>
+  <!-- Firebase (module) -->
+  <script type="module">
+    // --- Firebase config (استبدل إذا احتجت) ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import {
+      getAuth, createUserWithEmailAndPassword,
+      signInWithEmailAndPassword, onAuthStateChanged,
+      signOut, GoogleAuthProvider, signInWithPopup
+    } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-  <footer class="footer">© 2025 السوق العالمي — جميع الحقوق محفوظة</footer>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDTxDtXoylZzLgUIyUkcj92ZN44voX0FA8",
+      authDomain: "global-market-95a36.firebaseapp.com",
+      projectId: "global-market-95a36",
+      storageBucket: "global-market-95a36.firebasestorage.app",
+      messagingSenderId: "967013217852",
+      appId: "1:967013217852:web:b67ed2fddb5f0b7c05b539",
+      measurementId: "G-B7WRYDLK6K"
+    };
 
-  <!-- رابط السكربت (ضع scripts.js و data/api_data.json كما شرحنا) -->
-  <script src="scripts.js"></script>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-  <!-- fallback صغير لو ما رفعّت scripts.js -->
-  <script>
-    function switchLangFromBtn(lang){
-      try{ localStorage.setItem('gm_lang', lang); location.reload(); }catch(e){}
+    // DOM
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const authForm = document.getElementById('authForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const switchBtn = document.querySelector('.modal button[onclick="switchAuth()"]');
+    const labelName = document.getElementById('labelName');
+    const nameInput = document.getElementById('nameInput');
+    const emailInput = document.getElementById('emailInput');
+    const passInput = document.getElementById('passInput');
+    const authMsg = document.getElementById('authMsg');
+    const notLogged = document.getElementById('notLogged');
+    const logged = document.getElementById('logged');
+    const userEmail = document.getElementById('userEmail');
+
+    let mode = 'login'; // or 'signup'
+
+    // open modal
+    window.openAuth = function(type){
+      mode = type === 'signup' ? 'signup' : 'login';
+      updateModal();
+      modal.style.display = 'flex';
+      authMsg.textContent = '';
     }
-    function doSearch(){
-      const q = document.querySelector('.search-input').value.trim();
-      const out = document.getElementById('results');
-      if(!q){ out.innerHTML = '<div class="box empty-box">أدخل كلمة بحث</div>'; return; }
-      // مؤقت: رسالة ترحيبية — إذا رفعت scripts.js سيستبدلها بنتائج حقيقية
-      out.innerHTML = '<div class="box empty-box">ابحث: '+ q + ' — تأكد إنك رفعت ملف data/api_data.json وscripts.js لنتائج حقيقية.</div>';
+
+    function updateModal(){
+      if(mode === 'signup'){
+        modalTitle.textContent = 'إنشاء حساب';
+        submitBtn.textContent = 'إنشاء الحساب';
+        switchBtn.textContent = 'لدي حساب';
+        labelName.style.display = 'block';
+        nameInput.style.display = 'block';
+      } else {
+        modalTitle.textContent = 'تسجيل دخول';
+        submitBtn.textContent = 'دخول';
+        switchBtn.textContent = 'إنشاء حساب';
+        labelName.style.display = 'none';
+        nameInput.style.display = 'none';
+      }
     }
-  </script>
-<script>
 
-<script>
-    function updateUserArea(){
-        let loggedIn = localStorage.getItem("loggedIn");
-        let user = JSON.parse(localStorage.getItem("user"));
-        let userArea = document.getElementById("userArea");
+    window.closeModal = function(){
+      modal.style.display = 'none';
+    }
 
-        if(loggedIn === "yes" && user){
-            userArea.innerHTML = `
-                <span>مرحباً، ${user.name}</span>
-                <button onclick="logout()" class="search-btn" style="background:#555;">
-                    خروج
-                </button>
-            `;
+    window.switchAuth = function(){
+      mode = mode === 'signup' ? 'login' : 'signup';
+      updateModal();
+    }
+
+    // form submit
+    authForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      authMsg.textContent = '';
+      const email = emailInput.value.trim();
+      const pass = passInput.value;
+
+      if(!email || !pass){
+        authMsg.textContent = 'رجاءً املأ جميع الحقول';
+        return;
+      }
+
+      try{
+        if(mode === 'signup'){
+          const name = nameInput.value.trim();
+          if(!name){ authMsg.textContent = 'ادخل اسمك الكامل'; return; }
+          const userCred = await createUserWithEmailAndPassword(auth, email, pass);
+          // يمكن تخزين الإسم في profile لو حبيت (هنا اختياري)
+          await userCred.user.updateProfile?.({ displayName: name }).catch(()=>{});
+          authMsg.style.color = '#6f6'; authMsg.textContent = 'تم انشاء الحساب بنجاح';
+          closeModal();
         } else {
-            userArea.innerHTML = `
-                <a href="pages/login.html" class="search-btn" style="text-decoration:none;">
-                    تسجيل الدخول
-                </a>
-            `;
+          await signInWithEmailAndPassword(auth, email, pass);
+          authMsg.style.color = '#6f6'; authMsg.textContent = 'تم تسجيل الدخول';
+          closeModal();
         }
+      } catch(err){
+        authMsg.style.color = '#f66';
+        authMsg.textContent = err.message || 'حدث خطأ خلال العملية';
+        console.error(err);
+      }
+    });
+
+    // Google sign-in
+    window.signInWithGoogle = async function(){
+      const provider = new GoogleAuthProvider();
+      try{
+        await signInWithPopup(auth, provider);
+        closeModal();
+      }catch(e){
+        authMsg.textContent = e.message || 'خطأ في تسجيل Google';
+      }
     }
 
-    function logout(){
-        localStorage.removeItem("loggedIn");
-        localStorage.removeItem("user");
-        window.location.href = "index.html";
+    // auth state
+    onAuthStateChanged(auth, user => {
+      if(user){
+        notLogged.style.display = 'none';
+        logged.style.display = 'block';
+        userEmail.textContent = user.email || user.displayName || 'مستخدم';
+      } else {
+        notLogged.style.display = 'block';
+        logged.style.display = 'none';
+      }
+    });
+
+    // sign out
+    window.signOutUser = async function(){
+      await signOut(auth);
+      alert('تم تسجيل الخروج');
     }
 
-    updateUserArea();
-</script>
+    // demo quick login (fake)
+    window.triggerDemoLogin = function(){
+      // for demo — create temporary random user (email+password). If exists, sign-in.
+      const demoEmail = 'demo' + Date.now() + '@example.com';
+      const demoPass = Math.random().toString(36).slice(2,10);
+      createUserWithEmailAndPassword(auth, demoEmail, demoPass)
+        .then(()=>{ alert('تم إنشاء حساب تجريبي — ' + demoEmail); })
+        .catch(async (err)=>{
+          // if already exists (rare), try sign in
+          try { await signInWithEmailAndPassword(auth, demoEmail, demoPass); } catch(e){ console.log(e); }
+        });
+    }
+
+    // search demo
+    document.getElementById('searchBtn').addEventListener('click', ()=>{
+      const q = document.getElementById('searchInput').value.trim();
+      if(!q){ alert('اكتب كلمة بحث'); return; }
+      alert('بحث تجريبي عن: ' + q);
+    });
+
+    // Open post (redirect to form or show message)
+    document.getElementById('openPostBtn').addEventListener('click', ()=>{
+      // اذا ما مسجل، أفتح مودال تسجيل
+      if(!auth.currentUser){
+        openAuth('signup');
+        return;
+      }
+      alert('هنا تفتح صفحة نشر إعلان (غير مفعلة في النسخة التجريبية)');
+    });
+
+    // small UX: close modal when clicked outside dialog
+    document.getElementById('modal').addEventListener('click', (e)=>{
+      if(e.target === modal) closeModal();
+    });
+
+  </script>
+
 </body>
-
-</html>
+                </html>
