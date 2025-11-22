@@ -19,5 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const userDisplay = document.getElementById("userDisplay");
     if (userDisplay && user) {
         userDisplay.textContent = `مرحباً ${user}`;
+        <script type="module" src="authState.js"></script>
     }
 });
