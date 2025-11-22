@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+  <!-- Firebase App -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDTxDtXoylZzLgUIyUkcj92ZN44voX0FA8",
+    authDomain: "global-market-95a36.firebaseapp.com",
+    projectId: "global-market-95a36",
+    storageBucket: "global-market-95a36.firebasestorage.app",
+    messagingSenderId: "967013217852",
+    appId: "1:967013217852:web:b67ed2fddb5f0b7c05b539",
+    measurementId: "G-B7WRYDLK6K"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+</script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>السوق العالمي — الصفحة الرئيسية</title>
@@ -71,7 +89,50 @@
     }
   </style>
 </head>
-<body>
+  <body>
+    <!-- Login System -->
+<script type="module">
+  import { 
+    getAuth, 
+    signInWithEmailAndPassword, 
+    createUserWithEmailAndPassword,
+    signOut 
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  // Login
+  window.loginUser = function () {
+    const email = document.getElementById("login-email").value;
+    const pass = document.getElementById("login-pass").value;
+
+    signInWithEmailAndPassword(auth, email, pass)
+    .then(() => {
+      alert("تم تسجيل الدخول بنجاح!");
+      location.reload();
+    })
+    .catch(e => alert("خطأ في تسجيل الدخول: " + e.message));
+  };
+
+  // Signup
+  window.signupUser = function () {
+    const email = document.getElementById("signup-email").value;
+    const pass = document.getElementById("signup-pass").value;
+
+    createUserWithEmailAndPassword(auth, email, pass)
+    .then(() => {
+      alert("تم إنشاء الحساب!");
+      location.reload();
+    })
+    .catch(e => alert("خطأ: " + e.message));
+  };
+
+  // logout
+  window.logoutUser = function(){
+    signOut(auth).then(()=>{
+      alert("تم تسجيل الخروج");
+      location.reload();
+    });
+  };
+</script>
 
   <div class="container">
     <header>
