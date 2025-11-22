@@ -1,27 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <button onclick="window.location.href='login.html'">
-    تسجيل الدخول
-  </button>
-  <!-- Firebase App -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-  import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDTxDtXoylZzLgUIyUkcj92ZN44voX0FA8",
-    authDomain: "global-market-95a36.firebaseapp.com",
-    projectId: "global-market-95a36",
-    storageBucket: "global-market-95a36.firebasestorage.app",
-    messagingSenderId: "967013217852",
-    appId: "1:967013217852:web:b67ed2fddb5f0b7c05b539",
-    measurementId: "G-B7WRYDLK6K"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-</script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>السوق العالمي — الصفحة الرئيسية</title>
@@ -35,22 +14,14 @@
       --card: #0f1314;
       --muted: #9aa4b2;
       --accent: #0066ff;
-      --accent2: #ff2d55;
       --text: #e9eef5;
       --panel: #121212;
-      --white-card: #ffffff;
+      --radius: 12px;
+      --max-w: 1100px;
     }
-    #languageSelect {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px;
-    border-radius: 5px;
-    }
-    html,body{height:100%; margin:0; font-family:Inter, "Noto Naskh Arabic", Arial, sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;}
+    html,body{height:100%; margin:0; font-family:Inter, "Noto Naskh Arabic", Arial, sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; direction:rtl;}
     a{color:var(--accent); text-decoration:none}
-    .container{max-width:1100px; margin:18px auto; padding:0 16px;}
-    /* Header */
+    .container{max-width:var(--max-w); margin:18px auto; padding:0 16px;}
     header{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px;}
     .brand{display:flex; align-items:center; gap:12px;}
     .logo{width:56px; height:56px; border-radius:10px; background:linear-gradient(135deg,var(--accent), #00bfff); display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; font-size:20px;}
@@ -62,34 +33,19 @@
     .search-wrap input{background:transparent; border:none; color:var(--text); outline:none; width:220px; padding:6px}
     .btn{background:var(--accent); color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600;}
     .btn.secondary{background:#222; color:var(--text); border:1px solid #2a2a2a;}
-    .auth-wrap button{padding:8px 10px; border-radius:8px; border:none; cursor:pointer; font-weight:600;}
-    /* layout */
     .layout{display:flex; gap:18px;}
     nav.aside{width:230px; background:transparent; padding:6px; border-radius:10px;}
     nav.aside ul{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;}
     nav.aside li{background:#0b0c0d; padding:12px 14px; border-radius:10px; cursor:pointer; color:#cfe6ff;}
-    nav.aside li.important{color:#ff56a1}
     main{flex:1; min-height:60vh;}
     .hero{background:linear-gradient(180deg,#0c0d0e, #101317); padding:18px; border-radius:12px; margin-bottom:14px; display:flex; gap:16px; align-items:center; justify-content:space-between;}
-    .hero h1{margin:0; font-size:28px;}
-    .hero .quick-actions{display:flex; gap:10px;}
     .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px;}
     .card{background:var(--card); padding:12px; border-radius:12px; min-height:120px; box-shadow:0 6px 18px rgba(0,0,0,0.5);}
-    .card h3{margin:0 0 6px 0; font-size:18px;}
-    .card p{margin:0; color:var(--muted); font-size:14px;}
-    /* footer */
     footer{margin-top:28px; padding:20px; border-top:1px solid rgba(255,255,255,0.03); color:var(--muted); text-align:center;}
-    /* auth modal */
+    /* modal */
     .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:999;}
-    .modal{background:var(--panel); width:360px; max-width:95%; border-radius:12px; padding:18px; box-shadow:0 20px 40px rgba(0,0,0,0.6);}
-    .modal h2{margin:0 0 8px 0; font-size:20px; color:var(--text)}
-    .form-group{display:flex; flex-direction:column; gap:6px; margin-bottom:10px;}
-    .form-group label{font-size:14px; color:var(--muted);}
-    .form-group input{padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:var(--text);}
-    .row{display:flex; gap:8px;}
-    .small{font-size:13px; color:var(--muted)}
-    .user-info{display:flex; align-items:center; gap:8px; background:#0b0c0d; padding:8px 12px; border-radius:10px;}
-    /* responsive */
+    .modal{background:var(--panel); width:360px; max-width:95%; border-radius:12px; padding:18px;}
+    .form-group input{width:100%; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:var(--text);}
     @media (max-width:900px){
       header{flex-direction:column; align-items:flex-start; gap:12px;}
       .layout{flex-direction:column;}
@@ -98,285 +54,9 @@
       nav.aside li{min-width:110px; text-align:center;}
     }
   </style>
-  
-</head>
-  <body>
-  <!DOCTYPE html>
-<html lang="ar">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Global Market</title>
 </head>
 
 <body>
-  <select id="languageSelect" style="margin: 20px; padding: 10px; font-size: 16px;">
-    <option value="ar">العربية</option>
-    <option value="en">English</option>
-    <option value="fr">Français</option>
-    <option value="es">Español</option>
-    <option value="de">Deutsch</option>
-    <option value="tr">Türkçe</option>
-    <option value="it">Italiano</option>
-    <option value="pt">Português</option>
-    <option value="ru">Русский</option>
-    <option value="zh">中文 (Chinese)</option>
-    <option value="ja">日本語 (Japanese)</option>
-    <option value="ko">한국어 (Korean)</option>
-    <option value="hi">हिन्दी (Hindi)</option>
-    <option value="bn">বাংলা (Bangla)</option>
-    <option value="ur">اردو (Urdu)</option>
-    <option value="fa">فارسی (Farsi)</option>
-    <option value="sw">Kiswahili</option>
-    <option value="nl">Nederlands (Dutch)</option>
-    <option value="sv">Svenska (Swedish)</option>
-    <option value="fi">Suomi (Finnish)</option>
-    <option value="no">Norsk (Norwegian)</option>
-    <option value="da">Dansk (Danish)</option>
-    <option value="el">Ελληνικά (Greek)</option>
-    <option value="he">עברית (Hebrew)</option>
-    <option value="th">ไทย (Thai)</option>
-    <option value="id">Indonesia</option>
-    <option value="ms">Bahasa Melayu</option>
-    <option value="vi">Tiếng Việt</option>
-  </select>
-  <!-- Login Form -->
-  <input id="loginEmail" type="email" placeholder="البريد الإلكتروني">
-  <input id="loginPass" type="password" placeholder="كلمة المرور">
-  <button onclick="loginUser()">تسجيل دخول</button>
-
-  <!-- Signup Form -->
-  <input id="signupEmail" type="email" placeholder="البريد الإلكتروني">
-  <input id="signupPass" type="password" placeholder="كلمة المرور">
-  <button onclick="signupUser()">إنشاء حساب</button>
-
-  <!-- Logout -->
-  <button onclick="logoutUser()">تسجيل خروج</button>
-
-
-  <!-- Firebase Config -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDTxDtXoylZzLgUIyLpq5FTzQGAerMUC7w",
-      authDomain: "global-market-95a36.firebaseapp.com",
-      projectId: "global-market-95a36",
-      storageBucket: "global-market-95a36.appspot.com",
-      messagingSenderId: "967013217852",
-      appId: "1:967013217852:web:b67ec2df964e3d8ddc56bb",
-      measurementId: "G-B7W RYDLK6K"
-    };
-
-    window.app = initializeApp(firebaseConfig);
-    window.auth = getAuth(app);
-  </script>
-
-
-  <!-- Login + Signup System -->
-  <script type="module">
-    import {
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-    // LOGIN
-    window.loginUser = function () {
-      const email = document.getElementById("loginEmail").value;
-      const pass = document.getElementById("loginPass").value;
-
-      signInWithEmailAndPassword(auth, email, pass)
-        .then(() => {
-          alert("تم تسجيل الدخول بنجاح!");
-          location.reload();
-        })
-        .catch(e => alert("خطأ في تسجيل الدخول: " + e.message));
-    };
-
-    // SIGNUP
-    window.signupUser = function () {
-      const email = document.getElementById("signupEmail").value;
-      const pass = document.getElementById("signupPass").value;
-
-      createUserWithEmailAndPassword(auth, email, pass)
-        .then(() => {
-          alert("تم إنشاء الحساب بنجاح!");
-          location.reload();
-        })
-        .catch(e => alert("خطأ: " + e.message));
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Global Market Login</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .container {
-      width: 350px;
-      padding: 20px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    input {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #2196F3;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0d8ae9;
-    }
-    .hidden {
-      display: none;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="container">
-    <h2>Login</h2>
-    <input id="loginEmail" type="email" placeholder="Email">
-    <input id="loginPassword" type="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-
-    <hr>
-
-    <h2>Create Account</h2>
-    <input id="signupEmail" type="email" placeholder="Email">
-    <input id="signupPassword" type="password" placeholder="Password">
-    <button onclick="signup()">Sign Up</button>
-
-    <hr>
-
-    <button onclick="logout()" style="background:red;">Logout</button>
-
-    <p id="status" style="margin-top:10px; font-weight:bold;"></p>
-  </div>
-<button id="goLogin">تسجيل الدخول</button>
-<button id="logoutBtn" style="display:none;">تسجيل الخروج</button>
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { onAuthStateChanged, signOut }
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-// زر الدخول
-const loginBtn = document.getElementById("goLogin");
-// زر الخروج
-const logoutBtn = document.getElementById("logoutBtn");
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    loginBtn.style.display = "none";
-    logoutBtn.style.display = "block";
-  } else {
-    loginBtn.style.display = "block";
-    logoutBtn.style.display = "none";
-  }
-});
-
-// تسجيل الخروج
-logoutBtn.addEventListener("click", async () => {
-  await signOut(auth);
-  alert("تم تسجيل الخروج");
-  window.location.reload();
-});
-    // Import Firebase
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } 
-    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-    // Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyDTxDtXoylZzLgUIyUkcj92ZN44voX0FA8",
-      authDomain: "global-market-95a36.firebaseapp.com",
-      projectId: "global-market-95a36",
-      storageBucket: "global-market-95a36.firebasestorage.app",
-      messagingSenderId: "967013217852",
-      appId: "1:967013217852:web:b67ed2fddb5f0b7c05b539",
-      measurementId: "G-B7WRYDLK6K"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // Login function
-    function login() {
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          document.getElementById("status").innerText = "Logged in successfully!";
-        })
-        .catch((error) => {
-          document.getElementById("status").innerText = error.message;
-        });
-    }
-
-    // Signup function
-    function signup() {
-      const email = document.getElementById("signupEmail").value;
-      const password = document.getElementById("signupPassword").value;
-
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          document.getElementById("status").innerText = "Account created!";
-        })
-        .catch((error) => {
-          document.getElementById("status").innerText = error.message;
-        });
-    }
-
-    // Logout function
-    function logout() {
-      signOut(auth)
-        .then(() => {
-          document.getElementById("status").innerText = "Logged out.";
-        })
-        .catch((error) => {
-          document.getElementById("status").innerText = error.message;
-        });
-    }
-
-    // Auth listener
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById("status").innerText = "User logged in: " + user.email;
-      } else {
-        document.getElementById("status").innerText = "No user logged in.";
-      }
-    });
-  </script>
-
-</body>
-</html>
-
-</body>
-</html>
-
   <div class="container">
     <header>
       <div class="brand">
@@ -388,174 +68,201 @@ logoutBtn.addEventListener("click", async () => {
       </div>
 
       <div class="top-controls">
+        <!-- لغات أساسية فقط -->
+        <div class="country-select" style="padding-right:6px;">
+          <select id="languageSelect" aria-label="اختر اللغة">
+            <option value="ar">العربية</option>
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+          </select>
+        </div>
+
+        <!-- دول: لو عندك قائمة <option> جاهزة للصق، ضعها داخل الـ select #countrySelect -->
         <div class="country-select">
-          <select id="countrySelect">
-    <option value="">اختر الدولة</option>
-    <option value="Afghanistan">أفغانستان</option>
-    <option value="Albania">ألبانيا</option>
-    <option value="Algeria">الجزائر</option>
-    <option value="Andorra">أندورا</option>
-    <option value="Angola">أنغولا</option>
-    <option value="Argentina">الأرجنتين</option>
-    <option value="Armenia">أرمينيا</option>
-    <option value="Australia">أستراليا</option>
-    <option value="Austria">النمسا</option>
-    <option value="Azerbaijan">أذربيجان</option>
-    <option value="Bahamas">الباهامس</option>
-    <option value="Bahrain">البحرين</option>
-    <option value="Bangladesh">بنغلاديش</option>
-    <option value="Barbados">بربادوس</option>
-    <option value="Belarus">بيلاروسيا</option>
-    <option value="Belgium">بلجيكا</option>
-    <option value="Belize">بليز</option>
-    <option value="Benin">بنين</option>
-    <option value="Bhutan">بوتان</option>
-    <option value="Bolivia">بوليفيا</option>
-    <option value="Bosnia">البوسنة والهرسك</option>
-    <option value="Botswana">بوتسوانا</option>
-    <option value="Brazil">البرازيل</option>
-    <option value="Brunei">بروناي</option>
-    <option value="Bulgaria">بلغاريا</option>
-    <option value="Burkina Faso">بوركينا فاسو</option>
-    <option value="Burundi">بوروندي</option>
-    <option value="Cambodia">كمبوديا</option>
-    <option value="Cameroon">الكاميرون</option>
-    <option value="Canada">كندا</option>
-    <option value="Chad">تشاد</option>
-    <option value="Chile">تشيلي</option>
-    <option value="China">الصين</option>
-    <option value="Colombia">كولومبيا</option>
-    <option value="Comoros">جزر القمر</option>
-    <option value="Congo">الكونغو</option>
-    <option value="Costa Rica">كوستاريكا</option>
-    <option value="Croatia">كرواتيا</option>
-    <option value="Cuba">كوبا</option>
-    <option value="Cyprus">قبرص</option>
-    <option value="Czech Republic">التشيك</option>
-    <option value="Denmark">الدنمارك</option>
-    <option value="Djibouti">جيبوتي</option>
-    <option value="Dominican Republic">جمهورية الدومينيكان</option>
-    <option value="Ecuador">الإكوادور</option>
-    <option value="Egypt">مصر</option>
-    <option value="El Salvador">السلفادور</option>
-    <option value="Eritrea">إريتريا</option>
-    <option value="Estonia">إستونيا</option>
-    <option value="Ethiopia">إثيوبيا</option>
-    <option value="Fiji">فيجي</option>
-    <option value="Finland">فنلندا</option>
-    <option value="France">فرنسا</option>
-    <option value="Gabon">الغابون</option>
-    <option value="Gambia">غامبيا</option>
-    <option value="Georgia">جورجيا</option>
-    <option value="Germany">ألمانيا</option>
-    <option value="Ghana">غانا</option>
-    <option value="Greece">اليونان</option>
-    <option value="Guatemala">غواتيمالا</option>
-    <option value="Guinea">غينيا</option>
-    <option value="Haiti">هايتي</option>
-    <option value="Honduras">هندوراس</option>
-    <option value="Hungary">المجر</option>
-    <option value="Iceland">آيسلندا</option>
-    <option value="India">الهند</option>
-    <option value="Indonesia">إندونيسيا</option>
-    <option value="Iran">إيران</option>
-    <option value="Iraq">العراق</option>
-    <option value="Ireland">أيرلندا</option>
-    <option value="Israel">إسرائيل</option>
-    <option value="Italy">إيطاليا</option>
-    <option value="Ivory Coast">ساحل العاج</option>
-    <option value="Jamaica">جامايكا</option>
-    <option value="Japan">اليابان</option>
-    <option value="Jordan">الأردن</option>
-    <option value="Kazakhstan">كازاخستان</option>
-    <option value="Kenya">كينيا</option>
-    <option value="Kuwait">الكويت</option>
-    <option value="Kyrgyzstan">قرغيزستان</option>
-    <option value="Laos">لاوس</option>
-    <option value="Latvia">لاتفيا</option>
-    <option value="Lebanon">لبنان</option>
-    <option value="Liberia">ليبيريا</option>
-    <option value="Libya">ليبيا</option>
-    <option value="Lithuania">ليتوانيا</option>
-    <option value="Luxembourg">لوكسمبورغ</option>
-    <option value="Madagascar">مدغشقر</option>
-    <option value="Malawi">مالاوي</option>
-    <option value="Malaysia">ماليزيا</option>
-    <option value="Maldives">المالديف</option>
-    <option value="Mali">مالي</option>
-    <option value="Malta">مالطا</option>
-    <option value="Mauritania">موريتانيا</option>
-    <option value="Mauritius">موريشيوس</option>
-    <option value="Mexico">المكسيك</option>
-    <option value="Moldova">مولدوفا</option>
-    <option value="Mongolia">منغوليا</option>
-    <option value="Montenegro">الجبل الأسود</option>
-    <option value="Morocco">المغرب</option>
-    <option value="Mozambique">موزمبيق</option>
-    <option value="Myanmar">ميانمار</option>
-    <option value="Namibia">ناميبيا</option>
-    <option value="Nepal">نيبال</option>
-    <option value="Netherlands">هولندا</option>
-    <option value="New Zealand">نيوزيلندا</option>
-    <option value="Nicaragua">نيكاراغوا</option>
-    <option value="Niger">النيجر</option>
-    <option value="Nigeria">نيجيريا</option>
-    <option value="North Korea">كوريا الشمالية</option>
-    <option value="Norway">النرويج</option>
-    <option value="Oman">عمان</option>
-    <option value="Pakistan">باكستان</option>
-    <option value="Palestine">فلسطين</option>
-    <option value="Panama">بنما</option>
-    <option value="Paraguay">باراغواي</option>
-    <option value="Peru">بيرو</option>
-    <option value="Philippines">الفلبين</option>
-    <option value="Poland">بولندا</option>
-    <option value="Portugal">البرتغال</option>
-    <option value="Qatar">قطر</option>
-    <option value="Romania">رومانيا</option>
-    <option value="Russia">روسيا</option>
-    <option value="Rwanda">رواندا</option>
-    <option value="Saudi Arabia">السعودية</option>
-    <option value="Senegal">السنغال</option>
-    <option value="Serbia">صربيا</option>
-    <option value="Seychelles">سيشل</option>
-    <option value="Sierra Leone">سيراليون</option>
-    <option value="Singapore">سنغافورة</option>
-    <option value="Slovakia">سلوفاكيا</option>
-    <option value="Slovenia">سلوفينيا</option>
-    <option value="Somalia">الصومال</option>
-    <option value="South Africa">جنوب أفريقيا</option>
-    <option value="South Korea">كوريا الجنوبية</option>
-    <option value="South Sudan">جنوب السودان</option>
-    <option value="Spain">إسبانيا</option>
-    <option value="Sudan">السودان</option>
-    <option value="Sweden">السويد</option>
-    <option value="Switzerland">سويسرا</option>
-    <option value="Syria">سوريا</option>
-    <option value="Taiwan">تايوان</option>
-    <option value="Tajikistan">طاجيكستان</option>
-    <option value="Tanzania">تنزانيا</option>
-    <option value="Thailand">تايلاند</option>
-    <option value="Togo">توغو</option>
-    <option value="Tunisia">تونس</option>
-    <option value="Turkey">تركيا</option>
-    <option value="Uganda">أوغندا</option>
-    <option value="Ukraine">أوكرانيا</option>
-    <option value="United Arab Emirates">الإمارات</option>
-    <option value="United Kingdom">المملكة المتحدة</option>
-    <option value="United States">الولايات المتحدة</option>
-    <option value="Uruguay">الأوروغواي</option>
-    <option value="Uzbekistan">أوزبكستان</option>
-    <option value="Venezuela">فنزويلا</option>
-    <option value="Vietnam">فيتنام</option>
-    <option value="Yemen">اليمن</option>
-    <option value="Zambia">زامبيا</option>
-    <option value="Zimbabwe">زيمبابوي</option>
+          <select id="countrySelect" aria-label="اختر الدولة">
+            <option value="">اختر الدولة</option>
+            <option value="">اختر الدولة</option>
+<option value="Afghanistan">Afghanistan</option>
+<option value="Albania">Albania</option>
+<option value="Algeria">Algeria</option>
+<option value="Andorra">Andorra</option>
+<option value="Angola">Angola</option>
+<option value="Argentina">Argentina</option>
+<option value="Armenia">Armenia</option>
+<option value="Australia">Australia</option>
+<option value="Austria">Austria</option>
+<option value="Azerbaijan">Azerbaijan</option>
+<option value="Bahrain">Bahrain</option>
+<option value="Bangladesh">Bangladesh</option>
+<option value="Belarus">Belarus</option>
+<option value="Belgium">Belgium</option>
+<option value="Belize">Belize</option>
+<option value="Benin">Benin</option>
+<option value="Bolivia">Bolivia</option>
+<option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+<option value="Botswana">Botswana</option>
+<option value="Brazil">Brazil</option>
+<option value="Brunei">Brunei</option>
+<option value="Bulgaria">Bulgaria</option>
+<option value="Burkina Faso">Burkina Faso</option>
+<option value="Burundi">Burundi</option>
+<option value="Cambodia">Cambodia</option>
+<option value="Cameroon">Cameroon</option>
+<option value="Canada">Canada</option>
+<option value="Chad">Chad</option>
+<option value="Chile">Chile</option>
+<option value="China">China</option>
+<option value="Colombia">Colombia</option>
+<option value="Costa Rica">Costa Rica</option>
+<option value="Croatia">Croatia</option>
+<option value="Cuba">Cuba</option>
+<option value="Cyprus">Cyprus</option>
+<option value="Czech Republic">Czech Republic</option>
+<option value="Denmark">Denmark</option>
+<option value="Djibouti">Djibouti</option>
+<option value="Dominican Republic">Dominican Republic</option>
+<option value="DR Congo">DR Congo</option>
+<option value="Ecuador">Ecuador</option>
+<option value="Egypt">Egypt</option>
+<option value="El Salvador">El Salvador</option>
+<option value="Estonia">Estonia</option>
+<option value="Ethiopia">Ethiopia</option>
+<option value="Finland">Finland</option>
+<option value="France">France</option>
+<option value="Gabon">Gabon</option>
+<option value="Gambia">Gambia</option>
+<option value="Georgia">Georgia</option>
+<option value="Germany">Germany</option>
+<option value="Ghana">Ghana</option>
+<option value="Greece">Greece</option>
+<option value="Guatemala">Guatemala</option>
+<option value="Guinea">Guinea</option>
+<option value="Haiti">Haiti</option>
+<option value="Honduras">Honduras</option>
+<option value="Hong Kong">Hong Kong</option>
+<option value="Hungary">Hungary</option>
+<option value="Iceland">Iceland</option>
+<option value="India">India</option>
+<option value="Indonesia">Indonesia</option>
+<option value="Iran">Iran</option>
+<option value="Iraq">Iraq</option>
+<option value="Ireland">Ireland</option>
+<option value="Israel">Israel</option>
+<option value="Italy">Italy</option>
+<option value="Ivory Coast">Ivory Coast</option>
+<option value="Jamaica">Jamaica</option>
+<option value="Japan">Japan</option>
+<option value="Jordan">Jordan</option>
+<option value="Kazakhstan">Kazakhstan</option>
+<option value="Kenya">Kenya</option>
+<option value="Kuwait">Kuwait</option>
+<option value="Kyrgyzstan">Kyrgyzstan</option>
+<option value="Laos">Laos</option>
+<option value="Latvia">Latvia</option>
+<option value="Lebanon">Lebanon</option>
+<option value="Liberia">Liberia</option>
+<option value="Libya">Libya</option>
+<option value="Lithuania">Lithuania</option>
+<option value="Luxembourg">Luxembourg</option>
+<option value="Madagascar">Madagascar</option>
+<option value="Malaysia">Malaysia</option>
+<option value="Maldives">Maldives</option>
+<option value="Mali">Mali</option>
+<option value="Malta">Malta</option>
+<option value="Mauritania">Mauritania</option>
+<option value="Mauritius">Mauritius</option>
+<option value="Mexico">Mexico</option>
+<option value="Moldova">Moldova</option>
+<option value="Mongolia">Mongolia</option>
+<option value="Montenegro">Montenegro</option>
+<option value="Morocco">Morocco</option>
+<option value="Mozambique">Mozambique</option>
+<option value="Myanmar">Myanmar</option>
+<option value="Namibia">Namibia</option>
+<option value="Nepal">Nepal</option>
+<option value="Netherlands">Netherlands</option>
+<option value="New Zealand">New Zealand</option>
+<option value="Nicaragua">Nicaragua</option>
+<option value="Niger">Niger</option>
+<option value="Nigeria">Nigeria</option>
+<option value="North Korea">North Korea</option>
+<option value="North Macedonia">North Macedonia</option>
+<option value="Norway">Norway</option>
+<option value="Oman">Oman</option>
+<option value="Pakistan">Pakistan</option>
+<option value="Panama">Panama</option>
+<option value="Paraguay">Paraguay</option>
+<option value="Peru">Peru</option>
+<option value="Philippines">Philippines</option>
+<option value="Poland">Poland</option>
+<option value="Portugal">Portugal</option>
+<option value="Qatar">Qatar</option>
+<option value="Romania">Romania</option>
+<option value="Russia">Russia</option>
+<option value="Rwanda">Rwanda</option>
+<option value="Saudi Arabia">Saudi Arabia</option>
+<option value="Senegal">Senegal</option>
+<option value="Serbia">Serbia</option>
+<option value="Sierra Leone">Sierra Leone</option>
+<option value="Singapore">Singapore</option>
+<option value="Slovakia">Slovakia</option>
+<option value="Slovenia">Slovenia</option>
+<option value="Somalia">Somalia</option>
+<option value="South Africa">South Africa</option>
+<option value="South Korea">South Korea</option>
+<option value="South Sudan">South Sudan</option>
+<option value="Spain">Spain</option>
+<option value="Sri Lanka">Sri Lanka</option>
+<option value="Sudan">Sudan</option>
+<option value="Sweden">Sweden</option>
+<option value="Switzerland">Switzerland</option>
+<option value="Syria">Syria</option>
+<option value="Taiwan">Taiwan</option>
+<option value="Tajikistan">Tajikistan</option>
+<option value="Tanzania">Tanzania</option>
+<option value="Thailand">Thailand</option>
+<option value="Tunisia">Tunisia</option>
+<option value="Turkey">Turkey</option>
+<option value="Turkmenistan">Turkmenistan</option>
+<option value="Uganda">Uganda</option>
+<option value="Ukraine">Ukraine</option>
+<option value="United Arab Emirates">United Arab Emirates</option>
+<option value="United Kingdom">United Kingdom</option>
+<option value="United States">United States</option>
+<option value="Uruguay">Uruguay</option>
+<option value="Uzbekistan">Uzbekistan</option>
+<option value="Venezuela">Venezuela</option>
+<option value="Vietnam">Vietnam</option>
+<option value="Yemen">Yemen</option>
+<option value="Zambia">Zambia</option>
+<option value="Zimbabwe">Zimbabwe</option>
+            <select id="countrySelect">
+  <option value="">اختر الدولة</option>
+  <option value="Afghanistan">Afghanistan</option>
+  <option value="Albania">Albania</option>
+  <option value="Algeria">Algeria</option>
+  <option value="Andorra">Andorra</option>
+  <option value="Angola">Angola</option>
+  <option value="Argentina">Argentina</option>
+  <option value="Armenia">Armenia</option>
+  <option value="Australia">Australia</option>
+  <option value="Austria">Austria</option>
+  <option value="Azerbaijan">Azerbaijan</option>
+  <option value="Bahrain">Bahrain</option>
+  <option value="Bangladesh">Bangladesh</option>
+  <option value="Belarus">Belarus</option>
+  <option value="Belgium">Belgium</option>
+  <option value="Belize">Belize</option>
+  <option value="Benin">Benin</option>
+  <option value="Bolivia">Bolivia</option>
+  <option value="Botswana">Botswana</option>
+  <!-- كمل باقي الدول لو داير -->
     </select>
+          </select>
         </div>
 
         <div class="search-wrap" role="search" aria-label="بحث">
-          <input id="searchInput" placeholder="ابحث هنا..." />
+          <input id="searchInput" placeholder="ابحث إعلانًا أو دولة..." />
           <button class="btn" id="searchBtn">بحث</button>
         </div>
 
@@ -581,10 +288,6 @@ logoutBtn.addEventListener("click", async () => {
           <li>🏠 عقارات</li>
           <li>📱 موبايلات</li>
           <li>💻 إلكترونيات</li>
-          <li>👗 أزياء</li>
-          <li>💼 وظائف</li>
-          <li>🛠 خدمات</li>
-          <li>🧸 سوق عام</li>
         </ul>
       </nav>
 
@@ -603,42 +306,15 @@ logoutBtn.addEventListener("click", async () => {
         <section>
           <h2 style="margin:0 0 10px 0">إعلانات مميزة</h2>
           <div class="grid" id="adsGrid">
-            <!-- sample cards -->
-            <div class="card">
-              <h3>تويوتا كورولا 2018</h3>
-              <p>حالة ممتازة — الخرطوم</p>
-            </div>
-            <div class="card">
-              <h3>شقة 3 غرف</h3>
-              <p>الخرطوم بحري — بوابة البحر</p>
-            </div>
-            <div class="card">
-              <h3>آيفون 13 مستعمل</h3>
-              <p>موبايلات — متوفر لون أسود</p>
-            </div>
-            <div class="card">
-              <h3>كمبيوتر مكتبي</h3>
-              <p>جديد — مواصفات قوية</p>
-            </div>
-          </div>
-        </section>
-
-        <section style="margin-top:16px;">
-          <h2 style="margin:0 0 10px 0">جميع الأقسام</h2>
-          <div class="grid" id="categoriesGrid">
-            <div class="card"><h3>سيارات</h3><p>أفضل العروض</p></div>
-            <div class="card"><h3>عقارات</h3><p>شقق، أراضي ومنازل</p></div>
-            <div class="card"><h3>موبايلات</h3><p>هواتف جديدة ومستعملة</p></div>
-            <div class="card"><h3>أزياء</h3><p>ملابس وموضة</p></div>
-            <div class="card"><h3>وظائف</h3><p>اعرض وظيفتك أو قدم</p></div>
-            <div class="card"><h3>خدمات</h3><p>مهن وخدمات</p></div>
+            <!-- بطاقات تجريبية -->
+            <div class="card"><h3>تويوتا كورولا 2018</h3><p>الخرطوم</p></div>
+            <div class="card"><h3>شقة 3 غرف</h3><p>الخرطوم بحري</p></div>
           </div>
         </section>
 
         <footer>
           © 2025 السوق العالمي — جميع الحقوق محفوظة — تصميم و تطوير: مصطفى
         </footer>
-
       </main>
     </div>
   </div>
@@ -650,18 +326,15 @@ logoutBtn.addEventListener("click", async () => {
       <h2 id="modalTitle">تسجيل دخول</h2>
 
       <form id="authForm">
-        <div class="form-group">
-          <label id="labelName" style="display:none">الاسم كامل</label>
-          <input id="nameInput" type="text" placeholder="الاسم الكامل" style="display:none" />
+        <div class="form-group" id="nameGroup" style="display:none;">
+          <input id="nameInput" type="text" placeholder="الاسم الكامل" />
         </div>
 
         <div class="form-group">
-          <label>البريد الإلكتروني</label>
-          <input id="emailInput" type="email" placeholder="example@mail.com" required />
+          <input id="emailInput" type="email" placeholder="البريد الإلكتروني" required />
         </div>
 
         <div class="form-group">
-          <label>كلمة المرور</label>
           <input id="passInput" type="password" placeholder="كلمة المرور" required />
         </div>
 
@@ -670,25 +343,20 @@ logoutBtn.addEventListener("click", async () => {
           <button type="button" class="btn secondary" onclick="switchAuth()">إنشاء حساب</button>
         </div>
 
-        <p class="small" style="margin-top:10px;">أو سجل سريعاً عبر:</p>
-        <div style="display:flex; gap:8px; margin-top:8px;">
-          <button type="button" class="btn secondary" onclick="signInWithGoogle()">Google</button>
-        </div>
-
         <p class="small" id="authMsg" style="margin-top:10px;color:#f66;"></p>
       </form>
     </div>
   </div>
 
-  <!-- Firebase (module) -->
+  <!-- Firebase & app logic (واحد فقط) -->
   <script type="module">
-    // --- Firebase config (استبدل إذا احتجت) ---
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    // --- Firebase (single, consistent version) ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getAuth, createUserWithEmailAndPassword,
       signInWithEmailAndPassword, onAuthStateChanged,
       signOut, GoogleAuthProvider, signInWithPopup
-    } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDTxDtXoylZzLgUIyUkcj92ZN44voX0FA8",
@@ -699,17 +367,14 @@ logoutBtn.addEventListener("click", async () => {
       appId: "1:967013217852:web:b67ed2fddb5f0b7c05b539",
       measurementId: "G-B7WRYDLK6K"
     };
-
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
     // DOM
     const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modalTitle');
     const authForm = document.getElementById('authForm');
     const submitBtn = document.getElementById('submitBtn');
-    const switchBtn = document.querySelector('.modal button[onclick="switchAuth()"]');
-    const labelName = document.getElementById('labelName');
+    const nameGroup = document.getElementById('nameGroup');
     const nameInput = document.getElementById('nameInput');
     const emailInput = document.getElementById('emailInput');
     const passInput = document.getElementById('passInput');
@@ -717,233 +382,91 @@ logoutBtn.addEventListener("click", async () => {
     const notLogged = document.getElementById('notLogged');
     const logged = document.getElementById('logged');
     const userEmail = document.getElementById('userEmail');
+    let mode = 'login';
 
-    let mode = 'login'; // or 'signup'
-
-    // open modal
-    window.openAuth = function(type){
+    window.openAuth = (type) => {
       mode = type === 'signup' ? 'signup' : 'login';
       updateModal();
       modal.style.display = 'flex';
       authMsg.textContent = '';
-    }
-
+    };
     function updateModal(){
-      if(mode === 'signup'){
-        modalTitle.textContent = 'إنشاء حساب';
-        submitBtn.textContent = 'إنشاء الحساب';
-        switchBtn.textContent = 'لدي حساب';
-        labelName.style.display = 'block';
-        nameInput.style.display = 'block';
-      } else {
-        modalTitle.textContent = 'تسجيل دخول';
-        submitBtn.textContent = 'دخول';
-        switchBtn.textContent = 'إنشاء حساب';
-        labelName.style.display = 'none';
-        nameInput.style.display = 'none';
-      }
+      if(mode==='signup'){ document.getElementById('modalTitle').textContent='إنشاء حساب'; submitBtn.textContent='إنشاء الحساب'; nameGroup.style.display='block'; }
+      else { document.getElementById('modalTitle').textContent='تسجيل دخول'; submitBtn.textContent='دخول'; nameGroup.style.display='none'; }
     }
+    window.closeModal = ()=> modal.style.display='none';
+    window.switchAuth = ()=> { mode = (mode==='signup'?'login':'signup'); updateModal(); };
 
-    window.closeModal = function(){
-      modal.style.display = 'none';
-    }
-
-    window.switchAuth = function(){
-      mode = mode === 'signup' ? 'login' : 'signup';
-      updateModal();
-    }
-
-    // form submit
-    authForm.addEventListener('submit', async (e) => {
+    // Signup / Login
+    authForm.addEventListener('submit', async (e)=>{
       e.preventDefault();
-      authMsg.textContent = '';
+      authMsg.textContent='';
       const email = emailInput.value.trim();
       const pass = passInput.value;
-
-      if(!email || !pass){
-        authMsg.textContent = 'رجاءً املأ جميع الحقول';
-        return;
-      }
-
+      if(!email || !pass){ authMsg.textContent='اكمل الحقول'; return; }
       try{
-        if(mode === 'signup'){
+        if(mode==='signup'){
           const name = nameInput.value.trim();
-          if(!name){ authMsg.textContent = 'ادخل اسمك الكامل'; return; }
-          const userCred = await createUserWithEmailAndPassword(auth, email, pass);
-          // يمكن تخزين الإسم في profile لو حبيت (هنا اختياري)
-          await userCred.user.updateProfile?.({ displayName: name }).catch(()=>{});
-          authMsg.style.color = '#6f6'; authMsg.textContent = 'تم انشاء الحساب بنجاح';
+          if(!name){ authMsg.textContent='ادخل اسمك'; return; }
+          await createUserWithEmailAndPassword(auth, email, pass);
+          authMsg.style.color='#6f6'; authMsg.textContent='تم إنشاء الحساب';
           closeModal();
         } else {
           await signInWithEmailAndPassword(auth, email, pass);
-          authMsg.style.color = '#6f6'; authMsg.textContent = 'تم تسجيل الدخول';
+          authMsg.style.color='#6f6'; authMsg.textContent='تم تسجيل الدخول';
           closeModal();
         }
-      } catch(err){
-        authMsg.style.color = '#f66';
-        authMsg.textContent = err.message || 'حدث خطأ خلال العملية';
+      }catch(err){
+        authMsg.style.color='#f66'; authMsg.textContent = err.message || 'خطأ';
         console.error(err);
       }
     });
 
-    // Google sign-in
-    window.signInWithGoogle = async function(){
+    // Google sign
+    window.signInWithGoogle = async ()=>{
       const provider = new GoogleAuthProvider();
-      try{
-        await signInWithPopup(auth, provider);
-        closeModal();
-      }catch(e){
-        authMsg.textContent = e.message || 'خطأ في تسجيل Google';
-      }
-    }
+      try{ await signInWithPopup(auth, provider); closeModal(); } catch(e){ authMsg.textContent=e.message||'خطأ Google'; }
+    };
 
     // auth state
-    onAuthStateChanged(auth, user => {
+    onAuthStateChanged(auth, user=>{
       if(user){
-        notLogged.style.display = 'none';
-        logged.style.display = 'block';
+        notLogged.style.display='none'; logged.style.display='block';
         userEmail.textContent = user.email || user.displayName || 'مستخدم';
       } else {
-        notLogged.style.display = 'block';
-        logged.style.display = 'none';
+        notLogged.style.display='block'; logged.style.display='none';
       }
     });
 
-    // sign out
-    window.signOutUser = async function(){
-      await signOut(auth);
-      alert('تم تسجيل الخروج');
-    }
+    window.signOutUser = async ()=> { await signOut(auth); alert('تم تسجيل الخروج'); };
 
-    // demo quick login (fake)
+    // demo quick login
     window.triggerDemoLogin = function(){
-      // for demo — create temporary random user (email+password). If exists, sign-in.
       const demoEmail = 'demo' + Date.now() + '@example.com';
-      const demoPass = Math.random().toString(36).slice(2,10);
+      const demoPass = Math.random().toString(36).slice(2,9);
       createUserWithEmailAndPassword(auth, demoEmail, demoPass)
-        .then(()=>{ alert('تم إنشاء حساب تجريبي — ' + demoEmail); })
-        .catch(async (err)=>{
-          // if already exists (rare), try sign in
-          try { await signInWithEmailAndPassword(auth, demoEmail, demoPass); } catch(e){ console.log(e); }
-        });
-    }
+        .then(()=> alert('تم إنشاء حساب تجريبي — ' + demoEmail))
+        .catch(err=> console.log(err));
+    };
 
-    // search demo
+    // SEARCH functionality (بحث في الإعلانات + فلترة حسب الدولة)
     document.getElementById('searchBtn').addEventListener('click', ()=>{
-      const q = document.getElementById('searchInput').value.trim();
-      if(!q){ alert('اكتب كلمة بحث'); return; }
-      alert('بحث تجريبي عن: ' + q);
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const country = document.getElementById('countrySelect').value;
+      // مثال بسيط: نعرض alert — استبدل هذا الجزء بمنطق فعلي (فلترة الصفحات أو استدعاء API)
+      alert('بحث عن: ' + q + (country? (' — دولة: '+country) : ''));
     });
 
-    // Open post (redirect to form or show message)
-    document.getElementById('openPostBtn').addEventListener('click', ()=>{
-      // اذا ما مسجل، أفتح مودال تسجيل
-      if(!auth.currentUser){
-        openAuth('signup');
-        return;
-      }
-      alert('هنا تفتح صفحة نشر إعلان (غير مفعلة في النسخة التجريبية)');
-    });
+    // close modal on backdrop click
+    document.getElementById('modal').addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
 
-    // small UX: close modal when clicked outside dialog
-    document.getElementById('modal').addEventListener('click', (e)=>{
-      if(e.target === modal) closeModal();
+    // language change (AR/EN/FR) — مثال بسيط
+    document.getElementById('languageSelect').addEventListener('change', (e)=>{
+      const lang = e.target.value;
+      if(lang==='ar'){ document.documentElement.lang='ar'; document.documentElement.dir='rtl'; }
+      else { document.documentElement.lang=lang; document.documentElement.dir='ltr'; }
+      // TODO: هنا تضيف تغيير نصوص حسب اللغة (يمكنك استخدام map للترجمة)
     });
-
   </script>
-</script>
-
-<script>
-const translations = {
-  "ar": {
-    "login": "تسجيل دخول",
-    "signup": "إنشاء حساب",
-    "logout": "تسجيل خروج",
-    "email": "البريد الإلكتروني",
-    "password": "كلمة المرور"
-  },
-  "en": {
-    "login": "Login",
-    "signup": "Sign Up",
-    "logout": "Logout",
-    "email": "Email",
-    "password": "Password"
-  },
-  "fr": {
-    "login": "Connexion",
-    "signup": "Créer un compte",
-    "logout": "Déconnexion",
-    "email": "E-mail",
-    "password": "Mot de passe"
-  },
-  "es": {
-    "login": "Iniciar sesión",
-    "signup": "Crear cuenta",
-    "logout": "Cerrar sesión",
-    "email": "Correo",
-    "password": "Contraseña"
-  },
-  "de": {
-    "login": "Anmelden",
-    "signup": "Registrieren",
-    "logout": "Abmelden",
-    "email": "E-Mail",
-    "password": "Passwort"
-  },
-  "tr": {
-    "login": "Giriş Yap",
-    "signup": "Kayıt Ol",
-    "logout": "Çıkış Yap",
-    "email": "E-posta",
-    "password": "Şifre"
-  }
-};
-
-function changeLanguage(lang) {
-  document.getElementById("loginBtn").innerText = translations[lang].login;
-  document.getElementById("signupBtn").innerText = translations[lang].signup;
-  document.getElementById("logoutBtn").innerText = translations[lang].logout;
-
-  document.getElementById("loginEmail").placeholder = translations[lang].email;
-  document.getElementById("loginPass").placeholder = translations[lang].password;
-
-  document.getElementById("signupEmail").placeholder = translations[lang].email;
-  document.getElementById("signupPass").placeholder = translations[lang].password;
-}
-
-document.getElementById("languageSelect").addEventListener("change", function () {
-  changeLanguage(this.value);
-});
-</script>
-<script type="module">
-  import { auth } from "./firebase.js";
-  import { onAuthStateChanged, signOut } 
-    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-  const loginBtn = document.getElementById("goLogin");
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log("User logged in:", user.email);
-
-      if (loginBtn) loginBtn.style.display = "none";
-      if (logoutBtn) logoutBtn.style.display = "block";
-    } else {
-      console.log("User not logged in");
-      if (loginBtn) loginBtn.style.display = "block";
-      if (logoutBtn) logoutBtn.style.display = "none";
-    }
-  });
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", async () => {
-      await signOut(auth);
-      alert("تم تسجيل الخروج");
-      window.location.reload();
-    });
-  }
-</script>
 </body>
-<script type="module" src="authState.js"></script>
-</html>
+              </html>
