@@ -1,1 +1,34 @@
-<h1>ملف المستخدم</h1>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الملف الشخصي</title>
+</head>
+
+<body>
+
+<h2>ملف المستخدم</h2>
+
+<p id="userEmail">البريد: ...</p>
+<p id="userId">المعرف: ...</p>
+
+<script type="module">
+import { auth } from "./firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        document.getElementById("userEmail").innerText = "البريد: " + user.email;
+        document.getElementById("userId").innerText = "المعرف: " + user.uid;
+    } else {
+        window.location.href = "login.html";
+    }
+});
+</script>
+
+<script type="module" src="authState.js"></script>
+
+</body>
+  <script type="module" src="authState.js"></script>
+  </html>
