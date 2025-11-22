@@ -107,14 +107,36 @@
 </head>
 
 <body>
-<select id="languageSelect" style="margin:10px; padding:5px;">
+  <select id="languageSelect" style="margin: 20px; padding: 10px; font-size: 16px;">
     <option value="ar">العربية</option>
     <option value="en">English</option>
     <option value="fr">Français</option>
     <option value="es">Español</option>
     <option value="de">Deutsch</option>
     <option value="tr">Türkçe</option>
-</select>
+    <option value="it">Italiano</option>
+    <option value="pt">Português</option>
+    <option value="ru">Русский</option>
+    <option value="zh">中文 (Chinese)</option>
+    <option value="ja">日本語 (Japanese)</option>
+    <option value="ko">한국어 (Korean)</option>
+    <option value="hi">हिन्दी (Hindi)</option>
+    <option value="bn">বাংলা (Bangla)</option>
+    <option value="ur">اردو (Urdu)</option>
+    <option value="fa">فارسی (Farsi)</option>
+    <option value="sw">Kiswahili</option>
+    <option value="nl">Nederlands (Dutch)</option>
+    <option value="sv">Svenska (Swedish)</option>
+    <option value="fi">Suomi (Finnish)</option>
+    <option value="no">Norsk (Norwegian)</option>
+    <option value="da">Dansk (Danish)</option>
+    <option value="el">Ελληνικά (Greek)</option>
+    <option value="he">עברית (Hebrew)</option>
+    <option value="th">ไทย (Thai)</option>
+    <option value="id">Indonesia</option>
+    <option value="ms">Bahasa Melayu</option>
+    <option value="vi">Tiếng Việt</option>
+  </select>
   <!-- Login Form -->
   <input id="loginEmail" type="email" placeholder="البريد الإلكتروني">
   <input id="loginPass" type="password" placeholder="كلمة المرور">
@@ -801,6 +823,72 @@
     });
 
   </script>
+</script>
 
+<script>
+const translations = {
+  "ar": {
+    "login": "تسجيل دخول",
+    "signup": "إنشاء حساب",
+    "logout": "تسجيل خروج",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور"
+  },
+  "en": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password"
+  },
+  "fr": {
+    "login": "Connexion",
+    "signup": "Créer un compte",
+    "logout": "Déconnexion",
+    "email": "E-mail",
+    "password": "Mot de passe"
+  },
+  "es": {
+    "login": "Iniciar sesión",
+    "signup": "Crear cuenta",
+    "logout": "Cerrar sesión",
+    "email": "Correo",
+    "password": "Contraseña"
+  },
+  "de": {
+    "login": "Anmelden",
+    "signup": "Registrieren",
+    "logout": "Abmelden",
+    "email": "E-Mail",
+    "password": "Passwort"
+  },
+  "tr": {
+    "login": "Giriş Yap",
+    "signup": "Kayıt Ol",
+    "logout": "Çıkış Yap",
+    "email": "E-posta",
+    "password": "Şifre"
+  }
+};
+
+function changeLanguage(lang) {
+  document.getElementById("loginBtn").innerText = translations[lang].login;
+  document.getElementById("signupBtn").innerText = translations[lang].signup;
+  document.getElementById("logoutBtn").innerText = translations[lang].logout;
+
+  document.getElementById("loginEmail").placeholder = translations[lang].email;
+  document.getElementById("loginPass").placeholder = translations[lang].password;
+
+  document.getElementById("signupEmail").placeholder = translations[lang].email;
+  document.getElementById("signupPass").placeholder = translations[lang].password;
+}
+
+document.getElementById("languageSelect").addEventListener("change", function () {
+  changeLanguage(this.value);
+});
+</script>
+
+</body>
+</html>
 </body>
                 </html>
