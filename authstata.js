@@ -1,18 +1,23 @@
-import { auth } from "./firebase.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+// authState.js
 
-const loginBtn = document.getElementById("goLogin");
-const logoutBtn = document.getElementById("logoutBtn");
+// التحقق من حالة تسجيل الدخول
+document.addEventListener("DOMContentLoaded", () => {
+    const user = localStorage.getItem("user");
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log("User logged in:", user.email);
+    // لو الزول ما مسجل دخول، يمنعو من صفحات الإضافة والتحرير
+    const protectedPages = ["add.html", "edit.html"];
 
-    if (loginBtn) loginBtn.style.display = "none";
-    if (logoutBtn) logoutBtn.style.display = "block";
-  } else {
-    console.log("User not logged in");
-    if (loginBtn) loginBtn.style.display = "block";
-    if (logoutBtn) logoutBtn.style.display = "none";
-  }
+    const currentPage = window.location.pathname.split("/").pop();
+
+    if (protectedPages.includes(currentPage) && !user) {
+        alert("يجب تسجيل الدخول أولاً");
+        window.location.href = "login.html";
+        return;
+    }
+
+    // لو داير تورّي اسم المستخدم فوق (اختياري)
+    const userDisplay = document.getElementById("userDisplay");
+    if (userDisplay && user) {
+        userDisplay.textContent = `مرحباً ${user}`;
+    }
 });
