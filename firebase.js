@@ -23,3 +23,7 @@ const storage = getStorage(app);
 
 // Export for use in other scripts
 export { app, auth, db, storage };
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+export const db = getFirestore(app);
