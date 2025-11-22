@@ -1,92 +1,41 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تسجيل الدخول</title>
+    <meta charset="UTF-8">
+    <title>تسجيل الدخول</title>
 </head>
 
 <body>
+    <h2>تسجيل الدخول</h2>
 
-  <h2>تسجيل حساب جديد</h2>
-  <input id="signupEmail" type="email" placeholder="البريد الإلكتروني"><br><br>
-  <input id="signupPass" type="password" placeholder="كلمة المرور"><br><br>
-  <button id="signupBtn">إنشاء حساب</button>
+    <input id="loginEmail" type="email" placeholder="البريد">
+    <br><br>
+    <input id="loginPassword" type="password" placeholder="كلمة المرور">
+    <br><br>
 
-  <hr>
+    <button id="loginBtn">تسجيل الدخول</button>
 
-  <h2>تسجيل الدخول</h2>
-  <input id="loginEmail" type="email" placeholder="البريد الإلكتروني"><br><br>
-  <input id="loginPass" type="password" placeholder="كلمة المرور"><br><br>
-  <button id="loginBtn">تسجيل الدخول</button>
+    <p id="status"></p>
 
-  <!-- سكربت تسجيل الدخول + إنشاء حساب -->
-  <script type="module">
+    <script type="module">
+        import { auth } from "./firebase.js";
+        import { signInWithEmailAndPassword }
+        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    import { auth } from "./firebase.js";
-    import { db } from "./firebase.js";
+        const loginBtn = document.getElementById("loginBtn");
 
-    import {
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        loginBtn.addEventListener("click", async () => {
+            const email = document.getElementById("loginEmail").value;
+            const pass = document.getElementById("loginPassword").value;
 
-    import {
-      doc,
-      setDoc
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-    // -----------------------
-    // إنشاء حساب جديد
-    // -----------------------
-    const signupBtn = document.getElementById("signupBtn");
-
-    if (signupBtn) {
-      signupBtn.addEventListener("click", async () => {
-        const email = document.getElementById("signupEmail").value;
-        const password = document.getElementById("signupPass").value;
-
-        try {
-          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-          const user = userCredential.user;
-
-          // حفظ بيانات المستخدم في Firestore
-          await setDoc(doc(db, "users", user.uid), {
-            uid: user.uid,
-            email: email,
-            createdAt: new Date()
-          });
-
-          alert("تم إنشاء الحساب بنجاح!");
-        } catch (err) {
-          alert(err.message);
-        }
-      });
-    }
-
-    // -----------------------
-    // تسجيل الدخول
-    // -----------------------
-    const loginBtn = document.getElementById("loginBtn");
-
-    if (loginBtn) {
-      loginBtn.addEventListener("click", async () => {
-        const email = document.getElementById("loginEmail").value;
-        const password = document.getElementById("loginPass").value;
-
-        try {
-          await signInWithEmailAndPassword(auth, email, password);
-          alert("تم تسجيل الدخول بنجاح");
-
-          // بعد الدخول → نرجع لصفحة الرئيسية
-          window.location.href = "index.html";
-        } catch (err) {
-          alert(err.message);
-        }
-      });
-    }
-
-  </script>
-
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+                alert("تم تسجيل الدخول بنجاح");
+                window.location.href = "index.html";
+            } catch (error) {
+                document.getElementById("status").textContent = error.message;
+            }
+        });
+    </script>
 </body>
 </html>
