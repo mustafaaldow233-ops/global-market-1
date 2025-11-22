@@ -27,3 +27,4 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebas
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 export const db = getFirestore(app);
+export { app, auth, db, storage };
