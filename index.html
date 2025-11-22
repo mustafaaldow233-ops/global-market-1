@@ -90,49 +90,95 @@
   </style>
 </head>
   <body>
-    <!-- Login System -->
-<script type="module">
-  import { 
-    getAuth, 
-    signInWithEmailAndPassword, 
-    createUserWithEmailAndPassword,
-    signOut 
-  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  <!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Market</title>
+</head>
 
-  // Login
-  window.loginUser = function () {
-    const email = document.getElementById("login-email").value;
-    const pass = document.getElementById("login-pass").value;
+<body>
 
-    signInWithEmailAndPassword(auth, email, pass)
-    .then(() => {
-      alert("تم تسجيل الدخول بنجاح!");
-      location.reload();
-    })
-    .catch(e => alert("خطأ في تسجيل الدخول: " + e.message));
-  };
+  <!-- Login Form -->
+  <input id="loginEmail" type="email" placeholder="البريد الإلكتروني">
+  <input id="loginPass" type="password" placeholder="كلمة المرور">
+  <button onclick="loginUser()">تسجيل دخول</button>
 
-  // Signup
-  window.signupUser = function () {
-    const email = document.getElementById("signup-email").value;
-    const pass = document.getElementById("signup-pass").value;
+  <!-- Signup Form -->
+  <input id="signupEmail" type="email" placeholder="البريد الإلكتروني">
+  <input id="signupPass" type="password" placeholder="كلمة المرور">
+  <button onclick="signupUser()">إنشاء حساب</button>
 
-    createUserWithEmailAndPassword(auth, email, pass)
-    .then(() => {
-      alert("تم إنشاء الحساب!");
-      location.reload();
-    })
-    .catch(e => alert("خطأ: " + e.message));
-  };
+  <!-- Logout -->
+  <button onclick="logoutUser()">تسجيل خروج</button>
 
-  // logout
-  window.logoutUser = function(){
-    signOut(auth).then(()=>{
-      alert("تم تسجيل الخروج");
-      location.reload();
-    });
-  };
-</script>
+
+  <!-- Firebase Config -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDTxDtXoylZzLgUIyLpq5FTzQGAerMUC7w",
+      authDomain: "global-market-95a36.firebaseapp.com",
+      projectId: "global-market-95a36",
+      storageBucket: "global-market-95a36.appspot.com",
+      messagingSenderId: "967013217852",
+      appId: "1:967013217852:web:b67ec2df964e3d8ddc56bb",
+      measurementId: "G-B7W RYDLK6K"
+    };
+
+    window.app = initializeApp(firebaseConfig);
+    window.auth = getAuth(app);
+  </script>
+
+
+  <!-- Login + Signup System -->
+  <script type="module">
+    import {
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    // LOGIN
+    window.loginUser = function () {
+      const email = document.getElementById("loginEmail").value;
+      const pass = document.getElementById("loginPass").value;
+
+      signInWithEmailAndPassword(auth, email, pass)
+        .then(() => {
+          alert("تم تسجيل الدخول بنجاح!");
+          location.reload();
+        })
+        .catch(e => alert("خطأ في تسجيل الدخول: " + e.message));
+    };
+
+    // SIGNUP
+    window.signupUser = function () {
+      const email = document.getElementById("signupEmail").value;
+      const pass = document.getElementById("signupPass").value;
+
+      createUserWithEmailAndPassword(auth, email, pass)
+        .then(() => {
+          alert("تم إنشاء الحساب بنجاح!");
+          location.reload();
+        })
+        .catch(e => alert("خطأ: " + e.message));
+    };
+
+    // LOGOUT
+    window.logoutUser = function () {
+      signOut(auth).then(() => {
+        alert("تم تسجيل الخروج");
+        location.reload();
+      });
+    };
+  </script>
+
+</body>
+</html>
 
   <div class="container">
     <header>
