@@ -1,41 +1,78 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول</title>
 </head>
 
 <body>
+
+    <h2>إنشاء حساب جديد</h2>
+    <input id="signupEmail" type="email" placeholder="البريد الإلكتروني">
+    <input id="signupPass" type="password" placeholder="كلمة المرور">
+    <button id="signupBtn">تسجيل حساب</button>
+
+    <hr>
+
     <h2>تسجيل الدخول</h2>
+    <input id="loginEmail" type="email" placeholder="البريد الإلكتروني">
+    <input id="loginPass" type="password" placeholder="كلمة المرور">
+    <button id="loginBtn">دخول</button>
 
-    <input id="loginEmail" type="email" placeholder="البريد">
-    <br><br>
-    <input id="loginPassword" type="password" placeholder="كلمة المرور">
-    <br><br>
-
-    <button id="loginBtn">تسجيل الدخول</button>
-
-    <p id="status"></p>
+    <p id="status" style="color:red;margin-top:10px;"></p>
 
     <script type="module">
-        import { auth } from "./firebase.js";
-        import { signInWithEmailAndPassword }
-        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { auth, db } from "./firebase.js";
+        import {
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-        const loginBtn = document.getElementById("loginBtn");
+        import {
+            setDoc,
+            doc
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        loginBtn.addEventListener("click", async () => {
+        const status = document.getElementById("status");
+
+        // إنشاء حساب
+        document.getElementById("signupBtn").addEventListener("click", async () => {
+            const email = document.getElementById("signupEmail").value;
+            const pass = document.getElementById("signupPass").value;
+
+            try {
+                const user = await createUserWithEmailAndPassword(auth, email, pass);
+
+                // حفظ المستخدم في Firestore
+                await setDoc(doc(db, "users", user.user.uid), {
+                    email: email,
+                    createdAt: new Date().toISOString()
+                });
+
+                alert("تم إنشاء الحساب بنجاح!");
+                window.location.href = "index.html";
+
+            } catch (error) {
+                status.textContent = error.message;
+            }
+        });
+
+        // تسجيل الدخول
+        document.getElementById("loginBtn").addEventListener("click", async () => {
             const email = document.getElementById("loginEmail").value;
-            const pass = document.getElementById("loginPassword").value;
+            const pass = document.getElementById("loginPass").value;
 
             try {
                 await signInWithEmailAndPassword(auth, email, pass);
-                alert("تم تسجيل الدخول بنجاح");
+                alert("تم تسجيل الدخول!");
                 window.location.href = "index.html";
+
             } catch (error) {
-                document.getElementById("status").textContent = error.message;
+                status.textContent = error.message;
             }
         });
     </script>
+
 </body>
-</html>
+    </html>
