@@ -50,6 +50,43 @@
         }
     });
 </script>
+<script type="module">
+  import { auth } from "./firebase.js";
+  import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+  // زر التسجيل
+  const signupBtn = document.getElementById("signupBtn");
+  if (signupBtn) {
+    signupBtn.addEventListener("click", async () => {
+      const email = document.getElementById("signupEmail").value;
+      const password = document.getElementById("signupPass").value;
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert("تم إنشاء الحساب بنجاح");
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  }
+
+  // زر تسجيل الدخول
+  const loginBtn = document.getElementById("loginBtn");
+  if (loginBtn) {
+    loginBtn.addEventListener("click", async () => {
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPass").value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("تم تسجيل الدخول بنجاح");
+        window.location.href = "index.html"; // بعد تسجيل الدخول
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  }
+</script>
 </body>
 </html>
