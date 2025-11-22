@@ -1,92 +1,92 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول</title>
-    <link rel="stylesheet" href="login.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تسجيل الدخول</title>
 </head>
+
 <body>
 
-<div class="login-box">
-    <h2>تسجيل الدخول</h2>
+  <h2>تسجيل حساب جديد</h2>
+  <input id="signupEmail" type="email" placeholder="البريد الإلكتروني"><br><br>
+  <input id="signupPass" type="password" placeholder="كلمة المرور"><br><br>
+  <button id="signupBtn">إنشاء حساب</button>
 
-    <form id="loginForm">
-        <div class="input-field">
-            <input type="text" id="email" required>
-            <label>البريد الإلكتروني</label>
-        </div>
+  <hr>
 
-        <div class="input-field">
-            <input type="password" id="password" required>
-            <label>كلمة المرور</label>
-        </div>
+  <h2>تسجيل الدخول</h2>
+  <input id="loginEmail" type="email" placeholder="البريد الإلكتروني"><br><br>
+  <input id="loginPass" type="password" placeholder="كلمة المرور"><br><br>
+  <button id="loginBtn">تسجيل الدخول</button>
 
-        <button type="submit" class="btn">دخول</button>
-    </form>
+  <!-- سكربت تسجيل الدخول + إنشاء حساب -->
+  <script type="module">
 
-    <p class="msg" id="msg"></p>
+    import { auth } from "./firebase.js";
+    import { db } from "./firebase.js";
 
-</div>
+    import {
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-<script>
-    // Login Validation (Fake)
-    document.getElementById("loginForm").addEventListener("submit", function(e){
-        e.preventDefault();
+    import {
+      doc,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        let email = document.getElementById("email").value;
-        let pass  = document.getElementById("password").value;
-        let msg   = document.getElementById("msg");
+    // -----------------------
+    // إنشاء حساب جديد
+    // -----------------------
+    const signupBtn = document.getElementById("signupBtn");
 
-        if(email === "test@gmail.com" && pass === "123456"){
-            msg.style.color = "green";
-            msg.innerHTML = "تم تسجيل الدخول بنجاح 👌";
-            setTimeout(() => {
-                window.location.href = "index.html"; // بعد الدخول
-            }, 1500);
-        } else {
-            msg.style.color = "red";
-            msg.innerHTML = "البريد أو كلمة المرور غير صحيحة ❌";
+    if (signupBtn) {
+      signupBtn.addEventListener("click", async () => {
+        const email = document.getElementById("signupEmail").value;
+        const password = document.getElementById("signupPass").value;
+
+        try {
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+
+          // حفظ بيانات المستخدم في Firestore
+          await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            email: email,
+            createdAt: new Date()
+          });
+
+          alert("تم إنشاء الحساب بنجاح!");
+        } catch (err) {
+          alert(err.message);
         }
-    });
-</script>
-<script type="module">
-  import { auth } from "./firebase.js";
-  import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+      });
+    }
 
-  // زر التسجيل
-  const signupBtn = document.getElementById("signupBtn");
-  if (signupBtn) {
-    signupBtn.addEventListener("click", async () => {
-      const email = document.getElementById("signupEmail").value;
-      const password = document.getElementById("signupPass").value;
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        alert("تم إنشاء الحساب بنجاح");
-      } catch (err) {
-        alert(err.message);
-      }
-    });
-  }
+    // -----------------------
+    // تسجيل الدخول
+    // -----------------------
+    const loginBtn = document.getElementById("loginBtn");
 
-  // زر تسجيل الدخول
-  const loginBtn = document.getElementById("loginBtn");
-  if (loginBtn) {
-    loginBtn.addEventListener("click", async () => {
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPass").value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert("تم تسجيل الدخول بنجاح");
-        window.location.href = "index.html"; // بعد تسجيل الدخول
-      } catch (err) {
-        alert(err.message);
-      }
-    });
-  }
-</script>
+    if (loginBtn) {
+      loginBtn.addEventListener("click", async () => {
+        const email = document.getElementById("loginEmail").value;
+        const password = document.getElementById("loginPass").value;
+
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+          alert("تم تسجيل الدخول بنجاح");
+
+          // بعد الدخول → نرجع لصفحة الرئيسية
+          window.location.href = "index.html";
+        } catch (err) {
+          alert(err.message);
+        }
+      });
+    }
+
+  </script>
+
 </body>
 </html>
