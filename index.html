@@ -37,6 +37,13 @@
       --panel: #121212;
       --white-card: #ffffff;
     }
+    #languageSelect {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    }
     html,body{height:100%; margin:0; font-family:Inter, "Noto Naskh Arabic", Arial, sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;}
     a{color:var(--accent); text-decoration:none}
     .container{max-width:1100px; margin:18px auto; padding:0 16px;}
@@ -88,6 +95,7 @@
       nav.aside li{min-width:110px; text-align:center;}
     }
   </style>
+  
 </head>
   <body>
   <!DOCTYPE html>
@@ -99,7 +107,14 @@
 </head>
 
 <body>
-
+<select id="languageSelect" style="margin:10px; padding:5px;">
+    <option value="ar">العربية</option>
+    <option value="en">English</option>
+    <option value="fr">Français</option>
+    <option value="es">Español</option>
+    <option value="de">Deutsch</option>
+    <option value="tr">Türkçe</option>
+</select>
   <!-- Login Form -->
   <input id="loginEmail" type="email" placeholder="البريد الإلكتروني">
   <input id="loginPass" type="password" placeholder="كلمة المرور">
