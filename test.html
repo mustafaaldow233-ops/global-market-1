@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <title>Global Market - Test Frontend</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body{font-family: Arial, Noto Sans Arabic; padding:16px; background:#f5f6f8}
+    .box{background:white;padding:12px;border-radius:8px;margin-bottom:12px}
+    input,textarea,select{width:100%;padding:8px;margin:6px 0;border:1px solid #ddd;border-radius:6px}
+    button{padding:8px 12px;border-radius:6px;background:#0066ff;color:white;border:none;cursor:pointer}
+    img.post-img{max-width:120px;border-radius:8px;margin-right:6px}
+    .row{display:flex;gap:8px;align-items:center}
+  </style>
+</head>
+<body>
+  <h2>Global Market — واجهة اختبار</h2>
+
+  <div class="box" id="authBox">
+    <h3>تسجيل / تسجيل دخول</h3>
+    <input id="name" placeholder="الاسم (للتسجيل)">
+    <input id="email" placeholder="الإيميل">
+    <input id="pass" type="password" placeholder="كلمة المرور">
+    <div class="row">
+      <button onclick="signup()">إنشاء حساب</button>
+      <button onclick="login()">تسجيل دخول</button>
+      <button onclick="logout()">تسجيل خروج</button>
+    </div>
+    <p id="authMsg"></p>
+  </div>
+
+  <div class="box" id="createPost">
+    <h3>نشر إعلان (يجب تسجيل الدخول)</h3>
+    <input id="title" placeholder="عنوان الإعلان">
+    <textarea id="desc" placeholder="الوصف"></textarea>
+    <input id="price" placeholder="السعر">
+    <input id="country" placeholder="الدولة">
+    <input id="images" type="file" multiple>
+    <button onclick="createPost()">نشر</button>
+    <p id="postMsg"></p>
+  </div>
+
+  <div class="box">
+    <h3>الإعلانات</h3>
+    <div id="postsList"></div>
+    <button onclick="loadPosts()">تحديث</button>
+  </div>
+
+<script>
+const API = '';
+
+function setToken(token){
+  if(token) localStorage.setItem('gm_token', token);
+  else localStorage.removeItem('gm_token');
+}
+
+function getToken(){ return localStorage.getItem('gm_token'); }
+
+async function signup(){
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const pass = document.getElementById('pass').value;
+  const res = await fetch('/api/auth/signup', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ name, email, password: pass })
+  });
+  const data = await res.json();
+  document.getElementById('authMsg').innerText = data.message || (data.token ? 'تم' : JSON.stringify(data));
+  if(data.token) setToken(data.token);
+}
+
+async function login(){
+  const email = document.getElementById('email').value;
+  const pass = document.getElementById('pass').value;
+  const res = await fetch('/api/auth/login', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ email, password: pass })
+  });
+  const data = await res.json();
+  document.getElementById('authMsg').innerText = data.message || (data.token ? 'تم تسجيل الدخول' : JSON.stringify(data));
+  if(data.token) setToken(data.token);
+}
+
+function logout(){ setToken(null); alert('تم تسجيل الخروج'); }
+
+async function createPost(){
+  const token = getToken();
+  if(!token){ alert('سجل أولا'); return; }
+  const title = document.getElementById('title').value;
+  const desc = document.getElementById('desc').value;
+  const price = document.getElementById('price').value;
+  const country = document.getElementById('country').value;
+  const files = document.getElementById('images').files;
+  const fd = new FormData();
+  fd.append('title', title);
+  fd.append('description', desc);
+  fd.append('price', price);
+  fd.append('country', country);
+  for(let i=0;i<files.length;i++) fd.append('images', files[i]);
+
+  const res = await fetch('/api/posts', {
+    method:'POST',
+    headers: { 'Authorization': 'Bearer ' + token },
+    body: fd
+  });
+  const data = await res.json();
+  document.getElementById('postMsg').innerText = data.message || 'تم';
+  loadPosts();
+}
+
+async function loadPosts(){
+  const res = await fetch('/api/posts');
+  const posts = await res.json();
+  const container = document.getElementById('postsList');
+  container.innerHTML = '';
+  posts.forEach(p=>{
+    const div = document.createElement('div');
+    div.style.border = '1px solid #eee'; div.style.padding='8px'; div.style.marginBottom='8px';
+    div.innerHTML = `<strong>${p.title}</strong> — ${p.country || ''} <div>${p.description||''}</div>`;
+    if(p.images && p.images.length){
+      const imgs = document.createElement('div'); imgs.style.display='flex';
+      p.images.forEach(src=>{
+        const img = document.createElement('img'); img.src = src; img.className='post-img';
+        imgs.appendChild(img);
+      });
+      div.appendChild(imgs);
+    }
+    container.appendChild(div);
+  });
+}
+
+loadPosts();
+</script>
+</body>
+</html>
