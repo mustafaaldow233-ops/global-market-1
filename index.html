@@ -258,7 +258,6 @@
   <option value="Botswana">Botswana</option>
   <!-- كمل باقي الدول لو داير -->
     </select>
-          </select>
         </div>
 
         <div class="search-wrap" role="search" aria-label="بحث">
@@ -292,26 +291,38 @@
       </nav>
 
       <main>
-        <section class="hero">
-          <div>
-            <h1>اعرض إعلانك — أو تصفح آلاف الإعلانات</h1>
-            <p style="color:var(--muted); margin-top:8px;">اختر فئة، ابحث، وتواصل مباشرة مع البائع.</p>
-          </div>
-          <div class="quick-actions">
-            <button class="btn" id="openPostBtn">نشر إعلان</button>
-            <button class="btn secondary" onclick="triggerDemoLogin()">تجربة تسجيل وهمي</button>
-          </div>
-        </section>
+    <section>
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+    <h2>إعلانات مميزة</h2>
 
-        <section>
-          <h2 style="margin:0 0 10px 0">إعلانات مميزة</h2>
-          <div class="grid" id="adsGrid">
-            <!-- بطاقات تجريبية -->
-            <div class="card"><h3>تويوتا كورولا 2018</h3><p>الخرطوم</p></div>
-            <div class="card"><h3>شقة 3 غرف</h3><p>الخرطوم بحري</p></div>
-          </div>
-        </section>
+    <!-- كود الترتيب Sorting -->
+    <select id="sortSelect" style="padding:8px; border-radius:8px; background:#0b0c0d; color:white; border:1px solid #222;">
+      <option value="">ترتيب حسب…</option>
+      <option value="az">الإسم: من A → Z</option>
+      <option value="za">الإسم: من Z → A</option>
+      <option value="new">الأحدث</option>
+      <option value="old">الأقدم</option>
+    </select>
+  </div>
 
+  <div class="grid" id="adsGrid">
+    <div class="card" data-title="تويوتا كورولا" data-time="2024-01-01">
+      <h3>تويوتا كورولا 2018</h3>
+      <p>الخرطوم</p>
+    </div>
+
+    <div class="card" data-title="شقة ثلاث غرف" data-time="2023-01-01">
+      <h3>شقة 3 غرف</h3>
+      <p>بحري</p>
+    </div>
+
+    <div class="card" data-title="ايفون 13 برو" data-time="2024-05-10">
+      <h3>آيفون 13 برو</h3>
+      <p>أمدرمان</p>
+    </div>
+  </div>
+    </section>
+        
         <footer>
           © 2025 السوق العالمي — جميع الحقوق محفوظة — تصميم و تطوير: مصطفى
         </footer>
@@ -467,6 +478,33 @@
       else { document.documentElement.lang=lang; document.documentElement.dir='ltr'; }
       // TODO: هنا تضيف تغيير نصوص حسب اللغة (يمكنك استخدام map للترجمة)
     });
+    // SORTING — ترتيب الإعلانات
+const sortSelect = document.getElementById("sortSelect");
+const adsGrid = document.getElementById("adsGrid");
+
+sortSelect.addEventListener("change", () => {
+  let ads = Array.from(adsGrid.children);
+
+  const mode = sortSelect.value;
+
+  ads.sort((a, b) => {
+    let titleA = a.dataset.title.toLowerCase();
+    let titleB = b.dataset.title.toLowerCase();
+
+    let timeA = new Date(a.dataset.time);
+    let timeB = new Date(b.dataset.time);
+
+    if (mode === "az") return titleA.localeCompare(titleB);
+    if (mode === "za") return titleB.localeCompare(titleA);
+    if (mode === "new") return timeB - timeA;
+    if (mode === "old") return timeA - timeB;
+
+    return 0;
+  });
+
+  adsGrid.innerHTML = "";
+  ads.forEach(card => adsGrid.appendChild(card));
+});
   </script>
 </body>
               </html>
