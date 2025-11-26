@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <title>نشر إعلان — السوق العالمي</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="styles.css"> <!-- لو عندك styles.css -->
+  <style>
+    /* إضافي خفيف للتصميم */
+    :root{
+      --bg:#0f1112; --panel:#121214; --card:#0f1314;
+      --accent:#0066ff; --text:#e9eef5; --muted:#9aa4b2;
+      --radius:12px; --max-w:1100px;
+    }
+    html,body{height:100%;margin:0;padding:0;font-family:Inter, "Noto Naskh Arabic", Arial; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; direction:rtl}
+    .wrap{max-width:1100px;margin:18px auto;padding:16px}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .logo{font-weight:800;background:linear-gradient(135deg,var(--accent),#00bfff);padding:10px 14px;border-radius:10px}
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.6);margin-top:14px}
+    label{display:block;margin-bottom:6px;color:var(--muted)}
+    input[type="text"], input[type="number"], textarea, select { width:100%; padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04); background:transparent;color:var(--text); margin-bottom:10px; }
+    textarea{min-height:110px; resize:vertical}
+    .row{display:flex;gap:8px;align-items:center}
+    .btn{background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700}
+    .btn.secondary{background:#222;color:var(--text);border:1px solid rgba(255,255,255,0.04)}
+    .posts{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:12px}
+    .post-card{background:#0b0c0d;padding:12px;border-radius:10px;min-height:120px}
+    .thumbs{display:flex;gap:6px;margin-top:8px}
+    .thumbs img{width:70px;height:60px;object-fit:cover;border-radius:8px}
+    .meta{color:var(--muted);font-size:13px;margin-top:8px}
+    .actions{display:flex;gap:8px;margin-top:10px}
+    .small{font-size:13px;color:var(--muted)}
+    .hidden{display:none}
+    @media (max-width:800px){ .top{flex-direction:column;align-items:flex-start} .row{flex-direction:column;align-items:stretch} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="logo">GM — نشر إعلان</div>
+      <div class="row">
+        <div id="authStatus" class="small">التحقق من حالة الدخول...</div>
+        <button class="btn secondary" id="toIndexBtn">العودة للرئيسية</button>
+      </div>
+    </div>
+
+    <div class="card" id="createCard" aria-live="polite">
+      <h3>إنشاء / تعديل إعلان</h3>
+
+      <div>
+        <label for="postTitle">عنوان الإعلان</label>
+        <input id="postTitle" type="text" placeholder="مثال: تلفون آيفون 12 بحالة ممتازة">
+      </div>
+
+      <div>
+        <label for="postDesc">وصف الإعلان</label>
+        <textarea id="postDesc" placeholder="اكتب وصفاً موجزاً عن المنتج"></textarea>
+      </div>
+
+      <div class="row" style="gap:10px">
+        <div style="flex:1">
+          <label for="postPrice">السعر</label>
+          <input id="postPrice" type="number" placeholder="مثال: 3000">
+        </div>
+
+        <div style="width:220px">
+          <label for="countrySelect">الدولة</label>
+          <select id="countrySelect"><option value="">اختر الدولة</option></select>
+        </div>
+      </div>
+
+      <div>
+        <label for="imagesInput">صور الإعلان (أقصى 6 صور)</label>
+        <input id="imagesInput" type="file" accept="image/*" multiple>
+        <div id="imagesPreview" class="thumbs"></div>
+      </div>
+
+      <div class="row" style="margin-top:8px">
+        <button class="btn" id="savePostBtn">نشر الإعلان</button>
+        <button class="btn secondary hidden" id="cancelEditBtn">إلغاء التعديل</button>
+        <div style="flex:1"></div>
+        <div class="small" id="postMsg"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>الإعلانات</h3>
+      <div class="row" style="margin-bottom:10px">
+        <input id="filterInput" type="text" placeholder="ابحث بالعنوان أو الوصف..." style="flex:1">
+        <select id="filterCountry" style="width:220px">
+          <option value="">كل الدول</option>
+        </select>
+        <button class="btn secondary" id="filterBtn">تصفية</button>
+      </div>
+
+      <div id="postsContainer" class="posts"></div>
+      <div class="small" id="noPostsMsg">لا توجد إعلانات بعد</div>
+    </div>
+  </div>
+
+  <!-- Logic: يستخدم Firestore اذا موجود وإلا localStorage -->
+  <script type="module">
+  // Helper: قائمة دول قصيرة هنا — يمكنك استبدالها كاملة إذا أردت
+  const COUNTRIES = [
+    "Sudan","Egypt","Saudi Arabia","United Arab Emirates","United States","United Kingdom",
+    "Kenya","Nigeria","Ethiopia","Morocco","Jordan","Lebanon","Turkey","India","Pakistan"
+  ];
+
+  // populate country selects (no duplicates)
+  function populateCountries(){
+    const sel = document.getElementById('countrySelect');
+    const filter = document.getElementById('filterCountry');
+    const existing = new Set();
+    COUNTRIES.forEach(c=>{
+      if(!existing.has(c)){
+        const o = document.createElement('option'); o.value=c; o.textContent=c;
+        sel.appendChild(o);
+        const o2 = o.cloneNode(true); filter.appendChild(o2);
+        existing.add(c);
+      }
+    });
+  }
+  populateCountries();
+
+  // UI elements
+  const authStatus = document.getElementById('authStatus');
+  const saveBtn = document.getElementById('savePostBtn');
+  const cancelEditBtn = document.getElementById('cancelEditBtn');
+  const postMsg = document.getElementById('postMsg');
+  const postsContainer = document.getElementById('postsContainer');
+  const noPostsMsg = document.getElementById('noPostsMsg');
+  const imagesInput = document.getElementById('imagesInput');
+  const imagesPreview = document.getElementById('imagesPreview');
+
+  // state
+  let posts = []; // array of {id,title,desc,price,country,images: [dataURL], owner}
+  let editId = null;
+
+  // Try to import firebase (optional). Expect file firebase.js exporting { auth, db }.
+  let useFirestore = false;
+  let firebaseAuth = null;
+  let firestoreDB = null;
+  try {
+    // dynamic import only if firebase.js exists in project root
+    // (we don't throw if it fails)
+    const maybe = await import('./firebase.js');
+    if(maybe && maybe.auth){
+      firebaseAuth = maybe.auth;
+      if(maybe.db) { firestoreDB = maybe.db; useFirestore = true; }
+      authStatus.textContent = 'ربط Firebase: جاري التحقق من حالة المستخدم...';
+    }
+  } catch(e){
+    // no firebase — fallback to localStorage
+    console.log('firebase.js not found or failed to load — using localStorage fallback');
+    authStatus.textContent = 'الوضع التجريبي (بدون Firebase)';
+  }
+
+  // auth state (if firebase available)
+  if(firebaseAuth){
+    import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js").then(mod=>{
+      mod.onAuthStateChanged(firebaseAuth, user=>{
+        if(user){ authStatus.textContent = 'مسجل دخول كـ ' + (user.email || user.displayName || 'مستخدم'); }
+        else { authStatus.textContent = 'غير مسجل — سجّل للدخول أو لإنشاء حساب'; }
+      });
+    }).catch(()=>{});
+  } else {
+    authStatus.textContent = 'وضع محلي: تسجيل غير مطلوب للتجربة';
+  }
+
+  // image preview
+  imagesInput.addEventListener('change', ()=> {
+    imagesPreview.innerHTML = '';
+    const files = Array.from(imagesInput.files).slice(0,6);
+    files.forEach(f=>{
+      const reader = new FileReader();
+      reader.onload = e=>{
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        imagesPreview.appendChild(img);
+      };
+      reader.readAsDataURL(f);
+    });
+  });
+
+  // storage helpers (Firestore vs localStorage)
+  function saveLocalPosts(){
+    localStorage.setItem('gm_posts_v1', JSON.stringify(posts));
+  }
+  function loadLocalPosts(){
+    const raw = localStorage.getItem('gm_posts_v1');
+    if(raw) posts = JSON.parse(raw);
+    else posts = [];
+  }
+
+  async function loadPosts(){
+    postMsg.textContent = '';
+    if(useFirestore && firestoreDB){
+      // load from Firestore collection 'posts' (simple implementation)
+      try{
+        const { getDocs, collection, query, orderBy } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+        const q = query(collection(firestoreDB,'posts'), orderBy('createdAt','desc'));
+        const snap = await getDocs(q);
+        posts = snap.docs.map(d=>({ id:d.id, ...d.data(), createdAt: d.data().createdAt?.toDate?.() || null }));
+      }catch(err){
+        console.error(err); postMsg.textContent = 'فشل تحميل من Firestore — افتح console';
+        loadLocalPosts(); // fallback
+      }
+    } else {
+      loadLocalPosts();
+    }
+    renderPosts();
+  }
+
+  function renderPosts(filtered = null){
+    const list = filtered || posts;
+    postsContainer.innerHTML = '';
+    if(!list || list.length === 0){ noPostsMsg.style.display = 'block'; return; }
+    noPostsMsg.style.display = 'none';
+    list.forEach(p=>{
+      const card = document.createElement('div'); card.className='post-card';
+      card.innerHTML = `<div style="font-weight:700">${escapeHtml(p.title||'بدون عنوان')}</div>
+        <div class="meta">${escapeHtml(p.country || '')} — ${p.price? (p.price + ' ') : ''}</div>
+        <div style="margin-top:8px">${escapeHtml(p.description||'')}</div>`;
+      if(p.images && p.images.length){
+        const thumbs = document.createElement('div'); thumbs.className='thumbs';
+        p.images.slice(0,4).forEach(src=>{
+          const img = document.createElement('img'); img.src = src;
+          thumbs.appendChild(img);
+        });
+        card.appendChild(thumbs);
+      }
+      const actions = document.createElement('div'); actions.className='actions';
+      const editBtn = document.createElement('button'); editBtn.className='btn secondary'; editBtn.textContent='تعديل';
+      const delBtn = document.createElement('button'); delBtn.className='btn secondary'; delBtn.textContent='حذف';
+      editBtn.onclick = ()=> startEdit(p.id);
+      delBtn.onclick = ()=> removePost(p.id);
+      actions.appendChild(editBtn); actions.appendChild(delBtn);
+      card.appendChild(actions);
+      postsContainer.appendChild(card);
+    });
+  }
+
+  function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[s])); }
+
+  function startEdit(id){
+    const p = posts.find(x=>x.id===id);
+    if(!p) return alert('لم يتم العثور على الإعلان');
+    editId = id;
+    document.getElementById('postTitle').value = p.title || '';
+    document.getElementById('postDesc').value = p.description || '';
+    document.getElementById('postPrice').value = p.price || '';
+    document.getElementById('countrySelect').value = p.country || '';
+    // preview existing images
+    imagesPreview.innerHTML = '';
+    (p.images||[]).forEach(src=>{
+      const img = document.createElement('img'); img.src = src; imagesPreview.appendChild(img);
+    });
+    cancelEditBtn.classList.remove('hidden');
+    saveBtn.textContent = 'حفظ التعديل';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function cancelEdit(){
+    editId = null;
+    document.getElementById('postTitle').value = '';
+    document.getElementById('postDesc').value = '';
+    document.getElementById('postPrice').value = '';
+    document.getElementById('countrySelect').value = '';
+    imagesInput.value = '';
+    imagesPreview.innerHTML = '';
+    cancelEditBtn.classList.add('hidden');
+    saveBtn.textContent = 'نشر الإعلان';
+  }
+  cancelEditBtn.addEventListener('click', cancelEdit);
+
+  async function removePost(id){
+    if(!confirm('متأكد تريد حذف الإعلان؟')) return;
+    if(useFirestore && firestoreDB){
+      try{
+        const { doc, deleteDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+        await deleteDoc(doc(firestoreDB,'posts',id));
+        await loadPosts();
+        return;
+      }catch(e){ console.error(e); alert('فشل حذف من Firestore — تفقد الconsole'); }
+    }
+    posts = posts.filter(p=>p.id !== id);
+    saveLocalPosts();
+    renderPosts();
+  }
+
+  // create or update
+  saveBtn.addEventListener('click', async ()=>{
+    postMsg.textContent = '';
+    const title = document.getElementById('postTitle').value.trim();
+    const description = document.getElementById('postDesc').value.trim();
+    const price = document.getElementById('postPrice').value.trim();
+    const country = document.getElementById('countrySelect').value;
+    if(!title || !description){ postMsg.textContent = 'الرجاء كتابة العنوان والوصف'; return; }
+
+    // collect images -> convert to dataURLs (for demo). In production use Firebase Storage / server uploads.
+    const files = Array.from(imagesInput.files).slice(0,6);
+    const dataURLs = await Promise.all(files.map(f=>fileToDataURL(f)));
+
+    if(useFirestore && firestoreDB && firebaseAuth && firebaseAuth.currentUser){
+      try{
+        const { collection, addDoc, serverTimestamp, doc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+        if(editId){
+          const dref = doc(firestoreDB,'posts',editId);
+          await updateDoc(dref, { title, description, price, country, images: dataURLs, updatedAt: serverTimestamp() });
+          postMsg.textContent = 'تم تعديل الإعلان (Firestore)';
+        } else {
+          await addDoc(collection(firestoreDB,'posts'), { title, description, price, country, images: dataURLs, owner: firebaseAuth.currentUser.uid, createdAt: serverTimestamp() });
+          postMsg.textContent = 'تم نشر الإعلان (Firestore)';
+        }
+        cancelEdit();
+        await loadPosts();
+        return;
+      } catch(err){
+        console.error(err); postMsg.textContent = 'خطأ عند حفظ في Firestore — افتح console';
+      }
+    }
+
+    // local fallback
+    if(editId){
+      const p = posts.find(x=>x.id===editId);
+      if(p){
+        p.title = title; p.description = description; p.price = price; p.country = country;
+        if(dataURLs && dataURLs.length) p.images = dataURLs;
+        p.updatedAt = Date.now();
+        postMsg.textContent = 'تم تعديل الإعلان (محلي)';
+      }
+    } else {
+      const newPost = { id: 'p_' + Date.now(), title, description, price, country, images: dataURLs, createdAt: Date.now() };
+      posts.unshift(newPost);
+      postMsg.textContent = 'تم نشر الإعلان (محلي)';
+    }
+    saveLocalPosts();
+    cancelEdit();
+    renderPosts();
+  });
+
+  function fileToDataURL(file){
+    return new Promise((res,rej)=>{
+      const r = new FileReader();
+      r.onload = e=>res(e.target.result);
+      r.onerror = rej;
+      r.readAsDataURL(file);
+    });
+  }
+
+  // filter/search
+  document.getElementById('filterBtn').addEventListener('click', ()=>{
+    const q = document.getElementById('filterInput').value.trim().toLowerCase();
+    const country = document.getElementById('filterCountry').value;
+    let filtered = posts.slice();
+    if(country) filtered = filtered.filter(p=> (p.country||'').toLowerCase() === country.toLowerCase());
+    if(q) filtered = filtered.filter(p=> (p.title + ' ' + (p.description||'')).toLowerCase().includes(q));
+    renderPosts(filtered);
+  });
+
+  // go to index
+  document.getElementById('toIndexBtn').addEventListener('click', ()=> window.location.href = './index.html');
+
+  // initial load
+  loadPosts();
+
+  // make sure UI reflects current state (if Firestore available and user not logged in, still allow local test)
+  function tryAuthCheck(){
+    if(firebaseAuth){
+      // auth state already wired above; if user needed for posting you can enforce:
+      // if(!firebaseAuth.currentUser) { saveBtn.disabled = true; authStatus.textContent = 'سجّل للتمكن من النشر'; }
+    }
+  }
+  tryAuthCheck();
+
+  </script>
+</body>
+</html>
