@@ -73,7 +73,24 @@
             }
         });
     </script>
+<script>
+document.querySelector(".login-btn").addEventListener("click", function (e) {
+    e.preventDefault();
 
+    // جيب القيم
+    const email = document.querySelector("input[type='email']").value.trim();
+    const pass = document.querySelector("input[type='password']").value.trim();
+
+    // تحقق بسيط
+    if (email === "" || pass === "") {
+        alert("رجاءً اكتب البريد وكلمة المرور");
+        return;
+    }
+
+    // دخول مؤقت
+    window.location.href = "index.html";
+});
+</script>
 </body>
     <script type="module" src="authState.js"></script>
     </html>
