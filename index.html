@@ -93,5 +93,85 @@
   </script>
 
   <script src="main.js"></script>
+  <!-- Firebase JS SDK -->
+<script type="module">
+  // استيراد وظائف Firebase من CDN
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+  // إعدادات Firebase الخاصة بك
+  const firebaseConfig = {
+    apiKey: "AIzaSyDor7ySGZwwUNsBShSuc03i6jY8JUGDROI",
+    authDomain: "global-market-auth.firebaseapp.com",
+    projectId: "global-market-auth",
+    storageBucket: "global-market-auth.firebasestorage.app",
+    messagingSenderId: "435108661512",
+    appId: "1:435108661512:web:41c9e6fc2564bd3c9444bd",
+    measurementId: "G-59Z8FP8S3D"
+  };
+
+  // تهيئة Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // مثال: التحقق من تسجيل الدخول
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      console.log("المستخدم مسجل دخوله:", user.email);
+    } else {
+      console.log("لا يوجد مستخدم مسجل دخول");
+    }
+  });
+
+  // مثال: تسجيل مستخدم جديد
+  async function registerUser(email, password) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("تم تسجيل المستخدم:", userCredential.user.email);
+    } catch (error) {
+      console.error("خطأ أثناء التسجيل:", error.message);
+    }
+  }
+
+  // مثال: تسجيل الدخول
+  async function loginUser(email, password) {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("تم تسجيل الدخول:", userCredential.user.email);
+    } catch (error) {
+      console.error("خطأ أثناء تسجيل الدخول:", error.message);
+    }
+  }
+
+  // مثال: تسجيل الخروج
+  async function logoutUser() {
+    await signOut(auth);
+    console.log("تم تسجيل الخروج");
+  }
+
+  // مثال: إضافة بيانات في Firestore
+  async function addData(collectionName, data) {
+    try {
+      const docRef = await addDoc(collection(db, collectionName), data);
+      console.log("تم إضافة المستند:", docRef.id);
+    } catch (error) {
+      console.error("خطأ أثناء الإضافة:", error.message);
+    }
+  }
+
+  // مثال: قراءة بيانات من Firestore
+  async function readData(collectionName) {
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    querySnapshot.forEach(doc => {
+      console.log(`${doc.id} =>`, doc.data());
+    });
+  }
+
+  // هذه الدوال يمكنك استخدامها مباشرة في ملفات JS الخاصة بموقعك
+</script>
 </body>
 </html>
