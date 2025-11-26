@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <title>Global Market - تسجيل دخول</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ربط التنسيق -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* تنسيقات خاصة بالصفحة فقط */
+    .auth-container{
+      max-width:420px;
+      margin:50px auto;
+      background:#fff;
+      padding:25px;
+      border-radius:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    }
+    .auth-title{
+      font-size:22px;
+      font-weight:700;
+      margin-bottom:20px;
+      color:#e62e2e;
+      text-align:center;
+    }
+    .auth-input{
+      width:100%;
+      padding:12px;
+      margin:8px 0;
+      border:1px solid #ddd;
+      border-radius:10px;
+      font-size:15px;
+    }
+    .auth-btn{
+      width:100%;
+      padding:12px;
+      background:#e62e2e;
+      color:#fff;
+      border:none;
+      border-radius:10px;
+      margin-top:10px;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .switch-link{
+      margin-top:14px;
+      text-align:center;
+      color:#555;
+      cursor:pointer;
+      font-size:14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="auth-container" id="loginBox">
+    <div class="auth-title">تسجيل دخول</div>
+
+    <input id="loginEmail" class="auth-input" placeholder="الإيميل">
+    <input id="loginPass" type="password" class="auth-input" placeholder="كلمة المرور">
+
+    <button class="auth-btn" onclick="login()">تسجيل دخول</button>
+
+    <div class="switch-link" onclick="showSignup()">إنشاء حساب جديد</div>
+    <p id="loginMsg"></p>
+  </div>
+
+  <div class="auth-container" id="signupBox" style="display:none;">
+    <div class="auth-title">إنشاء حساب جديد</div>
+
+    <input id="signupName" class="auth-input" placeholder="الاسم الكامل">
+    <input id="signupEmail" class="auth-input" placeholder="الإيميل">
+    <input id="signupPass" type="password" class="auth-input" placeholder="كلمة المرور">
+
+    <button class="auth-btn" onclick="signup()">إنشاء الحساب</button>
+
+    <div class="switch-link" onclick="showLogin()">عندي حساب مسبقاً</div>
+    <p id="signupMsg"></p>
+  </div>
+
+  <script>
+    function showSignup(){
+      document.getElementById("loginBox").style.display="none";
+      document.getElementById("signupBox").style.display="block";
+    }
+    function showLogin(){
+      document.getElementById("signupBox").style.display="none";
+      document.getElementById("loginBox").style.display="block";
+    }
+  </script>
+
+  <script src="main.js"></script>
+</body>
+</html>
